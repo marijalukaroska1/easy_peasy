@@ -1,0 +1,17 @@
+<resources>
+
+    <dimen name="dialog_button_text">24sp</dimen>
+    <dimen name="dialog_message_text">22sp</dimen>
+    <dimen name="activity_title_text">24sp</dimen>
+    <dimen name="activity_body_text">22sp</dimen>
+    <dimen name="activity_body_text_small">18sp</dimen>
+    <dimen name="activity_wear_and_care_text">16sp</dimen>
+    <dimen name="activity_button_text">24sp</dimen>
+    <dimen name="activity_patient_name_text">20sp</dimen>
+    <dimen name="activity_sensor_serial_number_text">16sp</dimen>
+    <dimen name="activity_menu_button_text">20sp</dimen>
+    <dimen name="check_sensor_icon_layout_margin">10dp</dimen>
+    <dimen name="check_sensor_title_layout_margin">2dp</dimen>
+    <dimen name="check_sensor_message_text">24sp</dimen>
+
+</resources>
