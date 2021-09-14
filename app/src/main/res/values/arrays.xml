@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="units_array">
+        <item>kg</item>
+        <item>g</item>
+        <item>mg</item>
+        <item>tsp</item>
+        <item>Tbsp</item>
+        <item>large</item>
+        <item>sticks</item>
+        <item>piece</item>
+        <item>slice</item>
+        <item>fruit</item>
+        <item>N/A</item>
+    </string-array>
+</resources>

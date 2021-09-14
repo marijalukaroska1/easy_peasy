@@ -6,7 +6,11 @@
         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
     <string name="choose_category_title">Choose Category</string>
     <string name="continue_button">Continue</string>
+    <string name="search_button">Search</string>
     <string name="ingredient">ingredient</string>
     <string name="nutrient">nutrient</string>
     <string name="quantity">quantity</string>
+    <string name="message_minimum_ingredients">Minimum of three different ingredients is required</string>
+    <string name="message_maximum_ingredients">You\'ve reached the maximum number (10) of inserted ingredients</string>
+    <string name="search_by_ingredients">Search by Ingredients</string>
 </resources>

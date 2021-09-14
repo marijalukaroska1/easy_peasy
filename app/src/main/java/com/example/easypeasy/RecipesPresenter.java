@@ -2,6 +2,7 @@ package com.example.easypeasy;
 
 import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
+import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
 
 import java.lang.ref.WeakReference;
@@ -15,5 +16,10 @@ public class RecipesPresenter implements RecipesPresenterInput {
     public void presentRecipesData(List<Recipe> recipesResponse) {
         RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse);
         output.get().displayRecipesMetaData(recipesAdapter);
+    }
+
+    @Override
+    public void presentIngredientData(Ingredient ingredient) {
+
     }
 }
