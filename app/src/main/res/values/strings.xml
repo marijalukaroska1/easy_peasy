@@ -13,4 +13,5 @@
     <string name="message_minimum_ingredients">Minimum of three different ingredients is required</string>
     <string name="message_maximum_ingredients">You\'ve reached the maximum number (10) of inserted ingredients</string>
     <string name="search_by_ingredients">Search by Ingredients</string>
+    <string name="insert_quantity">Please insert quantity for the inserted ingredient</string>
 </resources>

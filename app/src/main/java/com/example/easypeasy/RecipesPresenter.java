@@ -1,5 +1,7 @@
 package com.example.easypeasy;
 
+import android.content.Context;
+
 import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.models.Ingredient;
@@ -13,8 +15,8 @@ public class RecipesPresenter implements RecipesPresenterInput {
     public WeakReference<SearchInput> output;
 
     @Override
-    public void presentRecipesData(List<Recipe> recipesResponse) {
-        RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse);
+    public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
+        RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse, context);
         output.get().displayRecipesMetaData(recipesAdapter);
     }
 

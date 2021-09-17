@@ -1,5 +1,6 @@
 package com.example.easypeasy;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
@@ -60,12 +61,12 @@ public class SearchByIngredientsActivityTests {
     @Test
     public void test_fetchRecipesMetaData_shouldCall_queryRecipesByIngredients() {
         RecipesInteractor recipesInteractor = new RecipesInteractor();
-        RecipesRequest recipesRequest = new RecipesRequest();
+        RecipesRequest recipesRequest = new RecipesRequest(ApplicationProvider.getApplicationContext());
         recipesRequest.isSearchByIngredients = true;
         recipesInteractor.output = new RecipesPresenterSpy();
         SpoonacularAPISpy spoonacularAPISpy = new SpoonacularAPISpy();
         recipesRequest.spoonacularApi = spoonacularAPISpy;
-        recipesInteractor.fetchRecipesData(recipesRequest, "");
+        recipesInteractor.fetchRecipesData(recipesRequest, new ArrayList<>());
 
         assertTrue(spoonacularAPISpy.isQueryRecipesByIngredientsCalled);
     }
@@ -79,7 +80,7 @@ public class SearchByIngredientsActivityTests {
         recipesPresenter.output = new WeakReference<SearchInput>(searchActivityInputSpy);
 
         //when
-        recipesPresenter.presentRecipesData(recipesResponse);
+        recipesPresenter.presentRecipesData(recipesResponse, ApplicationProvider.getApplicationContext());
 
         //then
         assertTrue(searchActivityInputSpy.isDisplayRecipesMetaDataCalled);
@@ -156,7 +157,7 @@ public class SearchByIngredientsActivityTests {
 
         searchByIngredientsActivity.ingredientList = ingredients;
 
-        String stringIngredients = searchByIngredientsActivity.getIngredientsUserInput();
+        String stringIngredients = Utils.getIngredientsUserInput(ingredients);
         assertTrue(stringIngredients.contains(ingredients.get(0).getName()));
     }
 
@@ -193,7 +194,7 @@ public class SearchByIngredientsActivityTests {
         IngredientRequest ingredientRequestCopy;
 
         @Override
-        public void fetchRecipesData(RecipesRequest request, String userInput) {
+        public void fetchRecipesData(RecipesRequest request, List<Ingredient> inputIngredientsList) {
             fetchRecipesMetaDataIsCalled = true;
             recipesRequestCopy = request;
         }
@@ -214,7 +215,7 @@ public class SearchByIngredientsActivityTests {
         Ingredient ingredientResponse;
 
         @Override
-        public void presentRecipesData(List<Recipe> recipesResponse) {
+        public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
             isPresentRecipesDataCalled = true;
             recipesResponse = recipesResponse;
         }

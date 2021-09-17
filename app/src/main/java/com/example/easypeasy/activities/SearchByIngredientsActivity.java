@@ -23,12 +23,15 @@ import com.example.easypeasy.spoonacular.RecipesRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.easypeasy.Utils.getIngredientsUserInput;
+
 public class SearchByIngredientsActivity extends BaseSearchActivity implements InsertIngredientFieldListener, UnitsSpinnerClickListener {
 
     private static final String TAG = SearchByIngredientsActivity.class.getSimpleName();
     RecyclerView recyclerView;
     Button searchButton;
-    public List<Ingredient> ingredientList = new ArrayList<>();
+    public List<Ingredient> ingredientList;
+
     IngredientsAdapter ingredientsAdapter;
 
 
@@ -48,7 +51,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
         recyclerView = findViewById(R.id.recyclerViewId);
 
         searchButton.setOnClickListener(new SearchButtonClickListener());
-
+        ingredientList = new ArrayList<>();
         ingredientList.add(new Ingredient());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -60,20 +63,11 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     }
 
     public void fetchMetaData() {
-        RecipesRequest recipesRequest = new RecipesRequest();
+        RecipesRequest recipesRequest = new RecipesRequest(this);
         recipesRequest.isSearchByIngredients = true;
-        String userInput = getIngredientsUserInput();
-        output.fetchRecipesData(recipesRequest, userInput);
+        output.fetchRecipesData(recipesRequest, ingredientList);
     }
 
-    public String getIngredientsUserInput() {
-        StringBuilder ingredientsString = new StringBuilder();
-        for (Ingredient ingredient : ingredientList) {
-            Log.d(TAG, "ingredient: " + ingredient.toString());
-            ingredientsString.append(ingredient.getName()).append(", ");
-        }
-        return ingredientsString.toString();
-    }
 
     @Override
     public void displayRecipesMetaData(RecipesAdapter recipesAdapter) {
@@ -88,6 +82,8 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     public void insertItemFieldAndNotify(Ingredient ingredient) {
         if (getNumberOfInsertedIngredients() >= 10) {
             Toast.makeText(SearchByIngredientsActivity.this, R.string.message_maximum_ingredients, Toast.LENGTH_LONG).show();
+        } else if (ingredient.getAmount() == 0) {
+            Toast.makeText(this, R.string.insert_quantity, Toast.LENGTH_SHORT).show();
         } else {
             ingredientList.add(new Ingredient());
             //this is to remove the insert image field from the previous item
@@ -103,7 +99,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     public void unitsSpinnerClick(Ingredient ingredient) {
         IngredientRequest ingredientRequest = new IngredientRequest();
 
-        String userInput = getIngredientsUserInput();
+        String userInput = getIngredientsUserInput(ingredientList);
         Log.d(TAG, "fetchMetaData is called getIngredientsUserInput: " + userInput);
         output.fetchIngredientData(ingredientRequest, ingredient.getId());
     }
@@ -116,7 +112,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
             if (getNumberOfInsertedIngredients() < 3) {
                 Toast.makeText(SearchByIngredientsActivity.this, R.string.message_minimum_ingredients, Toast.LENGTH_LONG).show();
             } else {
-                String userInput = getIngredientsUserInput();
+                String userInput = getIngredientsUserInput(ingredientList);
                 Log.d(TAG, "fetchMetaData is called: " + userInput);
                 fetchMetaData();
             }

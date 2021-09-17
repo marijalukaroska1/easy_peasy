@@ -68,7 +68,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "in onBindViewHolder position: " + position);
+        Log.d(TAG, "in onBindViewHolder position: " + position + " ingredientList: " + ingredientList);
         Ingredient ingredient = ingredientList.get(position);
 
         if (ingredient != null) {
@@ -126,8 +126,12 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                 insertIngredientFieldListener.insertItemFieldAndNotify(ingredient);
             });
 
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
-                    R.array.units_array, android.R.layout.simple_spinner_item);
+            List<Units> unitList = new ArrayList<Units>(EnumSet.allOf(Units.class));
+            String[] unitAmounts = new String[unitList.size()];
+            for (int i = 0; i < unitList.size(); i++) {
+                unitAmounts[i] = unitList.get(i).getUnit();
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, unitAmounts);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.unitsSpinner.setAdapter(adapter);
@@ -136,7 +140,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             holder.unitsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    ingredient.setUnit((String) parent.getItemAtPosition(position));
+                    ingredient.setUnit(parent.getItemAtPosition(position).toString());
                 }
 
                 @Override

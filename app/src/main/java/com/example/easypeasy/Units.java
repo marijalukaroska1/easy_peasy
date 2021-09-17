@@ -7,11 +7,9 @@ public enum Units {
     MG("mg"),
     TSP("tsp"),
     TBSP("tbsp"),
-    LARGE("large"),
-    STICKS("sticks"),
+    CUP("cup"),
     PIECE("piece"),
-    FRUIT("fruit"),
-    NA("N/A");
+    SQUARES("squares");
 
     private final String unit;
 
