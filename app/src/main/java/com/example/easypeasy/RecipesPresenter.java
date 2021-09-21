@@ -22,6 +22,11 @@ public class RecipesPresenter implements RecipesPresenterInput {
 
     @Override
     public void presentIngredientData(Ingredient ingredient) {
+        output.get().displayIngredientUnits(ingredient.getPossibleUnits());
+    }
+
+    @Override
+    public void presentIngredients(List<Ingredient> ingredientList) {
 
     }
 }

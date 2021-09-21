@@ -1,11 +1,14 @@
 package com.example.easypeasy.models;
 
+import java.util.List;
+
 public class Ingredient {
-    int id;
+    long id;
     float amount;
     String unit = "";
     String unitShort = "";
     String name = "";
+    List<String> possibleUnits;
 
     public Ingredient(String name, float amount) {
         this.amount = amount;
@@ -15,7 +18,7 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -35,7 +38,7 @@ public class Ingredient {
         return name;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -55,6 +58,14 @@ public class Ingredient {
         this.name = name;
     }
 
+    public List<String> getPossibleUnits() {
+        return possibleUnits;
+    }
+
+    public void setPossibleUnits(List<String> possibleUnits) {
+        this.possibleUnits = possibleUnits;
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
@@ -63,6 +74,7 @@ public class Ingredient {
                 ", unit='" + unit + '\'' +
                 ", unitShort='" + unitShort + '\'' +
                 ", name='" + name + '\'' +
+                ", possibleUnits=" + possibleUnits +
                 '}';
     }
 }

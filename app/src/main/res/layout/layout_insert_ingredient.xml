@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/insertIngredientLayoutId"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <EditText
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/insertIngredientEditTextId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_weight="0.5"
-        android:autofillHints="@string/ingredient"
-        android:hint="@string/ingredient"
-        android:inputType="text" />
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.4"
+        android:inputType="text"
+        android:pointerIcon="none"
+        app:iconifiedByDefault="false"
+        app:closeIcon="@null"
+        app:searchIcon="@null" />
 
     <EditText
         android:id="@+id/insertQuantityEditTextId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_weight="0.2"
-        android:hint="2"
+        android:layout_weight="0.15"
         android:inputType="numberDecimal"
-        android:textAlignment="center" />
+        android:enabled="false"
+        android:textAlignment="center"
+        android:importantForAutofill="no" />
 
     <Spinner
         android:id="@+id/unitsSpinnerId"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:prompt="@string/app_name" />
+        android:layout_weight="0.4"
+        android:gravity="start"
+        android:isScrollContainer="true"
+        android:pointerIcon="arrow"
+        android:prompt="@string/app_label"
+        android:textAlignment="viewStart" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/addNewIngredientFieldId"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.2"
         android:src="@mipmap/ic_insert"
         android:visibility="invisible" />
 </LinearLayout>

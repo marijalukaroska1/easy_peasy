@@ -26,22 +26,22 @@ public class IngredientRequest extends BaseRequest implements Callback<Ingredien
         spoonacularApi = buildRecipesUrl();
     }
 
-    public void getIngredientMetaData(int id, RecipesPresenterInput output) {
-        Log.d(TAG, "getRecipesByIngredients is called");
+    public void getIngredientMetaData(long ingredientId, RecipesPresenterInput output) {
+        Log.d(TAG, "getIngredientMetaData is called");
         this.output = output;
 
-        map.put("id", String.valueOf(id));
+        map.put("id", String.valueOf(ingredientId));
         map.put("apiKey", Constants.API_KEY);
 
-        Call<Ingredient> call = spoonacularApi.queryIngredientData(map);
+        Call<Ingredient> call = spoonacularApi.queryIngredientData(ingredientId, map);
         call.enqueue(this);
     }
 
     @Override
     public void onResponse(Call<Ingredient> call, Response<Ingredient> response) {
-        Log.d(TAG, "onResponse: " + response);
+        Log.d(TAG, "onResponse: " + response.body());
         if (response.isSuccessful()) {
-            Log.d(TAG, "onResponse successful: " + response.message());
+            Log.d(TAG, "onResponse successful: " + response.body());
             Ingredient ingredient = response.body();
             output.presentIngredientData(ingredient);
         } else {

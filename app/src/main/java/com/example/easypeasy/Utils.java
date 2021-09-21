@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.easypeasy.models.Ingredient;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,5 +32,14 @@ public class Utils {
         }
 
         return ingredientsMap;
+    }
+
+    public static String[] getIngredientDefaultPossibleUnits() {
+        List<Units> unitList = new ArrayList<Units>(EnumSet.allOf(Units.class));
+        String[] unitAmounts = new String[unitList.size()];
+        for (int i = 0; i < unitList.size(); i++) {
+            unitAmounts[i] = unitList.get(i).getUnit();
+        }
+        return unitAmounts;
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EasyPeasy</string>
+    <string name="app_label">EasyPeasy</string>
     <string name="lorem_ipsum">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -14,4 +14,6 @@
     <string name="message_maximum_ingredients">You\'ve reached the maximum number (10) of inserted ingredients</string>
     <string name="search_by_ingredients">Search by Ingredients</string>
     <string name="insert_quantity">Please insert quantity for the inserted ingredient</string>
+    <string name="insert_ingredient_name">Please insert ingredient</string>
+    <string name="insert_unit">Please choose unit</string>
 </resources>

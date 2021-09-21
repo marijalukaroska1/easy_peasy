@@ -1,23 +1,25 @@
 package com.example.easypeasy.activities;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.easypeasy.Constants;
-import com.example.easypeasy.adapters.IngredientsAdapter;
-import com.example.easypeasy.configurators.Configurator;
 import com.example.easypeasy.R;
+import com.example.easypeasy.adapters.IngredientsAdapter;
 import com.example.easypeasy.adapters.RecipesAdapter;
+import com.example.easypeasy.configurators.Configurator;
 import com.example.easypeasy.events.InsertIngredientFieldListener;
 import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.spoonacular.IngredientRequest;
+import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 
 import java.util.ArrayList;
@@ -25,23 +27,30 @@ import java.util.List;
 
 import static com.example.easypeasy.Utils.getIngredientsUserInput;
 
-public class SearchByIngredientsActivity extends BaseSearchActivity implements InsertIngredientFieldListener, UnitsSpinnerClickListener {
+public class SearchByIngredientsActivity extends BaseSearchActivity implements InsertIngredientFieldListener, UnitsSpinnerClickListener, IngredientFetchDataListener {
 
     private static final String TAG = SearchByIngredientsActivity.class.getSimpleName();
     RecyclerView recyclerView;
     Button searchButton;
     public List<Ingredient> ingredientList;
-
     IngredientsAdapter ingredientsAdapter;
+    int ingredientFetchDataPosition;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        handleIntent(getIntent());
+
         setUpUserInterface();
 
         Configurator.INSTANCE.configure(this);
+    }
+
+    private void doSearchIngredients(String ingredientName) {
+        IngredientsSearchRequest ingredientsSearchRequest = new IngredientsSearchRequest();
+        output.fetchIngredientsSearchData(ingredientsSearchRequest, ingredientName);
     }
 
     private void setUpUserInterface() {
@@ -82,26 +91,54 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     public void insertItemFieldAndNotify(Ingredient ingredient) {
         if (getNumberOfInsertedIngredients() >= 10) {
             Toast.makeText(SearchByIngredientsActivity.this, R.string.message_maximum_ingredients, Toast.LENGTH_LONG).show();
+        } else if (ingredient.getName().isEmpty()) {
+            Toast.makeText(this, R.string.insert_ingredient_name, Toast.LENGTH_SHORT).show();
         } else if (ingredient.getAmount() == 0) {
             Toast.makeText(this, R.string.insert_quantity, Toast.LENGTH_SHORT).show();
         } else {
             ingredientList.add(new Ingredient());
             //this is to remove the insert image field from the previous item
             ingredientsAdapter.notifyItemChanged(ingredientList.size() - 2, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD);
-
             ingredientsAdapter.notifyItemInserted(ingredientList.size() - 1);
             recyclerView.scrollToPosition(ingredientList.size() - 1);
-
         }
     }
 
     @Override
     public void unitsSpinnerClick(Ingredient ingredient) {
-        IngredientRequest ingredientRequest = new IngredientRequest();
+    }
 
-        String userInput = getIngredientsUserInput(ingredientList);
-        Log.d(TAG, "fetchMetaData is called getIngredientsUserInput: " + userInput);
-        output.fetchIngredientData(ingredientRequest, ingredient.getId());
+    @Override
+    public void getFetchedIngredientData() {
+
+    }
+
+    int getNumberOfInsertedIngredients() {
+        return ingredientList.size();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            ingredientFetchDataPosition = intent.getIntExtra("ingredientPositionInAdapter", 0);
+            Log.d(TAG, "doSearchIngredients() is called");
+            doSearchIngredients(query);
+        }
+    }
+
+    @Override
+    public void displayIngredientUnits(List<String> possibleUnits) {
+        String[] unitAmounts = new String[possibleUnits.size()];
+        for (int i = 0; i < possibleUnits.size(); i++) {
+            unitAmounts[i] = possibleUnits.get(i);
+        }
+        ingredientsAdapter.setIngredientPossibleUnits(unitAmounts);
+        ingredientsAdapter.notifyItemChanged(ingredientFetchDataPosition, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS);
     }
 
 
@@ -117,9 +154,5 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
                 fetchMetaData();
             }
         }
-    }
-
-    int getNumberOfInsertedIngredients() {
-        return ingredientList.size();
     }
 }

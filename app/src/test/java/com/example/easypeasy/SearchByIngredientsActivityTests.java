@@ -11,7 +11,9 @@ import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.models.SearchIngredientsResponse;
 import com.example.easypeasy.spoonacular.IngredientRequest;
+import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 import com.example.easypeasy.spoonacular.SpoonacularRecipesApi;
 
@@ -200,9 +202,14 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public void fetchIngredientData(IngredientRequest request, int ingredientId) {
+        public void fetchIngredientData(IngredientRequest request, long ingredientId) {
             fetchIngredientMetaDataIsCalled = true;
             ingredientRequestCopy = request;
+        }
+
+        @Override
+        public void fetchIngredientsSearchData(IngredientsSearchRequest request, String ingredientName) {
+
         }
     }
 
@@ -225,6 +232,11 @@ public class SearchByIngredientsActivityTests {
             isPresentIngredientDataCalled = true;
             ingredientResponse = ingredient;
         }
+
+        @Override
+        public void presentIngredients(List<Ingredient> ingredientList) {
+
+        }
     }
 
     public class SearchActivityInputSpy implements SearchInput {
@@ -237,6 +249,11 @@ public class SearchByIngredientsActivityTests {
         public void displayRecipesMetaData(RecipesAdapter object) {
             isDisplayRecipesMetaDataCalled = true;
             recipesViewModelCopy = object;
+        }
+
+        @Override
+        public void displayIngredientUnits(List<String> possibleUnits) {
+
         }
     }
 
@@ -329,45 +346,14 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Call<Ingredient> queryIngredientData(Map<String, String> options) {
-            isQueryIngredientMetaDataCalled = true;
-            return new Call<Ingredient>() {
+        public Call<Ingredient> queryIngredientData(long id, Map<String, String> options) {
+            return null;
+        }
 
-                @Override
-                public Response<Ingredient> execute() throws IOException {
-                    return null;
-                }
 
-                @Override
-                public void enqueue(Callback<Ingredient> callback) {
-
-                }
-
-                @Override
-                public boolean isExecuted() {
-                    return false;
-                }
-
-                @Override
-                public void cancel() {
-
-                }
-
-                @Override
-                public boolean isCanceled() {
-                    return false;
-                }
-
-                @Override
-                public Call<Ingredient> clone() {
-                    return null;
-                }
-
-                @Override
-                public Request request() {
-                    return null;
-                }
-            };
+        @Override
+        public Call<SearchIngredientsResponse> searchIngredients(Map<String, String> options) {
+            return null;
         }
     }
 }

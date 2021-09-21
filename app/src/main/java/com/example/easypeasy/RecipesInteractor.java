@@ -2,8 +2,8 @@ package com.example.easypeasy;
 
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.spoonacular.IngredientRequest;
+import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
-import com.example.easypeasy.models.Recipe;
 
 import java.util.List;
 
@@ -19,7 +19,12 @@ public class RecipesInteractor implements RecipesInteractorInput {
     }
 
     @Override
-    public void fetchIngredientData(IngredientRequest request, int ingredientId) {
+    public void fetchIngredientData(IngredientRequest request, long ingredientId) {
         request.getIngredientMetaData(ingredientId, output);
+    }
+
+    @Override
+    public void fetchIngredientsSearchData(IngredientsSearchRequest request, String ingredientName) {
+        request.getIngredientsSearchMetaData(output, this, ingredientName);
     }
 }
