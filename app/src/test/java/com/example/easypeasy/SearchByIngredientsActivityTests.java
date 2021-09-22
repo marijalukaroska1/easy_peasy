@@ -9,11 +9,13 @@ import androidx.test.core.app.ApplicationProvider;
 import com.example.easypeasy.activities.SearchByIngredientsActivity;
 import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
+import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
 import com.example.easypeasy.models.SearchIngredientsResponse;
+import com.example.easypeasy.spoonacular.ConvertAmountsRequest;
 import com.example.easypeasy.spoonacular.IngredientRequest;
-import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
+import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 import com.example.easypeasy.spoonacular.SpoonacularRecipesApi;
 
@@ -79,10 +81,10 @@ public class SearchByIngredientsActivityTests {
         List<Recipe> recipesResponse = new ArrayList<>();
 
         SearchActivityInputSpy searchActivityInputSpy = new SearchActivityInputSpy();
-        recipesPresenter.output = new WeakReference<SearchInput>(searchActivityInputSpy);
+        recipesPresenter.output = new WeakReference<>(searchActivityInputSpy);
 
         //when
-        recipesPresenter.presentRecipesData(recipesResponse, ApplicationProvider.getApplicationContext());
+        recipesPresenter.presentRecipesData(recipesResponse, ApplicationProvider.getApplicationContext(), 0);
 
         //then
         assertTrue(searchActivityInputSpy.isDisplayRecipesMetaDataCalled);
@@ -107,7 +109,7 @@ public class SearchByIngredientsActivityTests {
         assertNotNull(searchButton);
         searchButton.performClick();
 
-        assertEquals(ApplicationProvider.getApplicationContext().getResources().getString(R.string.message_minimum_ingredients), ShadowToast.getTextOfLatestToast().toString());
+        assertEquals(ApplicationProvider.getApplicationContext().getResources().getString(R.string.message_minimum_ingredients), ShadowToast.getTextOfLatestToast());
     }
 
     // When the maximum number of inserted ingredients is reached,
@@ -194,6 +196,8 @@ public class SearchByIngredientsActivityTests {
         boolean fetchIngredientMetaDataIsCalled = false;
         RecipesRequest recipesRequestCopy;
         IngredientRequest ingredientRequestCopy;
+        SearchIngredientsRequest searchIngredientsRequestCopy;
+        ConvertAmountsRequest convertAmountsRequestCopy;
 
         @Override
         public void fetchRecipesData(RecipesRequest request, List<Ingredient> inputIngredientsList) {
@@ -208,8 +212,13 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public void fetchIngredientsSearchData(IngredientsSearchRequest request, String ingredientName) {
+        public void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName) {
+            searchIngredientsRequestCopy = request;
+        }
 
+        @Override
+        public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float sourceAmount, String sourceUnit, Map<String, String> responseIngredientData, List<Recipe> recipes, Recipe currentRecipe, int convertAmountRequestsNumber) {
+            convertAmountsRequestCopy = request;
         }
     }
 
@@ -222,7 +231,7 @@ public class SearchByIngredientsActivityTests {
         Ingredient ingredientResponse;
 
         @Override
-        public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
+        public void presentRecipesData(List<Recipe> recipesResponse, Context context, int convertAmountRequestsNumber) {
             isPresentRecipesDataCalled = true;
             recipesResponse = recipesResponse;
         }
@@ -235,6 +244,11 @@ public class SearchByIngredientsActivityTests {
 
         @Override
         public void presentIngredients(List<Ingredient> ingredientList) {
+
+        }
+
+        @Override
+        public void convertAmountResponse() {
 
         }
     }
@@ -268,7 +282,7 @@ public class SearchByIngredientsActivityTests {
             isQueryRecipesByIngredientsCalled = true;
             return new Call<List<Recipe>>() {
                 @Override
-                public Response<List<Recipe>> execute() throws IOException {
+                public Response<List<Recipe>> execute() {
                     return null;
                 }
 
@@ -353,6 +367,11 @@ public class SearchByIngredientsActivityTests {
 
         @Override
         public Call<SearchIngredientsResponse> searchIngredients(Map<String, String> options) {
+            return null;
+        }
+
+        @Override
+        public Call<ConvertAmountsResponse> convertAmountAndUnit(Map<String, String> options) {
             return null;
         }
     }

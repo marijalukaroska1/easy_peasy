@@ -17,9 +17,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class IngredientsSearchRequest extends BaseRequest implements Callback<SearchIngredientsResponse> {
+public class SearchIngredientsRequest extends BaseRequest implements Callback<SearchIngredientsResponse> {
 
-    private static final String TAG = IngredientsSearchRequest.class.getSimpleName();
+    private static final String TAG = SearchIngredientsRequest.class.getSimpleName();
     public SpoonacularRecipesApi spoonacularApi;
 
     RecipesPresenterInput output;
@@ -27,7 +27,7 @@ public class IngredientsSearchRequest extends BaseRequest implements Callback<Se
     Map<String, String> map = new HashMap<>();
 
 
-    public IngredientsSearchRequest() {
+    public SearchIngredientsRequest() {
         spoonacularApi = buildRecipesUrl();
     }
 
@@ -50,8 +50,10 @@ public class IngredientsSearchRequest extends BaseRequest implements Callback<Se
         if (response.isSuccessful()) {
             Log.d(TAG, "onResponse successful: " + response.body());
             List<Ingredient> ingredientList = ((SearchIngredientsResponse) response.body()).getIngredientList();
-            IngredientRequest ingredientRequest = new IngredientRequest();
-            interactor.fetchIngredientData(ingredientRequest, ingredientList.get(0).getId());
+            if (ingredientList != null && ingredientList.size() > 0) {
+                IngredientRequest ingredientRequest = new IngredientRequest();
+                interactor.fetchIngredientData(ingredientRequest, ingredientList.get(0).getId());
+            }
         } else {
             Log.d(TAG, "onResponse error: " + response.code());
         }

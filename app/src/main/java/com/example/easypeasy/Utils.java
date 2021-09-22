@@ -23,14 +23,14 @@ public class Utils {
         return ingredientsString.toString();
     }
 
-    public static Map<String, Map<String, Float>> mapIngredientsNamesAndAmounts(List<Ingredient> ingredients) {
-        Map<String, Map<String, Float>> ingredientsMap = new HashMap<>();
+    public static Map<String, Map<String, String>> mapIngredientNameWithAmountAndUnit(List<Ingredient> ingredients) {
+        Map<String, Map<String, String>> ingredientsMap = new HashMap<>();
         for (Ingredient ingredient : ingredients) {
-            Map<String, Float> quantityMap = new HashMap<>();
-            quantityMap.put(ingredient.getUnit(), ingredient.getAmount());
+            Map<String, String> quantityMap = new HashMap<>();
+            quantityMap.put("amount", String.valueOf(ingredient.getAmount()));
+            quantityMap.put("unit", ingredient.getUnit());
             ingredientsMap.put(ingredient.getName(), quantityMap);
         }
-
         return ingredientsMap;
     }
 

@@ -123,8 +123,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             });
 
             holder.insertIngredientName.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
-                Log.d(TAG, "in onFocusChange: " + holder.insertIngredientName.getQuery().toString());
-                if (!holder.insertIngredientName.getQuery().toString().isEmpty()) {
+                Log.d(TAG, "in onFocusChange: " + holder.insertIngredientName.getQuery().toString() + " ingredientFetchDataPosition: " + position + " hasFocus: " + hasFocus);
+                if (!holder.insertIngredientName.getQuery().toString().isEmpty() && !hasFocus) {
                     holder.insertIngredientQuantity.setEnabled(true);
                     ingredient.setName(holder.insertIngredientName.getQuery().toString());
                     sendSearchQuery(holder.insertIngredientName.getQuery().toString(), position);
@@ -206,6 +206,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     }
 
     private void sendSearchQuery(String query, int ingredientPositionInAdapter) {
+        Log.d(TAG, "sendSearchQuery: " + query);
         Intent intent = new Intent(activity, SearchByIngredientsActivity.class);
         intent.setAction(Intent.ACTION_SEARCH);
         intent.putExtra("query", query);

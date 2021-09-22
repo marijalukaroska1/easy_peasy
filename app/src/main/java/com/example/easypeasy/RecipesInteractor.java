@@ -1,11 +1,14 @@
 package com.example.easypeasy;
 
 import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.spoonacular.ConvertAmountsRequest;
 import com.example.easypeasy.spoonacular.IngredientRequest;
-import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
+import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public class RecipesInteractor implements RecipesInteractorInput {
 
@@ -14,7 +17,7 @@ public class RecipesInteractor implements RecipesInteractorInput {
     @Override
     public void fetchRecipesData(RecipesRequest request, List<Ingredient> ingredientList) {
         if (request.isSearchByIngredients) {
-            request.getRecipesByIngredients(ingredientList, output);
+            request.getRecipesByIngredients(ingredientList, output, this);
         }
     }
 
@@ -24,7 +27,12 @@ public class RecipesInteractor implements RecipesInteractorInput {
     }
 
     @Override
-    public void fetchIngredientsSearchData(IngredientsSearchRequest request, String ingredientName) {
+    public void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName) {
         request.getIngredientsSearchMetaData(output, this, ingredientName);
+    }
+
+    @Override
+    public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe, int convertAmountRequestsNumber) {
+        request.getConvertedAmountAndUnit(output, ingredientName, responseIngredientAmount, responseIngredientUnit, inputIngredientData, filteredRecipes, currentRecipe, convertAmountRequestsNumber);
     }
 }

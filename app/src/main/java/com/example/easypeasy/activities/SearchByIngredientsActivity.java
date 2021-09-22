@@ -19,7 +19,7 @@ import com.example.easypeasy.configurators.Configurator;
 import com.example.easypeasy.events.InsertIngredientFieldListener;
 import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.spoonacular.IngredientsSearchRequest;
+import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     }
 
     private void doSearchIngredients(String ingredientName) {
-        IngredientsSearchRequest ingredientsSearchRequest = new IngredientsSearchRequest();
+        SearchIngredientsRequest ingredientsSearchRequest = new SearchIngredientsRequest();
         output.fetchIngredientsSearchData(ingredientsSearchRequest, ingredientName);
     }
 
@@ -126,7 +126,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             ingredientFetchDataPosition = intent.getIntExtra("ingredientPositionInAdapter", 0);
-            Log.d(TAG, "doSearchIngredients() is called");
+            Log.d(TAG, "doSearchIngredients() is called: " + query);
             doSearchIngredients(query);
         }
     }
@@ -138,6 +138,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
             unitAmounts[i] = possibleUnits.get(i);
         }
         ingredientsAdapter.setIngredientPossibleUnits(unitAmounts);
+        Log.d(TAG, "ingredientFetchDataPosition: " + ingredientFetchDataPosition);
         ingredientsAdapter.notifyItemChanged(ingredientFetchDataPosition, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS);
     }
 

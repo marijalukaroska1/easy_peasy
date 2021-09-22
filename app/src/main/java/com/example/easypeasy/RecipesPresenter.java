@@ -1,6 +1,7 @@
 package com.example.easypeasy;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
@@ -12,12 +13,17 @@ import java.util.List;
 
 public class RecipesPresenter implements RecipesPresenterInput {
 
+    private static final String TAG = RecipesPresenter.class.getSimpleName();
     public WeakReference<SearchInput> output;
+    int convertAmountResponsesNumber = 0;
 
     @Override
-    public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
-        RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse, context);
-        output.get().displayRecipesMetaData(recipesAdapter);
+    public void presentRecipesData(List<Recipe> recipesResponse, Context context, int convertAmountRequestsNumber) {
+        Log.d(TAG, "convertAmountRequestsNumber: " + convertAmountRequestsNumber + " convertAmountResponsesNumber: " + convertAmountResponsesNumber);
+        if (convertAmountRequestsNumber == convertAmountResponsesNumber) {
+            RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse, context);
+            output.get().displayRecipesMetaData(recipesAdapter);
+        }
     }
 
     @Override
@@ -28,5 +34,10 @@ public class RecipesPresenter implements RecipesPresenterInput {
     @Override
     public void presentIngredients(List<Ingredient> ingredientList) {
 
+    }
+
+    @Override
+    public void convertAmountResponse() {
+        convertAmountResponsesNumber++;
     }
 }
