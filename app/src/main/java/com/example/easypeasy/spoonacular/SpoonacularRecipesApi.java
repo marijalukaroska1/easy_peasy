@@ -3,6 +3,7 @@ package com.example.easypeasy.spoonacular;
 import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.models.RecipeInformationResponse;
 import com.example.easypeasy.models.SearchIngredientsResponse;
 
 import java.util.List;
@@ -29,5 +30,8 @@ public interface SpoonacularRecipesApi {
 
     @GET("recipes/convert")
     Call<ConvertAmountsResponse> convertAmountAndUnit(@QueryMap Map<String, String> options);
+
+    @GET("recipes/{id}/information")
+    Call<RecipeInformationResponse> queryRecipeInformation(@Path("id") long id, @QueryMap Map<String, String> options);
 
 }

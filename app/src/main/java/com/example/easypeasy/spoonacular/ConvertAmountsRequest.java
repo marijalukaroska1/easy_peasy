@@ -33,14 +33,13 @@ public class ConvertAmountsRequest extends BaseRequest implements Callback<Conve
         this.context = context;
     }
 
-    public void getConvertedAmountAndUnit(RecipesPresenterInput output, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe, int convertAmountRequestsNumber) {
+    public void getConvertedAmountAndUnit(RecipesPresenterInput output, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe) {
         Log.d(TAG, "getConvertedAmountAndUnit is called");
         this.output = output;
         this.inputIngredientData = inputIngredientData;
         this.responseIngredientAmount = responseIngredientAmount;
         this.filteredRecipes = filteredRecipes;
         this.currentRecipe = currentRecipe;
-        this.convertAmountRequestsNumber = convertAmountRequestsNumber;
 
         map.put("apiKey", Constants.API_KEY);
         map.put("ingredientName", ingredientName);
@@ -54,9 +53,10 @@ public class ConvertAmountsRequest extends BaseRequest implements Callback<Conve
 
     @Override
     public void onResponse(Call<ConvertAmountsResponse> call, Response<ConvertAmountsResponse> response) {
-        Log.d(TAG, "onResponse: " + currentRecipe.getTitle() + " " + response.body());
+        Log.d(TAG, "onResponse: " + response.isSuccessful());
         output.convertAmountResponse();
         if (response.isSuccessful()) {
+            Log.d(TAG, "onResponse: " + currentRecipe.getTitle() + " " + response.body() + " convertAmountRequestsNumber" + convertAmountRequestsNumber);
             ConvertAmountsResponse convertInputIngredientAmountResponse = response.body();
             if (convertInputIngredientAmountResponse.getTargetAmount() != 0.0) {
                 if (responseIngredientAmount > convertInputIngredientAmountResponse.getTargetAmount()) {
@@ -64,7 +64,7 @@ public class ConvertAmountsRequest extends BaseRequest implements Callback<Conve
                 }
             }
         }
-        output.presentRecipesData(filteredRecipes, context, convertAmountRequestsNumber);
+        output.presentRecipesData(filteredRecipes, context);
     }
 
     @Override

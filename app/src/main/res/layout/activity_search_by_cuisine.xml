@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <!-- Top -->
     <RelativeLayout
         android:id="@+id/topLayout"
@@ -15,33 +16,11 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="25dp"
-            android:text="@string/search_by_ingredients"
+            android:text="@string/search_by_cuisine"
             android:textColor="#fff"
             android:textSize="@dimen/activity_title_text"
             android:textStyle="bold" />
     </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomLayoutId"
-        android:layout_below="@+id/topLayout"
-        android:focusableInTouchMode="true"
-        android:isScrollContainer="true"
-        android:scrollbars="vertical"
-        android:visibility="invisible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRecipes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomLayoutId"
-        android:layout_below="@+id/topLayout"
-        android:focusableInTouchMode="true"
-        android:isScrollContainer="true"
-        android:scrollbars="vertical"
-        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/bottomLayoutId"
@@ -60,7 +39,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_middle_selector"
             android:text="@string/search_button"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:visibility="visible" />
 

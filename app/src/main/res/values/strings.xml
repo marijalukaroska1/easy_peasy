@@ -13,7 +13,14 @@
     <string name="message_minimum_ingredients">Minimum of three different ingredients is required</string>
     <string name="message_maximum_ingredients">You\'ve reached the maximum number (10) of inserted ingredients</string>
     <string name="search_by_ingredients">Search by Ingredients</string>
+    <string name="search_by_nutrients">Search by Nutrients</string>
+    <string name="search_by_cuisine">Search by Cuisine</string>
+    <string name="recipe_information">Recipe Information</string>
     <string name="insert_quantity">Please insert quantity for the inserted ingredient</string>
     <string name="insert_ingredient_name">Please insert ingredient</string>
     <string name="insert_unit">Please choose unit</string>
+    <string name="servings">Servings: x</string>
+    <string name="ready_in_minutes">Ready in minutes: x</string>
+    <string name="sample_title">Sample title</string>
+    <string name="summary">Summary: x</string>
 </resources>

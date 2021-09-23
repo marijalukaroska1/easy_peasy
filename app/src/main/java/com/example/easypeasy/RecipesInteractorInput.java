@@ -14,5 +14,5 @@ public interface RecipesInteractorInput {
     void fetchRecipesData(RecipesRequest request, List<Ingredient> ingredientList);
     void fetchIngredientData(IngredientRequest request, long ingredientId);
     void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName);
-    void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float inputIngredientAmount, String inputIngredientUnit, Map<String, String> responseIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe, int convertAmountRequestsNumber);
+    void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float inputIngredientAmount, String inputIngredientUnit, Map<String, String> responseIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe);
 }

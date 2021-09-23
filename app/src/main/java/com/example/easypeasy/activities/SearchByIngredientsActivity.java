@@ -13,14 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.Constants;
 import com.example.easypeasy.R;
+import com.example.easypeasy.Utils;
 import com.example.easypeasy.adapters.IngredientsAdapter;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.configurators.Configurator;
 import com.example.easypeasy.events.InsertIngredientFieldListener;
 import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
+import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import static com.example.easypeasy.Utils.getIngredientsUserInput;
 public class SearchByIngredientsActivity extends BaseSearchActivity implements InsertIngredientFieldListener, UnitsSpinnerClickListener, IngredientFetchDataListener {
 
     private static final String TAG = SearchByIngredientsActivity.class.getSimpleName();
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewIngredients, recyclerViewRecipes;
     Button searchButton;
     public List<Ingredient> ingredientList;
     IngredientsAdapter ingredientsAdapter;
@@ -40,12 +41,14 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        handleIntent(getIntent());
+        Log.d(TAG, "onCreate(): " + getIntent());
+        if (getIntent() != null && Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
+            handleIntent(getIntent());
+        } else {
+            Configurator.INSTANCE.configure(this);
+        }
 
         setUpUserInterface();
-
-        Configurator.INSTANCE.configure(this);
     }
 
     private void doSearchIngredients(String ingredientName) {
@@ -57,7 +60,10 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
         setContentView(R.layout.activity_search_by_ingredients);
         searchButton = findViewById(R.id.searchButtonId);
         searchButton.setVisibility(View.VISIBLE);
-        recyclerView = findViewById(R.id.recyclerViewId);
+        recyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
+        recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
+        recyclerViewIngredients.setVisibility(View.VISIBLE);
+        recyclerViewRecipes.setVisibility(View.GONE);
 
         searchButton.setOnClickListener(new SearchButtonClickListener());
         ingredientList = new ArrayList<>();
@@ -65,9 +71,9 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerViewIngredients.setLayoutManager(linearLayoutManager);
         ingredientsAdapter = new IngredientsAdapter(ingredientList, this, this, SearchByIngredientsActivity.this);
-        recyclerView.setAdapter(ingredientsAdapter);
+        recyclerViewIngredients.setAdapter(ingredientsAdapter);
 
     }
 
@@ -80,11 +86,15 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
 
     @Override
     public void displayRecipesMetaData(RecipesAdapter recipesAdapter) {
-        recyclerView = findViewById(R.id.recyclerViewId);
+        Utils.hideKeyboard(this);
+        searchButton.setVisibility(View.GONE);
+        recyclerViewIngredients.setVisibility(View.GONE);
+        recyclerViewRecipes.setVisibility(View.VISIBLE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(recipesAdapter);
+        linearLayoutManager.setItemPrefetchEnabled(false);
+        recyclerViewRecipes.setLayoutManager(linearLayoutManager);
+        recyclerViewRecipes.setAdapter(recipesAdapter);
     }
 
     @Override
@@ -100,7 +110,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
             //this is to remove the insert image field from the previous item
             ingredientsAdapter.notifyItemChanged(ingredientList.size() - 2, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD);
             ingredientsAdapter.notifyItemInserted(ingredientList.size() - 1);
-            recyclerView.scrollToPosition(ingredientList.size() - 1);
+            recyclerViewIngredients.scrollToPosition(ingredientList.size() - 1);
         }
     }
 

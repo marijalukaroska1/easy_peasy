@@ -22,6 +22,7 @@ import retrofit2.Response;
 public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>> {
 
     private static final String TAG = RecipesRequest.class.getSimpleName();
+    private static int numberOfConvertAmountRequestsMade = 0;
     public boolean isSearchByIngredients = false;
     public SpoonacularRecipesApi spoonacularApi;
     List<Ingredient> ingredientList;
@@ -30,7 +31,6 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
     RecipesInteractorInput interactor;
     Map<String, String> map = new HashMap<>();
     Context context;
-    int numberOfConvertAmountRequestsMade = 0;
 
     public RecipesRequest(Context context) {
         spoonacularApi = buildRecipesUrl();
@@ -61,7 +61,7 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
 
     @Override
     public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-        Log.d(TAG, "onResponse: " + response);
+        Log.d(TAG, "onResponse: " + response.isSuccessful());
         if (response.isSuccessful()) {
             Log.d(TAG, "onResponse successful: " + response.message());
             List<Recipe> recipes = response.body();
@@ -76,6 +76,7 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
     private void filterRecipesByIngredientsAmount(List<Recipe> recipes) {
         List<Recipe> filteredRecipes = new ArrayList(recipes);
         Map<String, Map<String, String>> inputIngredientsMap = Utils.mapIngredientNameWithAmountAndUnit(ingredientList);
+        numberOfConvertAmountRequestsMade = 0;
         for (Recipe recipe : recipes) {
             Log.d(TAG, "recipe name: " + recipe.getTitle());
             Log.d(TAG, "=================================================");
@@ -87,8 +88,9 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
                     if (!responseIngredient.getUnit().isEmpty() && !responseIngredient.getUnit().equalsIgnoreCase(inputIngredientsMap.get(responseIngredient.getName()).get("unit"))) {
                         Log.d(TAG, "different unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + responseIngredient.getUnit());
                         ConvertAmountsRequest request = new ConvertAmountsRequest(context);
-                        interactor.convertAmountsAndUnitsRequest(request, responseIngredient.getName(), responseIngredient.getAmount(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), filteredRecipes, recipe, numberOfConvertAmountRequestsMade);
                         numberOfConvertAmountRequestsMade++;
+                        Log.d(TAG, "convertAmountRequestsNumber: " + numberOfConvertAmountRequestsMade);
+                        interactor.convertAmountsAndUnitsRequest(request, responseIngredient.getName(), responseIngredient.getAmount(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), filteredRecipes, recipe);
                     } else {
                         Log.d(TAG, "same unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + responseIngredient.getUnit());
                         if (responseIngredient.getAmount() > Float.parseFloat(inputIngredientsMap.get(responseIngredient.getName()).get("amount"))) {
@@ -99,12 +101,15 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
             }
             Log.d(TAG, "=================================================");
         }
-
-        output.presentRecipesData(filteredRecipes, context, numberOfConvertAmountRequestsMade);
+        output.presentRecipesData(filteredRecipes, context);
     }
 
     @Override
     public void onFailure(Call<List<Recipe>> call, Throwable t) {
         Log.d(TAG, "onFailure: " + t.getLocalizedMessage());
+    }
+
+    public static synchronized int getConvertAmountRequestsNumber() {
+        return numberOfConvertAmountRequestsMade;
     }
 }

@@ -32,7 +32,7 @@ public class RecipesInteractor implements RecipesInteractorInput {
     }
 
     @Override
-    public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe, int convertAmountRequestsNumber) {
-        request.getConvertedAmountAndUnit(output, ingredientName, responseIngredientAmount, responseIngredientUnit, inputIngredientData, filteredRecipes, currentRecipe, convertAmountRequestsNumber);
+    public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe) {
+        request.getConvertedAmountAndUnit(output, ingredientName, responseIngredientAmount, responseIngredientUnit, inputIngredientData, filteredRecipes, currentRecipe);
     }
 }

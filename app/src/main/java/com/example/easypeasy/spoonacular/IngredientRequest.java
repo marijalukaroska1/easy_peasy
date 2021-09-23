@@ -39,7 +39,7 @@ public class IngredientRequest extends BaseRequest implements Callback<Ingredien
 
     @Override
     public void onResponse(Call<Ingredient> call, Response<Ingredient> response) {
-        Log.d(TAG, "onResponse: " + response.body());
+        Log.d(TAG, "onResponse: " + response.isSuccessful());
         if (response.isSuccessful()) {
             Log.d(TAG, "onResponse successful: " + response.body());
             Ingredient ingredient = response.body();

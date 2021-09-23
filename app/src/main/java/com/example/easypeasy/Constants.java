@@ -5,4 +5,5 @@ public class Constants {
     public static final String SPOONACULAR_BASE_URL = "https://api.spoonacular.com/";
     public static final String PAYLOAD_INSERT_INGREDIENT_FIELD = "payload_ingredient_field";
     public static final String PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS = "payload_units";
+    public static final String REGEX_X = "x";
 }

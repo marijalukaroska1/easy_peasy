@@ -46,10 +46,10 @@ public class SearchIngredientsRequest extends BaseRequest implements Callback<Se
 
     @Override
     public void onResponse(Call<SearchIngredientsResponse> call, Response<SearchIngredientsResponse> response) {
-        Log.d(TAG, "onResponse: " + response.body());
+        Log.d(TAG, "onResponse: " + response.isSuccessful());
         if (response.isSuccessful()) {
             Log.d(TAG, "onResponse successful: " + response.body());
-            List<Ingredient> ingredientList = ((SearchIngredientsResponse) response.body()).getIngredientList();
+            List<Ingredient> ingredientList = response.body().getIngredientList();
             if (ingredientList != null && ingredientList.size() > 0) {
                 IngredientRequest ingredientRequest = new IngredientRequest();
                 interactor.fetchIngredientData(ingredientRequest, ingredientList.get(0).getId());

@@ -12,11 +12,12 @@ import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.models.RecipeInformationResponse;
 import com.example.easypeasy.models.SearchIngredientsResponse;
 import com.example.easypeasy.spoonacular.ConvertAmountsRequest;
 import com.example.easypeasy.spoonacular.IngredientRequest;
-import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
+import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.SpoonacularRecipesApi;
 
 import org.junit.Test;
@@ -84,7 +85,7 @@ public class SearchByIngredientsActivityTests {
         recipesPresenter.output = new WeakReference<>(searchActivityInputSpy);
 
         //when
-        recipesPresenter.presentRecipesData(recipesResponse, ApplicationProvider.getApplicationContext(), 0);
+        recipesPresenter.presentRecipesData(recipesResponse, ApplicationProvider.getApplicationContext());
 
         //then
         assertTrue(searchActivityInputSpy.isDisplayRecipesMetaDataCalled);
@@ -165,21 +166,9 @@ public class SearchByIngredientsActivityTests {
         assertTrue(stringIngredients.contains(ingredients.get(0).getName()));
     }
 
-    //when unit dropdown menu is selected, fetchIngredientData is called() if a valid ingredient name is inserted
-    @Test
-    public void test_whenUnitDropDownIsSelected_fetchIngredientDataIsCalled() {
-        SearchByIngredientsActivity searchByIngredientsActivity = Robolectric.buildActivity(SearchByIngredientsActivity.class).create().get();
-        SearchActivityOutputSpy outputSpy = new SearchActivityOutputSpy();
-        searchByIngredientsActivity.output = outputSpy;
-
-        searchByIngredientsActivity.unitsSpinnerClick(new Ingredient());
-        assertTrue(outputSpy.fetchIngredientMetaDataIsCalled);
-    }
-
     //when fetchIngredientData() is called, queryIngredientMetaData() is also called
     @Test
     public void test_whenFetchIngredientDataIsCalled_queryIngredientMetaDataIsCalled() {
-
         RecipesInteractor recipesInteractor = new RecipesInteractor();
         IngredientRequest ingredientRequest = new IngredientRequest();
         recipesInteractor.output = new RecipesPresenterSpy();
@@ -190,7 +179,7 @@ public class SearchByIngredientsActivityTests {
         assertTrue(spoonacularAPISpy.isQueryIngredientMetaDataCalled);
     }
 
-    private class SearchActivityOutputSpy implements RecipesInteractorInput {
+    private static class SearchActivityOutputSpy implements RecipesInteractorInput {
 
         boolean fetchRecipesMetaDataIsCalled = false;
         boolean fetchIngredientMetaDataIsCalled = false;
@@ -217,13 +206,13 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float sourceAmount, String sourceUnit, Map<String, String> responseIngredientData, List<Recipe> recipes, Recipe currentRecipe, int convertAmountRequestsNumber) {
+        public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float sourceAmount, String sourceUnit, Map<String, String> responseIngredientData, List<Recipe> recipes, Recipe currentRecipe) {
             convertAmountsRequestCopy = request;
         }
     }
 
 
-    public class RecipesPresenterSpy implements RecipesPresenterInput {
+    public static class RecipesPresenterSpy implements RecipesPresenterInput {
 
         boolean isPresentRecipesDataCalled = false;
         boolean isPresentIngredientDataCalled = false;
@@ -231,9 +220,9 @@ public class SearchByIngredientsActivityTests {
         Ingredient ingredientResponse;
 
         @Override
-        public void presentRecipesData(List<Recipe> recipesResponse, Context context, int convertAmountRequestsNumber) {
+        public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
             isPresentRecipesDataCalled = true;
-            recipesResponse = recipesResponse;
+            this.recipesResponse = recipesResponse;
         }
 
         @Override
@@ -253,7 +242,7 @@ public class SearchByIngredientsActivityTests {
         }
     }
 
-    public class SearchActivityInputSpy implements SearchInput {
+    public static class SearchActivityInputSpy implements SearchInput {
 
         boolean isDisplayRecipesMetaDataCalled = false;
         RecipesAdapter recipesViewModelCopy;
@@ -271,11 +260,14 @@ public class SearchByIngredientsActivityTests {
         }
     }
 
-    public class SpoonacularAPISpy implements SpoonacularRecipesApi {
+    public static class SpoonacularAPISpy implements SpoonacularRecipesApi {
 
         boolean isQueryRecipesByIngredientsCalled = false;
         boolean isQueryRecipesByNutrientsCalled = false;
         boolean isQueryIngredientMetaDataCalled = false;
+        boolean isConvertAmountCalled = false;
+        boolean isQueryRecipeInformationCalled = false;
+        boolean isSearchIngredientsCalled = false;
 
         @Override
         public Call<List<Recipe>> queryRecipesByIngredients(Map<String, String> options) {
@@ -361,18 +353,167 @@ public class SearchByIngredientsActivityTests {
 
         @Override
         public Call<Ingredient> queryIngredientData(long id, Map<String, String> options) {
-            return null;
+            isQueryIngredientMetaDataCalled = true;
+            return new Call<Ingredient>() {
+                @Override
+                public Response<Ingredient> execute() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void enqueue(Callback<Ingredient> callback) {
+
+                }
+
+                @Override
+                public boolean isExecuted() {
+                    return false;
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public boolean isCanceled() {
+                    return false;
+                }
+
+                @Override
+                public Call<Ingredient> clone() {
+                    return null;
+                }
+
+                @Override
+                public Request request() {
+                    return null;
+                }
+            };
         }
 
 
         @Override
         public Call<SearchIngredientsResponse> searchIngredients(Map<String, String> options) {
-            return null;
+            isSearchIngredientsCalled = true;
+            return new Call<SearchIngredientsResponse>() {
+                @Override
+                public Response<SearchIngredientsResponse> execute() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void enqueue(Callback<SearchIngredientsResponse> callback) {
+
+                }
+
+                @Override
+                public boolean isExecuted() {
+                    return false;
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public boolean isCanceled() {
+                    return false;
+                }
+
+                @Override
+                public Call<SearchIngredientsResponse> clone() {
+                    return null;
+                }
+
+                @Override
+                public Request request() {
+                    return null;
+                }
+            };
         }
 
         @Override
         public Call<ConvertAmountsResponse> convertAmountAndUnit(Map<String, String> options) {
-            return null;
+            isConvertAmountCalled = true;
+            return new Call<ConvertAmountsResponse>() {
+                @Override
+                public Response<ConvertAmountsResponse> execute() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void enqueue(Callback<ConvertAmountsResponse> callback) {
+
+                }
+
+                @Override
+                public boolean isExecuted() {
+                    return false;
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public boolean isCanceled() {
+                    return false;
+                }
+
+                @Override
+                public Call<ConvertAmountsResponse> clone() {
+                    return null;
+                }
+
+                @Override
+                public Request request() {
+                    return null;
+                }
+            };
+        }
+
+        @Override
+        public Call<RecipeInformationResponse> queryRecipeInformation(long id, Map<String, String> options) {
+            isQueryRecipeInformationCalled = true;
+            return new Call<RecipeInformationResponse>() {
+                @Override
+                public Response<RecipeInformationResponse> execute() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void enqueue(Callback<RecipeInformationResponse> callback) {
+
+                }
+
+                @Override
+                public boolean isExecuted() {
+                    return false;
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public boolean isCanceled() {
+                    return false;
+                }
+
+                @Override
+                public Call<RecipeInformationResponse> clone() {
+                    return null;
+                }
+
+                @Override
+                public Request request() {
+                    return null;
+                }
+            };
         }
     }
 }

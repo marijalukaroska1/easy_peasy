@@ -1,5 +1,7 @@
 package com.example.easypeasy.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Ingredient {
@@ -9,6 +11,8 @@ public class Ingredient {
     String unitShort = "";
     String name = "";
     List<String> possibleUnits;
+    @SerializedName("original")
+    String nameWithAmount;
 
     public Ingredient(String name, float amount) {
         this.amount = amount;
@@ -66,6 +70,15 @@ public class Ingredient {
         this.possibleUnits = possibleUnits;
     }
 
+
+    public String getNameWithAmount() {
+        return nameWithAmount;
+    }
+
+    public void setNameWithAmount(String nameWithAmount) {
+        this.nameWithAmount = nameWithAmount;
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
@@ -75,6 +88,7 @@ public class Ingredient {
                 ", unitShort='" + unitShort + '\'' +
                 ", name='" + name + '\'' +
                 ", possibleUnits=" + possibleUnits +
+                ", nameWithAmount='" + nameWithAmount + '\'' +
                 '}';
     }
 }

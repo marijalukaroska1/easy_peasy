@@ -1,6 +1,7 @@
 package com.example.easypeasy.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
+import com.example.easypeasy.activities.RecipeInformationActivity;
 import com.example.easypeasy.models.Recipe;
 
 import java.util.List;
@@ -44,6 +46,12 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(v -> {
+            Log.d(TAG, "Clicked on recipe: " + recipesList.get(position).getTitle() + " id: " + recipesList.get(position).getId());
+            Intent intent = new Intent(context, RecipeInformationActivity.class);
+            intent.putExtra("recipeId", recipesList.get(position).getId());
+            context.startActivity(intent);
+        });
         holder.textView.setText(recipesList.get(position).getTitle());
         Glide.with(context)
                 .load(recipesList.get(position).getImage())
