@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +64,12 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
 
     @Override
     public void displayRecipeInformation(RecipeInformationResponse recipeInformationResponse, RecipeInformationUsedIngredientsAdapter adapter) {
+        recipeImageView.setVisibility(View.VISIBLE);
+        recipeTitleTextView.setVisibility(View.VISIBLE);
+        readyInMinutesTextView.setVisibility(View.VISIBLE);
+        servingsTextView.setVisibility(View.VISIBLE);
+        usedIngredientsRecyclerView.setVisibility(View.VISIBLE);
+
         String readyInMinutesText = getString(R.string.ready_in_minutes);
         readyInMinutesText = readyInMinutesText.replace(Constants.REGEX_X, String.valueOf(recipeInformationResponse.getReadyInMinutes()));
         readyInMinutesTextView.setText(readyInMinutesText);

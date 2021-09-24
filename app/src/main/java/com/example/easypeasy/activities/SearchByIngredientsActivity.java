@@ -105,6 +105,8 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
             Toast.makeText(this, R.string.insert_ingredient_name, Toast.LENGTH_SHORT).show();
         } else if (ingredient.getAmount() == 0) {
             Toast.makeText(this, R.string.insert_quantity, Toast.LENGTH_SHORT).show();
+        } else if (ingredient.getUnit().isEmpty()) {
+            Toast.makeText(this, R.string.insert_ingredient_unit, Toast.LENGTH_SHORT).show();
         } else {
             ingredientList.add(new Ingredient());
             //this is to remove the insert image field from the previous item

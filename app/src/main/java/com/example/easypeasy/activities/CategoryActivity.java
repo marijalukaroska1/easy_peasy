@@ -40,7 +40,7 @@ public class CategoryActivity extends Activity {
         continueButton.setOnClickListener(router);
         categories.add(new Category("ingredients", false));
         categories.add(new Category("nutrients", false));
-        categories.add(new Category("cuisine", false));
+        //categories.add(new Category("cuisine", false));
 
         recyclerView = findViewById(R.id.recyclerViewId);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.example.easypeasy.activities.CategoryActivity;
 import com.example.easypeasy.activities.SearchByIngredientsActivity;
-import com.example.easypeasy.activities.SearchByCuisineActivity;
 import com.example.easypeasy.activities.SearchByNutrientsActivity;
 import com.example.easypeasy.events.CategoryItemClickListener;
 
@@ -32,11 +31,12 @@ public class SearchCategoryRouter implements SearchCategoryRouterInput, View.OnC
         Log.d(TAG, "marija category: " + category);
         if (category.equals("ingredients")) {
             return new Intent(activity.get(), SearchByIngredientsActivity.class);
-        } else if (category.equals("nutrients")) {
-            return new Intent(activity.get(), SearchByNutrientsActivity.class);
         } else {
-            return new Intent(activity.get(), SearchByCuisineActivity.class);
+            return new Intent(activity.get(), SearchByNutrientsActivity.class);
         }
+//        } else {
+//            return new Intent(activity.get(), SearchByCuisineActivity.class);
+//        }
     }
 
     @Override
