@@ -30,7 +30,7 @@
         android:focusableInTouchMode="true"
         android:isScrollContainer="true"
         android:scrollbars="vertical"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecipes"
@@ -41,7 +41,21 @@
         android:focusableInTouchMode="true"
         android:isScrollContainer="true"
         android:scrollbars="vertical"
-        android:visibility="invisible" />
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/noRecipesFoundId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomLayoutId"
+        android:layout_below="@+id/topLayout"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:text="@string/no_recipes_were_found"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
 
     <LinearLayout
         android:id="@+id/bottomLayoutId"

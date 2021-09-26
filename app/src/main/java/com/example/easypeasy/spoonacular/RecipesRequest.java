@@ -3,12 +3,13 @@ package com.example.easypeasy.spoonacular;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.easypeasy.Constants;
 import com.example.easypeasy.RecipesInteractorInput;
 import com.example.easypeasy.RecipesPresenterInput;
-import com.example.easypeasy.Utils;
 import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.Nutrient;
 import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.utils.Constants;
+import com.example.easypeasy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,9 +52,16 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
         call.enqueue(this);
     }
 
-    public void getRecipesByNutrients(String nutrients) {
-        map.put("nutrients", nutrients);
+    public void getRecipesByNutrients(List<Nutrient> nutrientList, RecipesPresenterInput output, RecipesInteractorInput interactor) {
+        Log.d(TAG, "getNutrientsSearchMetaData is called");
+        this.output = output;
+        this.interactor = interactor;
+
         map.put("apiKey", Constants.API_KEY);
+
+        for (Nutrient nutrient : nutrientList) {
+            map.put(nutrient.getName(), String.valueOf(nutrient.getAmount()));
+        }
 
         Call<List<Recipe>> call = spoonacularApi.queryRecipesByNutrients(map);
         call.enqueue(this);
@@ -63,11 +71,14 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
     public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
         Log.d(TAG, "onResponse: " + response.isSuccessful());
         if (response.isSuccessful()) {
-            Log.d(TAG, "onResponse successful: " + response.message());
+            Log.d(TAG, "onResponse successful: " + response.body());
             List<Recipe> recipes = response.body();
             recipes.forEach(recipe -> Log.d(TAG, "onResponse successful: " + recipe));
-            filterRecipesByIngredientsAmount(recipes);
-            //output.presentRecipesData(filteredRecipes, context);
+            if (isSearchByIngredients) {
+                filterRecipesByIngredientsAmount(recipes);
+            } else {
+                output.presentRecipesData(recipes, context);
+            }
         } else {
             Log.d(TAG, "onResponse error: " + response.code());
         }

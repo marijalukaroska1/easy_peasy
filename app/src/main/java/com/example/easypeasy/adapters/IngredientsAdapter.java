@@ -23,27 +23,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.activities.SearchByIngredientsActivity;
-import com.example.easypeasy.events.InsertIngredientFieldListener;
+import com.example.easypeasy.events.FieldChangeListener;
 import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
 
 import java.util.List;
 
-import static com.example.easypeasy.Constants.PAYLOAD_INSERT_INGREDIENT_FIELD;
-import static com.example.easypeasy.Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS;
+import static com.example.easypeasy.utils.Constants.PAYLOAD_INSERT_INGREDIENT_FIELD;
+import static com.example.easypeasy.utils.Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
 
     private static final String TAG = "IngredientsAdapter";
     List<Ingredient> ingredientList;
-    InsertIngredientFieldListener insertIngredientFieldListener;
+    FieldChangeListener fieldChangeListener;
     UnitsSpinnerClickListener unitsSpinnerClickListener;
     Activity activity;
     String[] ingredientPossibleUnits = new String[0];
 
-    public IngredientsAdapter(List<Ingredient> ingredientList, InsertIngredientFieldListener insertIngredientFieldListener, UnitsSpinnerClickListener unitsSpinnerClickListener, Activity activity) {
+    public IngredientsAdapter(List<Ingredient> ingredientList, FieldChangeListener fieldChangeListener, UnitsSpinnerClickListener unitsSpinnerClickListener, Activity activity) {
         this.ingredientList = ingredientList;
-        this.insertIngredientFieldListener = insertIngredientFieldListener;
+        this.fieldChangeListener = fieldChangeListener;
         this.unitsSpinnerClickListener = unitsSpinnerClickListener;
         this.activity = activity;
     }
@@ -171,7 +171,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
                 for (Ingredient in : ingredientList) {
                     Log.d(TAG, "ingredient: " + in.toString());
                 }
-                insertIngredientFieldListener.insertItemFieldAndNotify(ingredient);
+                fieldChangeListener.insertItemFieldAndNotify(ingredient);
             });
         }
     }
@@ -187,7 +187,6 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         SearchView insertIngredientName;
         EditText insertIngredientQuantity;
         ImageView insertIngredientField;

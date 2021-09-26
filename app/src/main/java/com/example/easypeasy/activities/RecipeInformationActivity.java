@@ -17,7 +17,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.easypeasy.Constants;
+import com.example.easypeasy.utils.Constants;
 import com.example.easypeasy.R;
 import com.example.easypeasy.RecipeInformationInteractorInput;
 import com.example.easypeasy.adapters.RecipeInformationUsedIngredientsAdapter;
@@ -44,7 +44,7 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
 
     private void handleIntent() {
         recipeId = getIntent().getLongExtra("recipeId", 0L);
-        Log.d(TAG, "fetchRecipeInformationMetaData is called");
+        Log.d(TAG, "fetchRecipeInformationMetaData is called with recipeId: " + recipeId);
         fetchRecipeInformationMetaData();
     }
 

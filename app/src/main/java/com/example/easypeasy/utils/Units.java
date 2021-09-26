@@ -1,4 +1,4 @@
-package com.example.easypeasy;
+package com.example.easypeasy.utils;
 
 public enum Units {
 

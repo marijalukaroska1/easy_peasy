@@ -1,4 +1,4 @@
-package com.example.easypeasy;
+package com.example.easypeasy.utils;
 
 import android.app.Activity;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.Nutrient;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -55,5 +56,22 @@ public class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static String[] getPossibleNutrients(List<Nutrient> alreadyAddedNutrients) {
+        List<Nutrients> nutrientList = new ArrayList<Nutrients>(EnumSet.allOf(Nutrients.class));
+        List<Nutrients> filteredNutrientList = new ArrayList<>(nutrientList);
+        for (Nutrients possibleNutrient : nutrientList) {
+            for (Nutrient addedNutrient : alreadyAddedNutrients) {
+                if (possibleNutrient.getNutrient().equalsIgnoreCase(addedNutrient.getName())) {
+                    filteredNutrientList.remove(possibleNutrient);
+                }
+            }
+        }
+        String[] nutrients = new String[filteredNutrientList.size()];
+        for (int i = 0; i < filteredNutrientList.size(); i++) {
+            nutrients[i] = filteredNutrientList.get(i).getNutrient();
+        }
+        return nutrients;
     }
 }

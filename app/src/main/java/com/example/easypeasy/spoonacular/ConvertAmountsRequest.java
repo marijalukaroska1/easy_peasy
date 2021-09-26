@@ -3,7 +3,7 @@ package com.example.easypeasy.spoonacular;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.easypeasy.Constants;
+import com.example.easypeasy.utils.Constants;
 import com.example.easypeasy.RecipesPresenterInput;
 import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Recipe;

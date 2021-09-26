@@ -13,7 +13,6 @@ import java.lang.ref.WeakReference;
 
 interface SearchCategoryRouterInput {
     Intent determineNextScreen(int position);
-
     void passDataToNextScene(int position, Intent intent);
 }
 
@@ -34,9 +33,6 @@ public class SearchCategoryRouter implements SearchCategoryRouterInput, View.OnC
         } else {
             return new Intent(activity.get(), SearchByNutrientsActivity.class);
         }
-//        } else {
-//            return new Intent(activity.get(), SearchByCuisineActivity.class);
-//        }
     }
 
     @Override

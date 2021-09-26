@@ -33,16 +33,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_categories_item, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        viewHolder.button.setOnClickListener(v -> {
-            clearSelectedCategory();
-            categoriesList.get(viewHolder.getAdapterPosition()).setSelected(true);
-            notifyDataSetChanged();
-        });
-
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     private void clearSelectedCategory() {
@@ -55,6 +46,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.button.setText(categoriesList.get(position).getName());
         holder.button.setChecked(categoriesList.get(position).isSelected());
+
+        holder.button.setOnClickListener(v -> {
+            clearSelectedCategory();
+            categoriesList.get(position).setSelected(true);
+            notifyDataSetChanged();
+            categoryItemClickListener.onItemClick(position);
+        });
+
     }
 
     @Override

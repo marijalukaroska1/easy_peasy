@@ -2,7 +2,7 @@ package com.example.easypeasy.spoonacular;
 
 import android.util.Log;
 
-import com.example.easypeasy.Constants;
+import com.example.easypeasy.utils.Constants;
 import com.example.easypeasy.RecipesPresenterInput;
 import com.example.easypeasy.models.Ingredient;
 

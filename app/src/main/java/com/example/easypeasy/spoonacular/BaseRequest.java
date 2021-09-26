@@ -1,6 +1,6 @@
 package com.example.easypeasy.spoonacular;
 
-import com.example.easypeasy.Constants;
+import com.example.easypeasy.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

@@ -11,24 +11,24 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easypeasy.Constants;
 import com.example.easypeasy.R;
-import com.example.easypeasy.Utils;
 import com.example.easypeasy.adapters.IngredientsAdapter;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.configurators.Configurator;
-import com.example.easypeasy.events.InsertIngredientFieldListener;
+import com.example.easypeasy.events.FieldChangeListener;
 import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
+import com.example.easypeasy.utils.Constants;
+import com.example.easypeasy.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.easypeasy.Utils.getIngredientsUserInput;
+import static com.example.easypeasy.utils.Utils.getIngredientsUserInput;
 
-public class SearchByIngredientsActivity extends BaseSearchActivity implements InsertIngredientFieldListener, UnitsSpinnerClickListener, IngredientFetchDataListener {
+public class SearchByIngredientsActivity extends BaseSearchActivity implements FieldChangeListener, UnitsSpinnerClickListener, IngredientFetchDataListener {
 
     private static final String TAG = SearchByIngredientsActivity.class.getSimpleName();
     RecyclerView recyclerViewIngredients, recyclerViewRecipes;
@@ -74,31 +74,38 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
         recyclerViewIngredients.setLayoutManager(linearLayoutManager);
         ingredientsAdapter = new IngredientsAdapter(ingredientList, this, this, SearchByIngredientsActivity.this);
         recyclerViewIngredients.setAdapter(ingredientsAdapter);
-
     }
 
     public void fetchMetaData() {
         RecipesRequest recipesRequest = new RecipesRequest(this);
         recipesRequest.isSearchByIngredients = true;
-        output.fetchRecipesData(recipesRequest, ingredientList);
+        output.fetchRecipesData(recipesRequest, ingredientList, null);
     }
 
 
     @Override
     public void displayRecipesMetaData(RecipesAdapter recipesAdapter) {
+        Log.d(TAG, "recipesAdapter: " + recipesAdapter.getItemCount());
         Utils.hideKeyboard(this);
         searchButton.setVisibility(View.GONE);
+        findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
         recyclerViewIngredients.setVisibility(View.GONE);
-        recyclerViewRecipes.setVisibility(View.VISIBLE);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        linearLayoutManager.setItemPrefetchEnabled(false);
-        recyclerViewRecipes.setLayoutManager(linearLayoutManager);
-        recyclerViewRecipes.setAdapter(recipesAdapter);
+        if (recipesAdapter.getItemCount() == 0) {
+            findViewById(R.id.noRecipesFoundId).setVisibility(View.VISIBLE);
+            recyclerViewRecipes.setVisibility(View.GONE);
+        } else {
+            recyclerViewRecipes.setVisibility(View.VISIBLE);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            linearLayoutManager.setItemPrefetchEnabled(false);
+            recyclerViewRecipes.setLayoutManager(linearLayoutManager);
+            recyclerViewRecipes.setAdapter(recipesAdapter);
+        }
     }
 
     @Override
-    public void insertItemFieldAndNotify(Ingredient ingredient) {
+    public void insertItemFieldAndNotify(Object newItem) {
+        Ingredient ingredient = (Ingredient) newItem;
         if (getNumberOfInsertedIngredients() >= 10) {
             Toast.makeText(SearchByIngredientsActivity.this, R.string.message_maximum_ingredients, Toast.LENGTH_LONG).show();
         } else if (ingredient.getName().isEmpty()) {
@@ -114,6 +121,11 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
             ingredientsAdapter.notifyItemInserted(ingredientList.size() - 1);
             recyclerViewIngredients.scrollToPosition(ingredientList.size() - 1);
         }
+    }
+
+    @Override
+    public void removeItemFieldAndNotify(Object field) {
+
     }
 
     @Override
@@ -156,7 +168,6 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements I
 
 
     class SearchButtonClickListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             if (getNumberOfInsertedIngredients() < 3) {

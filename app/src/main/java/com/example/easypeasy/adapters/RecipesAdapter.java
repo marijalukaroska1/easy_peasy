@@ -32,6 +32,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
     Context context;
 
     public RecipesAdapter(List<Recipe> recipesList, Context context) {
+        Log.d(TAG, "recipesList: " + recipesList.size());
         this.recipesList = recipesList;
         this.context = context;
     }
@@ -52,7 +53,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
             intent.putExtra("recipeId", recipesList.get(position).getId());
             context.startActivity(intent);
         });
-        holder.textView.setText(recipesList.get(position).getTitle());
+        holder.recipeTitleTextView.setText(recipesList.get(position).getTitle());
         Glide.with(context)
                 .load(recipesList.get(position).getImage())
                 .error(R.mipmap.ic_launcher)
@@ -81,13 +82,14 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        TextView recipeTitleTextView, noRecipesFoundTextView;
         ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.recipeText);
+            recipeTitleTextView = itemView.findViewById(R.id.recipeText);
             imageView = itemView.findViewById(R.id.recipeImage);
+            noRecipesFoundTextView = itemView.findViewById(R.id.noRecipesFoundId);
         }
     }
 }

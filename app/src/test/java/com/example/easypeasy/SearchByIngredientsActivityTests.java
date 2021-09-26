@@ -11,6 +11,7 @@ import com.example.easypeasy.activities.SearchInput;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.Nutrient;
 import com.example.easypeasy.models.Recipe;
 import com.example.easypeasy.models.RecipeInformationResponse;
 import com.example.easypeasy.models.SearchIngredientsResponse;
@@ -19,6 +20,7 @@ import com.example.easypeasy.spoonacular.IngredientRequest;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
 import com.example.easypeasy.spoonacular.SpoonacularRecipesApi;
+import com.example.easypeasy.utils.Utils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +73,7 @@ public class SearchByIngredientsActivityTests {
         recipesInteractor.output = new RecipesPresenterSpy();
         SpoonacularAPISpy spoonacularAPISpy = new SpoonacularAPISpy();
         recipesRequest.spoonacularApi = spoonacularAPISpy;
-        recipesInteractor.fetchRecipesData(recipesRequest, new ArrayList<>());
+        recipesInteractor.fetchRecipesData(recipesRequest, new ArrayList<>(), null);
 
         assertTrue(spoonacularAPISpy.isQueryRecipesByIngredientsCalled);
     }
@@ -189,7 +191,7 @@ public class SearchByIngredientsActivityTests {
         ConvertAmountsRequest convertAmountsRequestCopy;
 
         @Override
-        public void fetchRecipesData(RecipesRequest request, List<Ingredient> inputIngredientsList) {
+        public void fetchRecipesData(RecipesRequest request, List<Ingredient> inputIngredientsList, List<Nutrient> nutrientList) {
             fetchRecipesMetaDataIsCalled = true;
             recipesRequestCopy = request;
         }

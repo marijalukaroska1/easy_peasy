@@ -1,6 +1,7 @@
 package com.example.easypeasy;
 
 import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.Nutrient;
 import com.example.easypeasy.models.Recipe;
 import com.example.easypeasy.spoonacular.ConvertAmountsRequest;
 import com.example.easypeasy.spoonacular.IngredientRequest;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface RecipesInteractorInput {
-    void fetchRecipesData(RecipesRequest request, List<Ingredient> ingredientList);
+    void fetchRecipesData(RecipesRequest request, List<Ingredient> ingredientList, List<Nutrient> nutrientList);
     void fetchIngredientData(IngredientRequest request, long ingredientId);
     void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName);
     void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float inputIngredientAmount, String inputIngredientUnit, Map<String, String> responseIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe);

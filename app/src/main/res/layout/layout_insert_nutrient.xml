@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/insertIngredientLayoutId"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/nutrientAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="0.15"
+        android:enabled="false"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/nutrientName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="0.15"
+        android:importantForAutofill="no"
+        android:textAlignment="center"
+        android:visibility="invisible" />
+
+    <Spinner
+        android:id="@+id/nutrientsSpinnerId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.4"
+        android:gravity="start"
+        android:isScrollContainer="true"
+        android:pointerIcon="arrow"
+        android:prompt="@string/app_label"
+        android:textAlignment="viewStart"
+        android:visibility="invisible" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/addNewNutrientFieldId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.2"
+        android:src="@mipmap/ic_insert"
+        android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/removeNutrientFieldId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.2"
+        android:src="@mipmap/ic_remove"
+        android:visibility="gone" />
+</LinearLayout>
