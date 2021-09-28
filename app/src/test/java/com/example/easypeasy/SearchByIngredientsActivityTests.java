@@ -35,7 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
 import okhttp3.Request;
+import okio.Timeout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -206,11 +210,6 @@ public class SearchByIngredientsActivityTests {
         public void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName) {
             searchIngredientsRequestCopy = request;
         }
-
-        @Override
-        public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float sourceAmount, String sourceUnit, Map<String, String> responseIngredientData, List<Recipe> recipes, Recipe currentRecipe) {
-            convertAmountsRequestCopy = request;
-        }
     }
 
 
@@ -238,10 +237,6 @@ public class SearchByIngredientsActivityTests {
 
         }
 
-        @Override
-        public void convertAmountResponse() {
-
-        }
     }
 
     public static class SearchActivityInputSpy implements SearchInput {
@@ -309,6 +304,11 @@ public class SearchByIngredientsActivityTests {
                 public Request request() {
                     return null;
                 }
+
+                @Override
+                public Timeout timeout() {
+                    return null;
+                }
             };
         }
 
@@ -350,6 +350,11 @@ public class SearchByIngredientsActivityTests {
                 public Request request() {
                     return null;
                 }
+
+                @Override
+                public Timeout timeout() {
+                    return null;
+                }
             };
         }
 
@@ -389,6 +394,11 @@ public class SearchByIngredientsActivityTests {
 
                 @Override
                 public Request request() {
+                    return null;
+                }
+
+                @Override
+                public Timeout timeout() {
                     return null;
                 }
             };
@@ -433,47 +443,23 @@ public class SearchByIngredientsActivityTests {
                 public Request request() {
                     return null;
                 }
+
+                @Override
+                public Timeout timeout() {
+                    return null;
+                }
             };
         }
 
         @Override
-        public Call<ConvertAmountsResponse> convertAmountAndUnit(Map<String, String> options) {
+        public Observable<ConvertAmountsResponse> convertAmountAndUnit(Map<String, String> options) {
             isConvertAmountCalled = true;
-            return new Call<ConvertAmountsResponse>() {
+            return new Observable<ConvertAmountsResponse>() {
                 @Override
-                public Response<ConvertAmountsResponse> execute() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public void enqueue(Callback<ConvertAmountsResponse> callback) {
+                protected void subscribeActual(@NonNull Observer<? super ConvertAmountsResponse> observer) {
 
                 }
 
-                @Override
-                public boolean isExecuted() {
-                    return false;
-                }
-
-                @Override
-                public void cancel() {
-
-                }
-
-                @Override
-                public boolean isCanceled() {
-                    return false;
-                }
-
-                @Override
-                public Call<ConvertAmountsResponse> clone() {
-                    return null;
-                }
-
-                @Override
-                public Request request() {
-                    return null;
-                }
             };
         }
 
@@ -513,6 +499,11 @@ public class SearchByIngredientsActivityTests {
 
                 @Override
                 public Request request() {
+                    return null;
+                }
+
+                @Override
+                public Timeout timeout() {
                     return null;
                 }
             };

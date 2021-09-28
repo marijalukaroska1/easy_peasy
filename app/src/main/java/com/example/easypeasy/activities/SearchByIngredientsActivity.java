@@ -16,7 +16,7 @@ import com.example.easypeasy.adapters.IngredientsAdapter;
 import com.example.easypeasy.adapters.RecipesAdapter;
 import com.example.easypeasy.configurators.Configurator;
 import com.example.easypeasy.events.FieldChangeListener;
-import com.example.easypeasy.events.UnitsSpinnerClickListener;
+import com.example.easypeasy.events.IngredientFetchDataListener;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.spoonacular.RecipesRequest;
 import com.example.easypeasy.spoonacular.SearchIngredientsRequest;
@@ -28,7 +28,7 @@ import java.util.List;
 
 import static com.example.easypeasy.utils.Utils.getIngredientsUserInput;
 
-public class SearchByIngredientsActivity extends BaseSearchActivity implements FieldChangeListener, UnitsSpinnerClickListener, IngredientFetchDataListener {
+public class SearchByIngredientsActivity extends BaseSearchActivity implements FieldChangeListener, IngredientFetchDataListener {
 
     private static final String TAG = SearchByIngredientsActivity.class.getSimpleName();
     RecyclerView recyclerViewIngredients, recyclerViewRecipes;
@@ -72,7 +72,7 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements F
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerViewIngredients.setLayoutManager(linearLayoutManager);
-        ingredientsAdapter = new IngredientsAdapter(ingredientList, this, this, SearchByIngredientsActivity.this);
+        ingredientsAdapter = new IngredientsAdapter(ingredientList, this, SearchByIngredientsActivity.this);
         recyclerViewIngredients.setAdapter(ingredientsAdapter);
     }
 
@@ -126,10 +126,6 @@ public class SearchByIngredientsActivity extends BaseSearchActivity implements F
     @Override
     public void removeItemFieldAndNotify(Object field) {
 
-    }
-
-    @Override
-    public void unitsSpinnerClick(Ingredient ingredient) {
     }
 
     @Override

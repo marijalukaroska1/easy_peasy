@@ -12,7 +12,7 @@ public class RecipeInformationPresenter implements RecipeInformationPresenterInp
     public WeakReference<RecipeInformationInput> output;
 
     @Override
-    public void presentRecipeInformation(RecipeInformationResponse recipeInformationResponse) {
+    public void presentRecipeInformationData(RecipeInformationResponse recipeInformationResponse) {
         RecipeInformationUsedIngredientsAdapter recipeInformationUsedIngredientsAdapter = new RecipeInformationUsedIngredientsAdapter(recipeInformationResponse.getUsedIngredients());
         output.get().displayRecipeInformation(recipeInformationResponse, recipeInformationUsedIngredientsAdapter);
     }

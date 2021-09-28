@@ -42,7 +42,7 @@ public class RecipeInformationRequest extends BaseRequest implements Callback<Re
     public void onResponse(Call<RecipeInformationResponse> call, Response<RecipeInformationResponse> response) {
         Log.d(TAG, "onResponse: " + response.body());
         if (response.isSuccessful()) {
-            output.presentRecipeInformation(response.body());
+            output.presentRecipeInformationData(response.body());
         }
 
     }

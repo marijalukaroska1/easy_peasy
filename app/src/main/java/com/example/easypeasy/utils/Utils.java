@@ -35,6 +35,9 @@ public class Utils {
             quantityMap.put("unit", ingredient.getUnit());
             ingredientsMap.put(ingredient.getName(), quantityMap);
         }
+
+
+        Log.d(TAG, "ingredientsMap: " + ingredientsMap.values());
         return ingredientsMap;
     }
 

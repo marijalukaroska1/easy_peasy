@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easypeasy.R;
 import com.example.easypeasy.activities.SearchByIngredientsActivity;
 import com.example.easypeasy.events.FieldChangeListener;
-import com.example.easypeasy.events.UnitsSpinnerClickListener;
 import com.example.easypeasy.models.Ingredient;
 
 import java.util.List;
@@ -37,14 +36,12 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     private static final String TAG = "IngredientsAdapter";
     List<Ingredient> ingredientList;
     FieldChangeListener fieldChangeListener;
-    UnitsSpinnerClickListener unitsSpinnerClickListener;
     Activity activity;
     String[] ingredientPossibleUnits = new String[0];
 
-    public IngredientsAdapter(List<Ingredient> ingredientList, FieldChangeListener fieldChangeListener, UnitsSpinnerClickListener unitsSpinnerClickListener, Activity activity) {
+    public IngredientsAdapter(List<Ingredient> ingredientList, FieldChangeListener fieldChangeListener, Activity activity) {
         this.ingredientList = ingredientList;
         this.fieldChangeListener = fieldChangeListener;
-        this.unitsSpinnerClickListener = unitsSpinnerClickListener;
         this.activity = activity;
     }
 

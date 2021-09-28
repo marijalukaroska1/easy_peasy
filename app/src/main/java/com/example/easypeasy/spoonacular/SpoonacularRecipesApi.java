@@ -9,6 +9,7 @@ import com.example.easypeasy.models.SearchIngredientsResponse;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -29,7 +30,7 @@ public interface SpoonacularRecipesApi {
     Call<SearchIngredientsResponse> searchIngredients(@QueryMap Map<String, String> options);
 
     @GET("recipes/convert")
-    Call<ConvertAmountsResponse> convertAmountAndUnit(@QueryMap Map<String, String> options);
+    Observable<ConvertAmountsResponse> convertAmountAndUnit(@QueryMap Map<String, String> options);
 
     @GET("recipes/{id}/information")
     Call<RecipeInformationResponse> queryRecipeInformation(@Path("id") long id, @QueryMap Map<String, String> options);

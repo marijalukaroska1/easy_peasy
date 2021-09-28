@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface RecipesPresenterInput {
     void presentRecipesData(List<Recipe> recipeList, Context context);
+
     void presentIngredientData(Ingredient ingredient);
+
     void presentIngredients(List<Ingredient> ingredientList);
-    void convertAmountResponse();
 }

@@ -6,6 +6,15 @@ public class ConvertAmountsResponse {
     String sourceUnit;
     float targetAmount;
     String targetUnit;
+    Recipe recipe;
+
+
+    public ConvertAmountsResponse(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public ConvertAmountsResponse() {
+    }
 
     public float getSourceAmount() {
         return sourceAmount;
@@ -39,13 +48,22 @@ public class ConvertAmountsResponse {
         this.targetUnit = targetUnit;
     }
 
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
     @Override
     public String toString() {
-        return "ConvertAmountAndUnitResponse{" +
+        return "ConvertAmountsResponse{" +
                 "sourceAmount=" + sourceAmount +
                 ", sourceUnit='" + sourceUnit + '\'' +
                 ", targetAmount=" + targetAmount +
                 ", targetUnit='" + targetUnit + '\'' +
+                ", recipe='" + recipe + '\'' +
                 '}';
     }
 }

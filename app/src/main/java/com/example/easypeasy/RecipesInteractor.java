@@ -18,9 +18,9 @@ public class RecipesInteractor implements RecipesInteractorInput {
     @Override
     public void fetchRecipesData(RecipesRequest request, List<Ingredient> ingredientList, List<Nutrient> nutrientList) {
         if (request.isSearchByIngredients) {
-            request.getRecipesByIngredients(ingredientList, output, this);
+            request.getRecipesByIngredients(ingredientList, output);
         } else {
-            request.getRecipesByNutrients(nutrientList, output, this);
+            request.getRecipesByNutrients(nutrientList, output);
         }
     }
 
@@ -32,10 +32,5 @@ public class RecipesInteractor implements RecipesInteractorInput {
     @Override
     public void fetchIngredientsSearchData(SearchIngredientsRequest request, String ingredientName) {
         request.getIngredientsSearchMetaData(output, this, ingredientName);
-    }
-
-    @Override
-    public void convertAmountsAndUnitsRequest(ConvertAmountsRequest request, String ingredientName, Float responseIngredientAmount, String responseIngredientUnit, Map<String, String> inputIngredientData, List<Recipe> filteredRecipes, Recipe currentRecipe) {
-        request.getConvertedAmountAndUnit(output, ingredientName, responseIngredientAmount, responseIngredientUnit, inputIngredientData, filteredRecipes, currentRecipe);
     }
 }
