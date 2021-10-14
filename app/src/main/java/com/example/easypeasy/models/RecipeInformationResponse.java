@@ -15,6 +15,7 @@ public class RecipeInformationResponse {
     String summary;
     @SerializedName("extendedIngredients")
     List<Ingredient> usedIngredients;
+    String sourceUrl;
 
     public long getId() {
         return id;
@@ -72,6 +73,14 @@ public class RecipeInformationResponse {
         this.usedIngredients = usedIngredients;
     }
 
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
     @Override
     public String toString() {
         return "RecipeInformationResponse{" +
@@ -82,6 +91,7 @@ public class RecipeInformationResponse {
                 ", readyInMinutes=" + readyInMinutes +
                 ", summary='" + summary + '\'' +
                 ", usedIngredients=" + usedIngredients +
+                ", sourceUrl='" + sourceUrl + '\'' +
                 '}';
     }
 }

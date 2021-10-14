@@ -1,8 +1,12 @@
 package com.example.easypeasy.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +35,7 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
     public RecipeInformationInteractorInput output;
     long recipeId = 0L;
     ImageView recipeImageView;
-    TextView recipeTitleTextView, readyInMinutesTextView, servingsTextView;
+    TextView recipeTitleTextView, readyInMinutesTextView, servingsTextView, ingredientSourceUrlTextView;
     RecyclerView usedIngredientsRecyclerView;
 
     @Override
@@ -55,6 +59,7 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
         readyInMinutesTextView = findViewById(R.id.readyInMinutesId);
         servingsTextView = findViewById(R.id.servingsId);
         usedIngredientsRecyclerView = findViewById(R.id.ingredientsRecyclerView);
+        ingredientSourceUrlTextView = findViewById(R.id.sourceUrlTextView);
     }
 
     void fetchRecipeInformationMetaData() {
@@ -69,6 +74,7 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
         readyInMinutesTextView.setVisibility(View.VISIBLE);
         servingsTextView.setVisibility(View.VISIBLE);
         usedIngredientsRecyclerView.setVisibility(View.VISIBLE);
+        ingredientSourceUrlTextView.setVisibility(View.VISIBLE);
 
         String readyInMinutesText = getString(R.string.ready_in_minutes);
         readyInMinutesText = readyInMinutesText.replace(Constants.REGEX_X, String.valueOf(recipeInformationResponse.getReadyInMinutes()));
@@ -79,6 +85,16 @@ public class RecipeInformationActivity extends Activity implements RecipeInforma
         servingsTextView.setText(servingsText);
 
         recipeTitleTextView.setText(recipeInformationResponse.getTitle());
+        Log.d(TAG, "recipe source url: " + recipeInformationResponse.getSourceUrl());
+
+        ingredientSourceUrlTextView.setText(Html.fromHtml("<a href=\"" + recipeInformationResponse.getSourceUrl() + "\">Click for Recipe Source</a> "));
+
+        ingredientSourceUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        ingredientSourceUrlTextView.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+            browserIntent.setData(Uri.parse(recipeInformationResponse.getSourceUrl()));
+            startActivity(browserIntent);
+        });
 
         Glide.with(this)
                 .load(recipeInformationResponse.getImageUrl())
