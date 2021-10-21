@@ -6,9 +6,8 @@ import android.widget.Button;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import com.example.easypeasy.activities.SearchByIngredientsActivity;
-import com.example.easypeasy.activities.SearchInput;
-import com.example.easypeasy.adapters.RecipesAdapter;
+import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.common.SearchInput;
 import com.example.easypeasy.models.ConvertAmountsResponse;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Nutrient;
@@ -126,14 +125,14 @@ public class SearchByIngredientsActivityTests {
         SearchByIngredientsActivity searchByIngredientsActivity = Robolectric.buildActivity(SearchByIngredientsActivity.class).create().get();
 
         for (int i = 0; i <= 10; i++) {
-            searchByIngredientsActivity.ingredientList.add(new Ingredient());
+            searchByIngredientsActivity.mViewMvc.getIngredientList().add(new Ingredient());
         }
 
         Button searchButton = searchByIngredientsActivity.findViewById(R.id.searchButtonId);
         assertNotNull(searchButton);
         searchButton.performClick();
 
-        searchByIngredientsActivity.insertItemFieldAndNotify(new Ingredient());
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient());
 
         assertEquals(ApplicationProvider.getApplicationContext().getResources().getString(R.string.message_maximum_ingredients), ShadowToast.getTextOfLatestToast().toString());
     }
@@ -148,7 +147,7 @@ public class SearchByIngredientsActivityTests {
         searchByIngredientsActivity.output = outputSpy;
 
         for (int i = 0; i <= 4; i++) {
-            searchByIngredientsActivity.ingredientList.add(new Ingredient());
+            searchByIngredientsActivity.mViewMvc.getIngredientList().add(new Ingredient());
         }
 
         Button searchButton = searchByIngredientsActivity.findViewById(R.id.searchButtonId);
@@ -162,11 +161,10 @@ public class SearchByIngredientsActivityTests {
     public void test_getIngredientsUserInput_returnsStringContainingAllIngredientsSeparatedWithComma() {
         SearchByIngredientsActivity searchByIngredientsActivity = Robolectric.buildActivity(SearchByIngredientsActivity.class).create().get();
         List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("apple", 3));
-        ingredients.add(new Ingredient("milk", 100));
-        ingredients.add(new Ingredient("eggs", 5));
 
-        searchByIngredientsActivity.ingredientList = ingredients;
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("apple", 3));
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("milk", 100));
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("eggs", 5));
 
         String stringIngredients = Utils.getIngredientsUserInput(ingredients);
         assertTrue(stringIngredients.contains(ingredients.get(0).getName()));
@@ -240,15 +238,11 @@ public class SearchByIngredientsActivityTests {
     }
 
     public static class SearchActivityInputSpy implements SearchInput {
-
         boolean isDisplayRecipesMetaDataCalled = false;
-        RecipesAdapter recipesViewModelCopy;
-
 
         @Override
-        public void displayRecipesMetaData(RecipesAdapter object) {
+        public void displayRecipesMetaData(List<Recipe> recipeList) {
             isDisplayRecipesMetaDataCalled = true;
-            recipesViewModelCopy = object;
         }
 
         @Override

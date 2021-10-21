@@ -2,53 +2,51 @@ package com.example.easypeasy;
 
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 
-import com.example.easypeasy.activities.CategoryActivity;
-import com.example.easypeasy.activities.SearchByIngredientsActivity;
-import com.example.easypeasy.activities.SearchByNutrientsActivity;
-import com.example.easypeasy.events.CategoryItemClickListener;
+import com.example.easypeasy.models.Category;
+import com.example.easypeasy.screens.categoriesList.CategoryActivity;
+import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.searchByNutrientsList.SearchByNutrientsActivity;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 interface SearchCategoryRouterInput {
-    Intent determineNextScreen(int position);
+    Intent determineNextScreen(List<Category> categoryList);
+
     void passDataToNextScreen(int position, Intent intent);
 }
 
-public class SearchCategoryRouter implements SearchCategoryRouterInput, View.OnClickListener, CategoryItemClickListener {
+public class SearchCategoryRouter implements SearchCategoryRouterInput {
 
     private static final String TAG = SearchCategoryRouter.class.getSimpleName();
     public WeakReference<CategoryActivity> activity;
-    private int chosenCategoryPosition;
 
 
     @Override
-    public Intent determineNextScreen(int position) {
+    public Intent determineNextScreen(List<Category> categoryList) {
         //Based on the position or some other data decide what is the next scene
-        String category = activity.get().getCategories().get(position).getName();
-        Log.d(TAG, "marija category: " + category);
-        if (category.equals("ingredients")) {
+        Log.d(TAG, "marija categoryList: " + categoryList);
+        Category chosenCategory = findChosenCategory(categoryList);
+        if (chosenCategory.getName().equals("ingredients")) {
             return new Intent(activity.get(), SearchByIngredientsActivity.class);
         } else {
             return new Intent(activity.get(), SearchByNutrientsActivity.class);
         }
     }
 
+    private Category findChosenCategory(List<Category> categoryList) {
+        Category chosenCategory = null;
+        for (Category category : categoryList) {
+            if (category.isSelected()) {
+                chosenCategory = category;
+            }
+        }
+        return chosenCategory;
+    }
+
     @Override
     public void passDataToNextScreen(int position, Intent intent) {
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        Log.d(TAG, "marija in onClick");
-        Intent intent = determineNextScreen(chosenCategoryPosition);
-        activity.get().startActivity(intent);
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        chosenCategoryPosition = position;
     }
 }

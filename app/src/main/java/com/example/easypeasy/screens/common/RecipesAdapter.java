@@ -1,4 +1,4 @@
-package com.example.easypeasy.adapters;
+package com.example.easypeasy.screens.common;
 
 import android.content.Context;
 import android.content.Intent;

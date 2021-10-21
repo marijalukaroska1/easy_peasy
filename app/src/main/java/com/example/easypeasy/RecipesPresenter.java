@@ -1,9 +1,9 @@
 package com.example.easypeasy;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.example.easypeasy.activities.SearchInput;
-import com.example.easypeasy.adapters.RecipesAdapter;
+import com.example.easypeasy.screens.common.SearchInput;
 import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Recipe;
 
@@ -18,8 +18,8 @@ public class RecipesPresenter implements RecipesPresenterInput {
 
     @Override
     public void presentRecipesData(List<Recipe> recipesResponse, Context context) {
-        RecipesAdapter recipesAdapter = new RecipesAdapter(recipesResponse, context);
-        output.get().displayRecipesMetaData(recipesAdapter);
+        Log.d(TAG, "in presentRecipesData");
+        output.get().displayRecipesMetaData(recipesResponse);
     }
 
     @Override

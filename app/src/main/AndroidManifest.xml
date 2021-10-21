@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".activities.SearchByIngredientsActivity"
+            android:name=".screens.searchByIngredientsList.SearchByIngredientsActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -25,16 +25,13 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".activities.SearchByNutrientsActivity"
+            android:name=".screens.searchByNutrientsList.SearchByNutrientsActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RecipeInformationActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.SearchByCuisineActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activities.CategoryActivity"
+            android:name=".screens.categoriesList.CategoryActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

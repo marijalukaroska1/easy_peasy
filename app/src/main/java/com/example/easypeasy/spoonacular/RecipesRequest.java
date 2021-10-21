@@ -70,12 +70,9 @@ public class RecipesRequest extends BaseRequest implements Callback<List<Recipe>
             List<Recipe> recipes = response.body();
             if (recipes != null && recipes.size() > 0) {
                 recipes.forEach(recipe -> Log.d(TAG, "onResponse successful: " + recipe));
-
                     RecipesManager recipesManager = new RecipesManager(context, output, isSearchByIngredients);
                     recipesManager.filterRecipes(recipes, inputIngredientList);
-               // } else {
                     output.presentRecipesData(recipes, context);
-              //  }
             }
         } else {
             Log.d(TAG, "onResponse error: " + response.code());

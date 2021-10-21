@@ -1,6 +1,6 @@
-package com.example.easypeasy.adapters;
+package com.example.easypeasy.screens.searchByNutrientsList;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.events.FieldChangeListener;
+import com.example.easypeasy.models.Ingredient;
 import com.example.easypeasy.models.Nutrient;
 import com.example.easypeasy.utils.Utils;
 
@@ -29,14 +29,19 @@ import static com.example.easypeasy.utils.Constants.PAYLOAD_INSERT_NUTRIENT_FIEL
 
 public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.ViewHolder> {
 
-    List<Nutrient> nutrientList;
-    Activity activity;
-    FieldChangeListener fieldChangeListener;
+    List<Nutrient> mNutrientList;
+    Context mContext;
+    Listener mListener;
 
-    public NutrientsAdapter(List<Nutrient> nutrientList, Activity activity, FieldChangeListener fieldChangeListener) {
-        this.nutrientList = nutrientList;
-        this.activity = activity;
-        this.fieldChangeListener = fieldChangeListener;
+    interface Listener {
+        void insertItemFieldAndNotify();
+        void removeItemFieldAndNotify(Nutrient nutrient);
+    }
+
+    public NutrientsAdapter(List<Nutrient> nutrientList, Context context, NutrientsAdapter.Listener listener) {
+        mNutrientList = nutrientList;
+        mContext = context;
+        mListener = listener;
     }
 
     @NonNull
@@ -66,7 +71,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull NutrientsAdapter.ViewHolder holder, int position) {
-        Nutrient nutrient = nutrientList.get(position);
+        Nutrient nutrient = mNutrientList.get(position);
 
         if (nutrient != null) {
             holder.nutrientAmount.setText(String.valueOf(nutrient.getAmount()));
@@ -88,9 +93,9 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
                 holder.nutrientAmount.setEnabled(true);
             }
 
-            Log.d(TAG, "marija: " + Arrays.toString(Utils.getPossibleNutrients(nutrientList)));
+            Log.d(TAG, "marija: " + Arrays.toString(Utils.getPossibleNutrients(mNutrientList)));
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, Utils.getPossibleNutrients(nutrientList));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, Utils.getPossibleNutrients(mNutrientList));
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.nutrientSpinner.setAdapter(adapter);
 
@@ -98,7 +103,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (checkIfNutrientIsAlreadyInserted(parent.getItemAtPosition(position).toString())) {
-                        Toast.makeText(activity, parent.getItemAtPosition(position).toString() + " nutrient is already added. Please choose another nutrient", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, parent.getItemAtPosition(position).toString() + " nutrient is already added. Please choose another nutrient", Toast.LENGTH_LONG).show();
                         holder.nutrientSpinner.setSelection(position + 1);
                     } else {
                         nutrient.setName(parent.getItemAtPosition(position).toString());
@@ -114,19 +119,20 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
             });
 
             holder.insertNutrientField.setOnClickListener(v -> {
-                for (Nutrient n : nutrientList) {
+                for (Nutrient n : mNutrientList) {
                     Log.d(TAG, "nutrient: " + n.toString());
                 }
-                fieldChangeListener.insertItemFieldAndNotify(nutrient);
+                mListener.insertItemFieldAndNotify();
             });
 
-            holder.removeNutrientField.setOnClickListener(v -> fieldChangeListener.removeItemFieldAndNotify(nutrient));
+            holder.removeNutrientField.setOnClickListener(v ->
+                    mListener.removeItemFieldAndNotify(nutrient));
         }
     }
 
     private boolean checkIfNutrientIsAlreadyInserted(String selectedNutrientFromSpinner) {
         boolean isNutrientAlreadyInserted = false;
-        for (Nutrient n : nutrientList) {
+        for (Nutrient n : mNutrientList) {
             if (selectedNutrientFromSpinner.equalsIgnoreCase(n.getName())) {
                 isNutrientAlreadyInserted = true;
                 break;
@@ -137,7 +143,7 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
 
     @Override
     public int getItemCount() {
-        return nutrientList.size();
+        return mNutrientList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
