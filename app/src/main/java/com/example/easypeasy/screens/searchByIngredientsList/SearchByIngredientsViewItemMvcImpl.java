@@ -36,7 +36,7 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
     List<Ingredient> mIngredientList;
     SearchableInfo mSearchableInfo;
 
-    public SearchByIngredientsViewItemMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, List<Ingredient> ingredients) {
+    public SearchByIngredientsViewItemMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo) {
         setRootView(inflater.inflate(R.layout.layout_insert_ingredient, parent, false));
         insertIngredientName = findViewById(R.id.insertIngredientEditTextId);
         insertIngredientQuantity = findViewById(R.id.insertQuantityEditTextId);
@@ -45,7 +45,6 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
         insertIngredientName.setInputType(InputType.TYPE_CLASS_TEXT);
         searchViewCloseButton = (ImageView) insertIngredientName.findViewById(androidx.appcompat.R.id.search_close_btn);
         mSearchableInfo = searchableInfo;
-        mIngredientList = new ArrayList<>(ingredients);
     }
 
     @Override
@@ -155,6 +154,11 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
     @Override
     public void setInsertIngredientFieldVisibility(int visibility) {
         insertIngredientField.setVisibility(visibility);
+    }
+
+    @Override
+    public void bindIngredients(List<Ingredient> ingredients) {
+        mIngredientList = new ArrayList<>(ingredients);
     }
 
     private void sendSearchQuery(String query, int ingredientPositionInAdapter) {

@@ -3,8 +3,6 @@ package com.example.easypeasy.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Ingredient implements Parcelable {
@@ -14,7 +12,6 @@ public class Ingredient implements Parcelable {
     String unitShort = "";
     String name = "";
     List<String> possibleUnits;
-    @SerializedName("original")
     String nameWithAmount;
 
     public Ingredient(String name, float amount) {
@@ -72,7 +69,6 @@ public class Ingredient implements Parcelable {
     public void setPossibleUnits(List<String> possibleUnits) {
         this.possibleUnits = possibleUnits;
     }
-
 
     public String getNameWithAmount() {
         return nameWithAmount;

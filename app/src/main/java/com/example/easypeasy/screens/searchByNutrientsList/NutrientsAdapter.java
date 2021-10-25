@@ -17,26 +17,42 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.models.Nutrient;
-import com.example.easypeasy.utils.Utils;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
-import static com.example.easypeasy.utils.Constants.PAYLOAD_INSERT_NUTRIENT_FIELD;
+import static com.example.easypeasy.common.utils.Constants.PAYLOAD_INSERT_NUTRIENT_FIELD;
 
 public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.ViewHolder> {
 
-    List<Nutrient> mNutrientList;
-    Context mContext;
-    Listener mListener;
-
     interface Listener {
         void insertItemFieldAndNotify();
+
         void removeItemFieldAndNotify(Nutrient nutrient);
     }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        EditText nutrientAmount;
+        Spinner nutrientSpinner;
+        TextView nutrientName;
+        ImageView insertNutrientField, removeNutrientField;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nutrientAmount = itemView.findViewById(R.id.nutrientAmount);
+            insertNutrientField = itemView.findViewById(R.id.addNewNutrientFieldId);
+            nutrientSpinner = itemView.findViewById(R.id.nutrientsSpinnerId);
+            nutrientName = itemView.findViewById(R.id.nutrientName);
+            removeNutrientField = itemView.findViewById(R.id.removeNutrientFieldId);
+        }
+    }
+
+    private final List<Nutrient> mNutrientList;
+    private final Context mContext;
+    private final Listener mListener;
 
     public NutrientsAdapter(List<Nutrient> nutrientList, Context context, NutrientsAdapter.Listener listener) {
         mNutrientList = nutrientList;
@@ -144,21 +160,5 @@ public class NutrientsAdapter extends RecyclerView.Adapter<NutrientsAdapter.View
     @Override
     public int getItemCount() {
         return mNutrientList.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        EditText nutrientAmount;
-        Spinner nutrientSpinner;
-        TextView nutrientName;
-        ImageView insertNutrientField, removeNutrientField;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nutrientAmount = itemView.findViewById(R.id.nutrientAmount);
-            insertNutrientField = itemView.findViewById(R.id.addNewNutrientFieldId);
-            nutrientSpinner = itemView.findViewById(R.id.nutrientsSpinnerId);
-            nutrientName = itemView.findViewById(R.id.nutrientName);
-            removeNutrientField = itemView.findViewById(R.id.removeNutrientFieldId);
-        }
     }
 }

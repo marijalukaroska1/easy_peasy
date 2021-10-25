@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easypeasy.R;
 import com.example.easypeasy.models.Category;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.ViewMvcFactory;
 
 import java.util.List;
 
@@ -19,13 +20,13 @@ public class CategoryListViewMvcImpl extends BaseObservableViewMvc<CategoryListV
     private RecyclerView mRecyclerCategories;
     private CategoriesAdapter mAdapter;
 
-    public CategoryListViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
+    public CategoryListViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.activity_category, parent, false));
         continueButton = findViewById(R.id.continueButtonId);
         mRecyclerCategories = findViewById(R.id.recyclerCategoriesId);
 
         mRecyclerCategories.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new CategoriesAdapter(inflater, this);
+        mAdapter = new CategoriesAdapter(inflater, this, viewMvcFactory);
         mRecyclerCategories.setAdapter(mAdapter);
         continueButton.setOnClickListener(v -> {
             for (Listener listener : getListeners()) {

@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.models.Nutrient;
-import com.example.easypeasy.models.Recipe;
+import com.example.easypeasy.models.RecipeData;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.common.RecipesAdapter;
-import com.example.easypeasy.utils.Constants;
+import com.example.easypeasy.screens.common.RecipesListAdapter;
+import com.example.easypeasy.common.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,10 @@ import java.util.List;
 public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchByNutrientsViewMvc.Listener> implements SearchByNutrientsViewMvc, NutrientsAdapter.Listener {
 
     private static final String TAG = SearchByNutrientsViewMvcImpl.class.getSimpleName();
-    private RecyclerView recyclerViewNutrients, recyclerViewRecipes;
-    private Button searchButton;
-    private NutrientsAdapter nutrientsAdapter;
-    private List<Nutrient> mNutrientList = new ArrayList<>();
-    private List<Listener> mListeners = new ArrayList<>(1);
+    private final RecyclerView recyclerViewNutrients, recyclerViewRecipes;
+    private final Button searchButton;
+    private final NutrientsAdapter nutrientsAdapter;
+    private final List<Nutrient> mNutrientList = new ArrayList<>();
 
     public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
         setRootView(inflater.inflate(R.layout.activity_search_by_nutrients, parent, false));
@@ -38,11 +37,10 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
         searchButton = findViewById(R.id.searchButtonId);
         searchButton.setVisibility(View.VISIBLE);
         searchButton.setOnClickListener(v -> {
-            for (Listener listener : mListeners) {
+            for (Listener listener : getListeners()) {
                 listener.searchRecipes();
             }
         });
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -53,7 +51,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
 
     @Override
     public List<Nutrient> getNutrients() {
-        return null;
+        return mNutrientList;
     }
 
     @Override
@@ -74,13 +72,12 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
     }
 
     @Override
-    public void bindRecipes(List<Recipe> recipes) {
-        RecipesAdapter recipesAdapter = new RecipesAdapter(recipes, getContext());
-        Log.d(TAG, "recipesAdapter: " + recipesAdapter.getItemCount());
-        searchButton.setVisibility(View.GONE);
-        recyclerViewNutrients.setVisibility(View.GONE);
+    public void bindRecipes(List<RecipeData> recipeData) {
+        RecipesListAdapter recipesListAdapter = new RecipesListAdapter(recipeData, getContext());
+        Log.d(TAG, "recipesAdapter: " + recipesListAdapter.getItemCount());
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
-        if (recipesAdapter.getItemCount() == 0) {
+        recyclerViewNutrients.setVisibility(View.GONE);
+        if (recipesListAdapter.getItemCount() == 0) {
             findViewById(R.id.noRecipesFoundId).setVisibility(View.VISIBLE);
             recyclerViewRecipes.setVisibility(View.GONE);
         } else {
@@ -89,7 +86,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             linearLayoutManager.setItemPrefetchEnabled(false);
             recyclerViewRecipes.setLayoutManager(linearLayoutManager);
-            recyclerViewRecipes.setAdapter(recipesAdapter);
+            recyclerViewRecipes.setAdapter(recipesListAdapter);
         }
     }
 

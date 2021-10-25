@@ -19,4 +19,6 @@ public interface SearchByIngredientsViewItemMvc extends ObservableListViewMvc<Se
 
     void setInsertIngredientFieldVisibility(int visibility);
 
+    void bindIngredients(List<Ingredient> ingredients);
+
 }

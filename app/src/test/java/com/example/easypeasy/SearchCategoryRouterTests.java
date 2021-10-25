@@ -3,6 +3,7 @@ package com.example.easypeasy;
 import android.content.Intent;
 
 import com.example.easypeasy.screens.categoriesList.CategoryActivity;
+import com.example.easypeasy.screens.categoriesList.SearchCategoryRouter;
 import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
 import com.example.easypeasy.screens.searchByNutrientsList.SearchByNutrientsActivity;
 import com.example.easypeasy.models.Category;
