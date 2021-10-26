@@ -2,7 +2,7 @@ package com.example.easypeasy.models;
 
 import java.util.List;
 
-public class RecipeData {
+public class RecipeDetails {
 
     long id;
     String title;
@@ -18,7 +18,7 @@ public class RecipeData {
     String summary;
     String sourceUrl;
 
-    public RecipeData() {
+    public RecipeDetails() {
     }
 
     public long getId() {

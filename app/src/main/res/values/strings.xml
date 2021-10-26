@@ -25,5 +25,5 @@
     <string name="summary">Summary: x</string>
     <string name="insert_ingredient_unit">Please select a unit for the inserted ingredient amount</string>
     <string name="please_insert_nutrient">Please insert a nutrient</string>
-    <string name="no_recipes_were_found">No recipeData were found. Please go back and try again</string>
+    <string name="no_recipes_were_found">No recipeDetails were found. Please go back and try again</string>
 </resources>

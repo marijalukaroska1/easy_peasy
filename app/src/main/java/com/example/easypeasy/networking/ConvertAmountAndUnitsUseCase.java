@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.models.IngredientWithConvertedAmount;
-import com.example.easypeasy.models.RecipeData;
-import com.example.easypeasy.models.schemas.ConvertAmountSchema;
+import com.example.easypeasy.models.RecipeDetails;
+import com.example.easypeasy.models.schemas.ConvertAmountResponseSchema;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class ConvertAmountAndUnitsUseCase extends BaseObservableViewMvc<ConvertA
         mSpoonacularApi = spoonacularApi;
     }
 
-    public void addConvertedUnitsAndAmountRequest(String ingredientName, String responseIngredientUnit, Map<String, String> inputIngredientData, RecipeData currentRecipeData) {
+    public void addConvertedUnitsAndAmountRequest(String ingredientName, String responseIngredientUnit, Map<String, String> inputIngredientData, RecipeDetails currentRecipeDetails) {
         Log.d(TAG, "getConvertedAmountAndUnit is called");
 
         map = new HashMap<>();
@@ -46,9 +46,9 @@ public class ConvertAmountAndUnitsUseCase extends BaseObservableViewMvc<ConvertA
         map.put("targetUnit", responseIngredientUnit);
 
         mConvertRequests.add(mSpoonacularApi.convertAmountAndUnit(map)
-                .onErrorReturn(throwable -> new ConvertAmountSchema())
-                .map((Function<ConvertAmountSchema, Object>) convertAmountSchema -> {
-                    IngredientWithConvertedAmount ingredient = new IngredientWithConvertedAmount(currentRecipeData);
+                .onErrorReturn(throwable -> new ConvertAmountResponseSchema())
+                .map((Function<ConvertAmountResponseSchema, Object>) convertAmountResponseSchema -> {
+                    IngredientWithConvertedAmount ingredient = new IngredientWithConvertedAmount(currentRecipeDetails);
                     ingredient.setIngredientName(ingredientName);
                     return ingredient;
                 }));
@@ -68,12 +68,12 @@ public class ConvertAmountAndUnitsUseCase extends BaseObservableViewMvc<ConvertA
                 })
                 .subscribe(details -> {
                     Log.d(TAG, "convertAmountsResponse: " + details.toString());
-                    ConvertAmountSchema convertAmountSchema = (ConvertAmountSchema) details;
+                    ConvertAmountResponseSchema convertAmountResponseSchema = (ConvertAmountResponseSchema) details;
                     IngredientWithConvertedAmount ingredient = new IngredientWithConvertedAmount();
-                    ingredient.setSourceAmount(convertAmountSchema.getSourceAmount());
-                    ingredient.setSourceUnit(convertAmountSchema.getSourceUnit());
-                    ingredient.setTargetAmount(convertAmountSchema.getTargetAmount());
-                    ingredient.setTargetUnit(convertAmountSchema.getTargetUnit());
+                    ingredient.setSourceAmount(convertAmountResponseSchema.getSourceAmount());
+                    ingredient.setSourceUnit(convertAmountResponseSchema.getSourceUnit());
+                    ingredient.setTargetAmount(convertAmountResponseSchema.getTargetAmount());
+                    ingredient.setTargetUnit(convertAmountResponseSchema.getTargetUnit());
                     ingredientWithConvertedAmountList.add(ingredient);
                 }, e -> {
                     Log.d(TAG, "error: " + e.getMessage());

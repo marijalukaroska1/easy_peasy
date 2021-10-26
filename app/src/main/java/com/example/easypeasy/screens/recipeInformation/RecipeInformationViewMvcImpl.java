@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -23,9 +24,10 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 public class RecipeInformationViewMvcImpl extends BaseObservableViewMvc<RecipeInformationViewMvc> implements RecipeInformationViewMvc {
 
@@ -36,23 +38,24 @@ public class RecipeInformationViewMvcImpl extends BaseObservableViewMvc<RecipeIn
     private final TextView servingsTextView;
     private final TextView ingredientSourceUrlTextView;
     private final RecyclerView usedIngredientsRecyclerView;
-    private RecipeInformationUsedIngredientsAdapter mAdapter;
     private final ViewMvcFactory mViewMvcFactory;
+    private final ProgressBar progressIndicator;
 
     public RecipeInformationViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
-        setRootView(inflater.inflate(R.layout.activity_recipe_information, parent, false));
+        setRootView(inflater.inflate(R.layout.activity_recipe_details, parent, false));
         recipeImageView = findViewById(R.id.recipeImageId);
         recipeTitleTextView = findViewById(R.id.recipeTitleId);
         readyInMinutesTextView = findViewById(R.id.readyInMinutesId);
         servingsTextView = findViewById(R.id.servingsId);
         usedIngredientsRecyclerView = findViewById(R.id.ingredientsRecyclerView);
         ingredientSourceUrlTextView = findViewById(R.id.sourceUrlTextView);
+        progressIndicator = findViewById(R.id.progressIndicatorId);
         mViewMvcFactory = viewMvcFactory;
     }
 
     @Override
-    public void bindRecipe(RecipeData recipeData) {
-        mAdapter = new RecipeInformationUsedIngredientsAdapter(recipeData.getUsedIngredients(), mViewMvcFactory);
+    public void bindRecipe(RecipeDetails recipeDetails) {
+        RecipeInformationUsedIngredientsAdapter mAdapter = new RecipeInformationUsedIngredientsAdapter(recipeDetails.getUsedIngredients(), mViewMvcFactory);
         recipeImageView.setVisibility(View.VISIBLE);
         recipeTitleTextView.setVisibility(View.VISIBLE);
         readyInMinutesTextView.setVisibility(View.VISIBLE);
@@ -61,27 +64,27 @@ public class RecipeInformationViewMvcImpl extends BaseObservableViewMvc<RecipeIn
         ingredientSourceUrlTextView.setVisibility(View.VISIBLE);
 
         String readyInMinutesText = getContext().getString(R.string.ready_in_minutes);
-        readyInMinutesText = readyInMinutesText.replace(Constants.REGEX_X, String.valueOf(recipeData.getReadyInMinutes()));
+        readyInMinutesText = readyInMinutesText.replace(Constants.REGEX_X, String.valueOf(recipeDetails.getReadyInMinutes()));
         readyInMinutesTextView.setText(readyInMinutesText);
 
         String servingsText = getContext().getString(R.string.servings);
-        servingsText = servingsText.replace(Constants.REGEX_X, String.valueOf(recipeData.getServings()));
+        servingsText = servingsText.replace(Constants.REGEX_X, String.valueOf(recipeDetails.getServings()));
         servingsTextView.setText(servingsText);
 
-        recipeTitleTextView.setText(recipeData.getTitle());
-        Log.d(TAG, "recipe source url: " + recipeData.getSourceUrl());
+        recipeTitleTextView.setText(recipeDetails.getTitle());
+        Log.d(TAG, "recipe source url: " + recipeDetails.getSourceUrl());
 
-        ingredientSourceUrlTextView.setText(Html.fromHtml("<a href=\"" + recipeData.getSourceUrl() + "\">Click for Recipe Source</a> "));
+        ingredientSourceUrlTextView.setText(Html.fromHtml("<a href=\"" + recipeDetails.getSourceUrl() + "\">Click for Recipe Source</a> "));
 
         ingredientSourceUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
         ingredientSourceUrlTextView.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-            browserIntent.setData(Uri.parse(recipeData.getSourceUrl()));
+            browserIntent.setData(Uri.parse(recipeDetails.getSourceUrl()));
             getContext().startActivity(browserIntent);
         });
 
         Glide.with(getContext())
-                .load(recipeData.getImageUrl())
+                .load(recipeDetails.getImageUrl())
                 .error(R.mipmap.ic_launcher)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) // resize does not respect aspect ratio
                 .fitCenter() // scale to fit entire image within ImageView
@@ -104,5 +107,15 @@ public class RecipeInformationViewMvcImpl extends BaseObservableViewMvc<RecipeIn
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         usedIngredientsRecyclerView.setLayoutManager(linearLayoutManager);
         usedIngredientsRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void showProgressIndication() {
+        progressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndication() {
+        progressIndicator.setVisibility(View.GONE);
     }
 }

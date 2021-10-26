@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.models.Nutrient;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.RecipesListAdapter;
 import com.example.easypeasy.common.utils.Constants;
@@ -72,7 +72,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
     }
 
     @Override
-    public void bindRecipes(List<RecipeData> recipeData) {
+    public void bindRecipes(List<RecipeDetails> recipeData) {
         RecipesListAdapter recipesListAdapter = new RecipesListAdapter(recipeData, getContext());
         Log.d(TAG, "recipesAdapter: " + recipesListAdapter.getItemCount());
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);

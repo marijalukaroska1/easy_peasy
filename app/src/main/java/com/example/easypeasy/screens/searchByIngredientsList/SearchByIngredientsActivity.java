@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.screens.common.BaseActivity;
 import com.example.easypeasy.networking.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.networking.FetchIngredientsNamesUseCase;
@@ -59,10 +59,11 @@ public class SearchByIngredientsActivity extends BaseActivity implements SearchB
     }
 
     private void doSearchIngredients(String ingredientName) {
-        mFetchIngredientsNamesUseCase.getIngredientsSearchMetaData(ingredientName);
+        mFetchIngredientsNamesUseCase.fetchIngredientsSearchMetaDataAndNotify(ingredientName);
     }
 
-    public void fetchMetaData() {
+    public void fetchRecipes() {
+        mViewMvc.showProgressIndication();
         mFetchRecipesUseCase.isSearchByIngredients = true;
         mFetchRecipesUseCase.fetchRecipesByIngredientsAndNotify(mViewMvc.getIngredientList());
     }
@@ -89,33 +90,34 @@ public class SearchByIngredientsActivity extends BaseActivity implements SearchB
         if (mViewMvc.getIngredientList().size() < 3) {
             Toast.makeText(SearchByIngredientsActivity.this, R.string.message_minimum_ingredients, Toast.LENGTH_LONG).show();
         } else {
-            fetchMetaData();
+            fetchRecipes();
         }
     }
 
     @Override
-    public void onRecipesFetchedSuccess(List<RecipeData> recipeData) {
+    public void onFetchRecipesSuccess(List<RecipeDetails> recipeData) {
         Log.d(TAG, "in onRecipesFetchedSuccess");
+        mViewMvc.hideProgressIndication();
         mViewMvc.bindRecipes(recipeData);
     }
 
     @Override
-    public void onRecipesFetchedFailure() {
+    public void onFetchRecipesFailure() {
         Toast.makeText(this, "Fetch Recipes Failure", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onFetchIngredientsNamesSuccess(long ingredientId) {
-        mFetchIngredientMetaDataUseCase.getIngredientMetaData(ingredientId);
+    public void onFetchIngredientSearchMetaDataSuccess(long ingredientId) {
+        mFetchIngredientMetaDataUseCase.fetchIngredientMetaDataAndNotify(ingredientId);
     }
 
     @Override
-    public void onFetchIngredientsNamesFailure() {
+    public void onFetchIngredientSearchMetaDataFailure() {
         Toast.makeText(this, "Fetch Ingredient Names Failure", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void fetchIngredientMetaDataSuccess(Ingredient ingredient) {
+    public void onFetchIngredientMetaDataSuccess(Ingredient ingredient) {
         String[] unitAmounts = new String[ingredient.getPossibleUnits().size()];
         for (int i = 0; i < ingredient.getPossibleUnits().size(); i++) {
             unitAmounts[i] = ingredient.getPossibleUnits().get(i);
@@ -124,7 +126,7 @@ public class SearchByIngredientsActivity extends BaseActivity implements SearchB
     }
 
     @Override
-    public void fetchIngredientMetaDataFailure() {
+    public void onFetchIngredientMetaDataFailure() {
         Toast.makeText(this, "Fetch Ingredient Names Failure", Toast.LENGTH_LONG).show();
     }
 }

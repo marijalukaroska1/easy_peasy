@@ -4,7 +4,7 @@ import com.example.easypeasy.models.Ingredient;
 
 import java.util.List;
 
-public class RecipeSchema {
+public class RecipeResponseSchema {
     long id;
     String title;
     String image;
@@ -14,7 +14,7 @@ public class RecipeSchema {
     List<Ingredient> usedIngredients;
     List<Ingredient> unusedIngredients;
 
-    public RecipeSchema() {
+    public RecipeResponseSchema() {
     }
 
     public long getId() {

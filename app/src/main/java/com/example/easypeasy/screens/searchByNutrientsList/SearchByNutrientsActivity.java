@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.models.Nutrient;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.networking.FetchRecipesUseCase;
 import com.example.easypeasy.screens.common.BaseActivity;
 
@@ -33,7 +33,7 @@ public class SearchByNutrientsActivity extends BaseActivity implements SearchByN
 
     public void fetchRecipesData() {
         mFetchRecipesUseCase.isSearchByIngredients = false;
-        mFetchRecipesUseCase.getRecipesByNutrients(mViewMvc.getNutrients());
+        mFetchRecipesUseCase.fetchRecipesByNutrientsAndNotify(mViewMvc.getNutrients());
     }
 
     @Override
@@ -43,13 +43,13 @@ public class SearchByNutrientsActivity extends BaseActivity implements SearchByN
     }
 
     @Override
-    public void onRecipesFetchedSuccess(List<RecipeData> recipeData) {
+    public void onFetchRecipesSuccess(List<RecipeDetails> recipeData) {
         Utils.hideKeyboard(this);
         mViewMvc.bindRecipes(recipeData);
     }
 
     @Override
-    public void onRecipesFetchedFailure() {
+    public void onFetchRecipesFailure() {
         Toast.makeText(this, "Fetch Recipes Failure", Toast.LENGTH_LONG).show();
     }
 }

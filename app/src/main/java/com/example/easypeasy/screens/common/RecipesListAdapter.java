@@ -20,7 +20,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.screens.recipeInformation.RecipeInformationActivity;
 
 import java.util.List;
@@ -40,10 +40,10 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     }
 
     private static final String TAG = "RecipesAdapter";
-    private final List<RecipeData> recipesList;
+    private final List<RecipeDetails> recipesList;
     private final Context context;
 
-    public RecipesListAdapter(List<RecipeData> recipesList, Context context) {
+    public RecipesListAdapter(List<RecipeDetails> recipesList, Context context) {
         Log.d(TAG, "recipesList: " + recipesList.size());
         this.recipesList = recipesList;
         this.context = context;

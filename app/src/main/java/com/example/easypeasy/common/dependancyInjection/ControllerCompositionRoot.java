@@ -29,7 +29,7 @@ public class ControllerCompositionRoot {
         return LayoutInflater.from(mActivity);
     }
 
-    public SpoonacularApi getSpoonacularApi() {
+    private SpoonacularApi getSpoonacularApi() {
         return mCompositionRoot.getSpoonacularRecipesApi();
     }
 

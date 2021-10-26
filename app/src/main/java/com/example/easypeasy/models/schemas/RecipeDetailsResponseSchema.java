@@ -1,11 +1,10 @@
 package com.example.easypeasy.models.schemas;
 
-import com.example.easypeasy.models.Ingredient;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class RecipeDataSchema {
+public class RecipeDetailsResponseSchema {
     long id;
     String title;
     @SerializedName("image")
@@ -14,7 +13,7 @@ public class RecipeDataSchema {
     int readyInMinutes;
     String summary;
     @SerializedName("extendedIngredients")
-    List<IngredientSchema> usedIngredients;
+    List<IngredientResponseSchema> usedIngredients;
     String sourceUrl;
 
     public long getId() {
@@ -41,7 +40,7 @@ public class RecipeDataSchema {
         return summary;
     }
 
-    public List<IngredientSchema> getUsedIngredients() {
+    public List<IngredientResponseSchema> getUsedIngredients() {
         return usedIngredients;
     }
 

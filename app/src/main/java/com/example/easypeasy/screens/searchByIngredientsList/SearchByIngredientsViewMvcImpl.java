@@ -6,18 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.screens.common.RecipesListAdapter;
-import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeData;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.common.utils.Constants;
+import com.example.easypeasy.models.Ingredient;
+import com.example.easypeasy.models.RecipeDetails;
+import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.RecipesListAdapter;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
@@ -27,16 +29,15 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     private final Button mSearchButton;
     private final RecyclerView mRecyclerViewIngredients, mRecyclerViewRecipes;
     private final IngredientsAdapter mIngredientsAdapter;
-    private RecipesListAdapter mRecipesListAdapter;
-    private final SearchableInfo mSearchableInfo;
+    private final ProgressBar progressIndicator;
 
 
     public SearchByIngredientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.activity_search_by_ingredients, parent, false));
-        mSearchableInfo = searchableInfo;
         mSearchButton = findViewById(R.id.searchButtonId);
         mRecyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
         mRecyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
+        progressIndicator = findViewById(R.id.progressIndicatorId);
         mRecyclerViewIngredients.setVisibility(View.VISIBLE);
         mRecyclerViewRecipes.setVisibility(View.GONE);
 
@@ -49,7 +50,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewIngredients.setLayoutManager(linearLayoutManager);
-        mIngredientsAdapter = new IngredientsAdapter(this, mSearchableInfo, viewMvcFactory);
+        mIngredientsAdapter = new IngredientsAdapter(this, searchableInfo, viewMvcFactory);
         mRecyclerViewIngredients.setAdapter(mIngredientsAdapter);
     }
 
@@ -60,11 +61,11 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     }
 
     @Override
-    public void bindRecipes(List<RecipeData> recipeData) {
+    public void bindRecipes(List<RecipeDetails> recipeData) {
         Log.d(TAG, "bindRecipes:");
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
         mRecyclerViewIngredients.setVisibility(View.GONE);
-        mRecipesListAdapter = new RecipesListAdapter(recipeData, getContext());
+        RecipesListAdapter mRecipesListAdapter = new RecipesListAdapter(recipeData, getContext());
         if (mRecipesListAdapter.getItemCount() == 0) {
             findViewById(R.id.noRecipesFoundId).setVisibility(View.VISIBLE);
             mRecyclerViewRecipes.setVisibility(View.GONE);
@@ -107,5 +108,15 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
         mIngredientsAdapter.setIngredientPossibleUnits(unitAmounts);
         Log.d(TAG, "ingredientFetchDataPosition: " + ingredientFetchDataPosition);
         mIngredientsAdapter.notifyItemChanged(ingredientFetchDataPosition, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS);
+    }
+
+    @Override
+    public void showProgressIndication() {
+        progressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndication() {
+        progressIndicator.setVisibility(View.GONE);
     }
 }

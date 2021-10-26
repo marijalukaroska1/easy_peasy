@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.easypeasy.models.IngredientWithConvertedAmount;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.networking.ConvertAmountAndUnitsUseCase;
 import com.example.easypeasy.networking.SpoonacularApi;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
@@ -16,12 +16,12 @@ import java.util.Map;
 public class RecipesManager extends BaseObservableViewMvc<RecipesManager.Listener> implements ConvertAmountAndUnitsUseCase.Listener {
 
     public interface Listener {
-        void onRecipesFiltered(List<RecipeData> recipeData);
+        void onRecipesFiltered(List<RecipeDetails> recipeData);
     }
 
     private static final String TAG = RecipesManager.class.getSimpleName();
     private boolean mIsSearchByIngredients = false;
-    private List<RecipeData> mFilteredRecipeData;
+    private List<RecipeDetails> mFilteredRecipeData;
     ConvertAmountAndUnitsUseCase convertAmountAndUnitsUseCase;
 
     public RecipesManager(SpoonacularApi spoonacularApi) {
@@ -29,22 +29,22 @@ public class RecipesManager extends BaseObservableViewMvc<RecipesManager.Listene
         convertAmountAndUnitsUseCase.registerListener(this);
     }
 
-    public void filterRecipes(List<RecipeData> recipeDataList, List<Ingredient> ingredientList) {
-        mFilteredRecipeData = new ArrayList<>(recipeDataList);
+    public void filterRecipes(List<RecipeDetails> recipeDetailsList, List<Ingredient> ingredientList) {
+        mFilteredRecipeData = new ArrayList<>(recipeDetailsList);
         if (mIsSearchByIngredients) {
             Map<String, Map<String, String>> inputIngredientsMap = Utils.mapIngredientNameWithAmountAndUnit(ingredientList);
-            for (RecipeData recipeData : recipeDataList) {
-                Log.d(TAG, "recipe name: " + recipeData.getTitle() + " number of ingredients: " + recipeData.getUsedIngredients().size());
+            for (RecipeDetails recipeDetails : recipeDetailsList) {
+                Log.d(TAG, "recipe name: " + recipeDetails.getTitle() + " number of ingredients: " + recipeDetails.getUsedIngredients().size());
                 Log.d(TAG, "=================================================");
-                for (Ingredient responseIngredient : recipeData.getUsedIngredients()) {
+                for (Ingredient responseIngredient : recipeDetails.getUsedIngredients()) {
                     if (inputIngredientsMap.containsKey(responseIngredient.getName())) {
                         if (!responseIngredient.getUnit().isEmpty() && !responseIngredient.getUnit().equalsIgnoreCase(inputIngredientsMap.get(responseIngredient.getName()).get("unit"))) {
                             Log.d(TAG, "different unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + inputIngredientsMap.get(responseIngredient.getName()).get("amount") + " " + responseIngredient.getUnit() + " " + responseIngredient.getAmount());
-                            convertAmountAndUnitsUseCase.addConvertedUnitsAndAmountRequest(responseIngredient.getName(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), recipeData);
+                            convertAmountAndUnitsUseCase.addConvertedUnitsAndAmountRequest(responseIngredient.getName(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), recipeDetails);
                         } else {
                             Log.d(TAG, "same unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + responseIngredient.getUnit());
                             if (responseIngredient.getAmount() > Float.parseFloat(inputIngredientsMap.get(responseIngredient.getName()).get("amount"))) {
-                                mFilteredRecipeData.remove(recipeData);
+                                mFilteredRecipeData.remove(recipeDetails);
                             }
                         }
                     }

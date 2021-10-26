@@ -6,11 +6,11 @@ public class IngredientWithConvertedAmount {
     String sourceUnit;
     float targetAmount;
     String targetUnit;
-    RecipeData recipeData;
+    RecipeDetails recipeDetails;
     String ingredientName;
 
-    public IngredientWithConvertedAmount(RecipeData recipeData) {
-        this.recipeData = recipeData;
+    public IngredientWithConvertedAmount(RecipeDetails recipeDetails) {
+        this.recipeDetails = recipeDetails;
     }
 
     public IngredientWithConvertedAmount() {
@@ -34,12 +34,12 @@ public class IngredientWithConvertedAmount {
     }
 
 
-    public RecipeData getRecipe() {
-        return recipeData;
+    public RecipeDetails getRecipe() {
+        return recipeDetails;
     }
 
-    public void setRecipe(RecipeData recipeData) {
-        this.recipeData = recipeData;
+    public void setRecipe(RecipeDetails recipeDetails) {
+        this.recipeDetails = recipeDetails;
     }
 
     public void setIngredientName(String ingredientName) {
@@ -73,7 +73,7 @@ public class IngredientWithConvertedAmount {
                 ", sourceUnit='" + sourceUnit + '\'' +
                 ", targetAmount=" + targetAmount +
                 ", targetUnit='" + targetUnit + '\'' +
-                ", recipe=" + recipeData +
+                ", recipe=" + recipeDetails +
                 ", ingredientName='" + ingredientName + '\'' +
                 '}';
     }

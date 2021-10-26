@@ -1,7 +1,7 @@
 package com.example.easypeasy.screens.searchByNutrientsList;
 
 import com.example.easypeasy.models.Nutrient;
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.screens.common.ObservableListViewMvc;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface SearchByNutrientsViewMvc extends ObservableListViewMvc<SearchBy
 
     void bindNutrient(Nutrient nutrient);
     void removeNutrient(Nutrient nutrient);
-    void bindRecipes(List<RecipeData> recipeData);
+    void bindRecipes(List<RecipeDetails> recipeData);
 }

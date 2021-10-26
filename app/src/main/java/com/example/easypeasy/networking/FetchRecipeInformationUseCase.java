@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeData;
-import com.example.easypeasy.models.schemas.IngredientSchema;
-import com.example.easypeasy.models.schemas.RecipeDataSchema;
+import com.example.easypeasy.models.RecipeDetails;
+import com.example.easypeasy.models.schemas.IngredientResponseSchema;
+import com.example.easypeasy.models.schemas.RecipeDetailsResponseSchema;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FetchRecipeInformationUseCase extends BaseObservableViewMvc<FetchRecipeInformationUseCase.Listener> implements Callback<RecipeDataSchema> {
+public class FetchRecipeInformationUseCase extends BaseObservableViewMvc<FetchRecipeInformationUseCase.Listener> implements Callback<RecipeDetailsResponseSchema> {
 
     public interface Listener {
-        void onFetchRecipeInformationSuccess(RecipeData response);
+        void onFetchRecipeDetailsSuccess(RecipeDetails response);
 
-        void onFetchRecipeInformationFailure();
+        void onFetchRecipeDetailsFailure();
     }
 
     private static final String TAG = FetchRecipeInformationUseCase.class.getSimpleName();
@@ -36,48 +36,58 @@ public class FetchRecipeInformationUseCase extends BaseObservableViewMvc<FetchRe
         mSpoonacularApi = spoonacularApi;
     }
 
-    public void getRecipeInformationMetaData(long recipeId) {
-        Log.d(TAG, "getRecipeInformationMetaData is called");
+    public void fetchRecipeDetailsAndNotify(long recipeId) {
+        Log.d(TAG, "fetchRecipeDetailsAndNotify is called");
         map.put("apiKey", Constants.API_KEY);
 
-        Call<RecipeDataSchema> call = mSpoonacularApi.queryRecipeInformation(recipeId, map);
+        Call<RecipeDetailsResponseSchema> call = mSpoonacularApi.queryRecipeInformation(recipeId, map);
         call.enqueue(this);
     }
 
     @Override
-    public void onResponse(@NonNull Call<RecipeDataSchema> call, Response<RecipeDataSchema> response) {
+    public void onResponse(@NonNull Call<RecipeDetailsResponseSchema> call, Response<RecipeDetailsResponseSchema> response) {
         Log.d(TAG, "onResponse: " + response.body());
         if (response.isSuccessful() && response.body() != null) {
-            RecipeDataSchema recipeDataSchema = response.body();
-            RecipeData recipeData = new RecipeData();
-            recipeData.setImageUrl(recipeDataSchema.getImageUrl());
-            recipeData.setReadyInMinutes(recipeDataSchema.getReadyInMinutes());
-            recipeData.setServings(recipeDataSchema.getServings());
-            recipeData.setSummary(recipeDataSchema.getSummary());
+            RecipeDetailsResponseSchema recipeDetailsResponseSchema = response.body();
+            RecipeDetails recipeDetails = new RecipeDetails();
+            recipeDetails.setImageUrl(recipeDetailsResponseSchema.getImageUrl());
+            recipeDetails.setReadyInMinutes(recipeDetailsResponseSchema.getReadyInMinutes());
+            recipeDetails.setServings(recipeDetailsResponseSchema.getServings());
+            recipeDetails.setSummary(recipeDetailsResponseSchema.getSummary());
             List<Ingredient> ingredientList = new ArrayList<>();
-            for (IngredientSchema ingredientSchema : recipeDataSchema.getUsedIngredients()) {
+            for (IngredientResponseSchema ingredientResponseSchema : recipeDetailsResponseSchema.getUsedIngredients()) {
                 Ingredient ingredient = new Ingredient();
-                ingredient.setNameWithAmount(ingredientSchema.getNameWithAmount());
-                ingredient.setPossibleUnits(ingredientSchema.getPossibleUnits());
-                ingredient.setId(ingredientSchema.getId());
-                ingredient.setAmount(ingredientSchema.getAmount());
-                ingredient.setUnit(ingredientSchema.getUnit());
-                ingredient.setName(ingredientSchema.getName());
+                ingredient.setNameWithAmount(ingredientResponseSchema.getNameWithAmount());
+                ingredient.setPossibleUnits(ingredientResponseSchema.getPossibleUnits());
+                ingredient.setId(ingredientResponseSchema.getId());
+                ingredient.setAmount(ingredientResponseSchema.getAmount());
+                ingredient.setUnit(ingredientResponseSchema.getUnit());
+                ingredient.setName(ingredientResponseSchema.getName());
                 ingredientList.add(ingredient);
             }
-            recipeData.setTitle(recipeDataSchema.getTitle());
-            recipeData.setUsedIngredients(ingredientList);
-            recipeData.setSourceUrl(recipeDataSchema.getSourceUrl());
-            for (Listener listener : getListeners()) {
-                listener.onFetchRecipeInformationSuccess(recipeData);
-            }
+            recipeDetails.setTitle(recipeDetailsResponseSchema.getTitle());
+            recipeDetails.setUsedIngredients(ingredientList);
+            recipeDetails.setSourceUrl(recipeDetailsResponseSchema.getSourceUrl());
+            notifySuccess(recipeDetails);
+        } else {
+            notifyFailure();
         }
     }
 
     @Override
-    public void onFailure(@NonNull Call<RecipeDataSchema> call, @NonNull Throwable t) {
+    public void onFailure(@NonNull Call<RecipeDetailsResponseSchema> call, @NonNull Throwable t) {
+        notifyFailure();
+    }
+
+    private void notifySuccess(RecipeDetails recipeData) {
         for (Listener listener : getListeners()) {
-            listener.onFetchRecipeInformationFailure();
+            listener.onFetchRecipeDetailsSuccess(recipeData);
+        }
+    }
+
+    private void notifyFailure() {
+        for (Listener listener : getListeners()) {
+            listener.onFetchRecipeDetailsFailure();
         }
     }
 }

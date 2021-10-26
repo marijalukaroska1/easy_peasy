@@ -7,12 +7,11 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeData;
-import com.example.easypeasy.models.schemas.ConvertAmountSchema;
-import com.example.easypeasy.models.schemas.IngredientSchema;
-import com.example.easypeasy.models.schemas.RecipeDataSchema;
-import com.example.easypeasy.models.schemas.RecipeSchema;
-import com.example.easypeasy.models.schemas.SearchIngredientNameSchema;
+import com.example.easypeasy.models.schemas.ConvertAmountResponseSchema;
+import com.example.easypeasy.models.schemas.IngredientResponseSchema;
+import com.example.easypeasy.models.schemas.RecipeDetailsResponseSchema;
+import com.example.easypeasy.models.schemas.RecipeResponseSchema;
+import com.example.easypeasy.models.schemas.SearchIngredientDetailsResponseSchema;
 import com.example.easypeasy.networking.SpoonacularApi;
 import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
 
@@ -146,16 +145,16 @@ public class SearchByIngredientsActivityTests {
         boolean isSearchIngredientsCalled = false;
 
         @Override
-        public Call<List<RecipeSchema>> queryRecipesByIngredients(Map<String, String> options) {
+        public Call<List<RecipeResponseSchema>> queryRecipesByIngredients(Map<String, String> options) {
             isQueryRecipesByIngredientsCalled = true;
-            return new Call<List<RecipeSchema>>() {
+            return new Call<List<RecipeResponseSchema>>() {
                 @Override
-                public Response<List<RecipeSchema>> execute() throws IOException {
+                public Response<List<RecipeResponseSchema>> execute() throws IOException {
                     return null;
                 }
 
                 @Override
-                public void enqueue(Callback<List<RecipeSchema>> callback) {
+                public void enqueue(Callback<List<RecipeResponseSchema>> callback) {
 
                 }
 
@@ -175,7 +174,7 @@ public class SearchByIngredientsActivityTests {
                 }
 
                 @Override
-                public Call<List<RecipeSchema>> clone() {
+                public Call<List<RecipeResponseSchema>> clone() {
                     return null;
                 }
 
@@ -192,16 +191,16 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Call<List<RecipeSchema>> queryRecipesByNutrients(Map<String, String> options) {
+        public Call<List<RecipeResponseSchema>> queryRecipesByNutrients(Map<String, String> options) {
             isQueryRecipesByNutrientsCalled = true;
-            return new Call<List<RecipeSchema>>() {
+            return new Call<List<RecipeResponseSchema>>() {
                 @Override
-                public Response<List<RecipeSchema>> execute() throws IOException {
+                public Response<List<RecipeResponseSchema>> execute() throws IOException {
                     return null;
                 }
 
                 @Override
-                public void enqueue(Callback<List<RecipeSchema>> callback) {
+                public void enqueue(Callback<List<RecipeResponseSchema>> callback) {
 
                 }
 
@@ -221,7 +220,7 @@ public class SearchByIngredientsActivityTests {
                 }
 
                 @Override
-                public Call<List<RecipeSchema>> clone() {
+                public Call<List<RecipeResponseSchema>> clone() {
                     return null;
                 }
 
@@ -238,16 +237,16 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Call<IngredientSchema> queryIngredientData(long id, Map<String, String> options) {
+        public Call<IngredientResponseSchema> queryIngredientData(long id, Map<String, String> options) {
             isQueryIngredientMetaDataCalled = true;
-            return new Call<IngredientSchema>() {
+            return new Call<IngredientResponseSchema>() {
                 @Override
-                public Response<IngredientSchema> execute() throws IOException {
+                public Response<IngredientResponseSchema> execute() throws IOException {
                     return null;
                 }
 
                 @Override
-                public void enqueue(Callback<IngredientSchema> callback) {
+                public void enqueue(Callback<IngredientResponseSchema> callback) {
 
                 }
 
@@ -267,7 +266,7 @@ public class SearchByIngredientsActivityTests {
                 }
 
                 @Override
-                public Call<IngredientSchema> clone() {
+                public Call<IngredientResponseSchema> clone() {
                     return null;
                 }
 
@@ -285,16 +284,16 @@ public class SearchByIngredientsActivityTests {
 
 
         @Override
-        public Call<SearchIngredientNameSchema> searchIngredients(Map<String, String> options) {
+        public Call<SearchIngredientDetailsResponseSchema> searchIngredients(Map<String, String> options) {
             isSearchIngredientsCalled = true;
-            return new Call<SearchIngredientNameSchema>() {
+            return new Call<SearchIngredientDetailsResponseSchema>() {
                 @Override
-                public Response<SearchIngredientNameSchema> execute() throws IOException {
+                public Response<SearchIngredientDetailsResponseSchema> execute() throws IOException {
                     return null;
                 }
 
                 @Override
-                public void enqueue(Callback<SearchIngredientNameSchema> callback) {
+                public void enqueue(Callback<SearchIngredientDetailsResponseSchema> callback) {
 
                 }
 
@@ -314,7 +313,7 @@ public class SearchByIngredientsActivityTests {
                 }
 
                 @Override
-                public Call<SearchIngredientNameSchema> clone() {
+                public Call<SearchIngredientDetailsResponseSchema> clone() {
                     return null;
                 }
 
@@ -331,11 +330,11 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Observable<ConvertAmountSchema> convertAmountAndUnit(Map<String, String> options) {
+        public Observable<ConvertAmountResponseSchema> convertAmountAndUnit(Map<String, String> options) {
             isConvertAmountCalled = true;
-            return new Observable<ConvertAmountSchema>() {
+            return new Observable<ConvertAmountResponseSchema>() {
                 @Override
-                protected void subscribeActual(@NonNull Observer<? super ConvertAmountSchema> observer) {
+                protected void subscribeActual(@NonNull Observer<? super ConvertAmountResponseSchema> observer) {
 
                 }
 
@@ -343,16 +342,16 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Call<RecipeDataSchema> queryRecipeInformation(long id, Map<String, String> options) {
+        public Call<RecipeDetailsResponseSchema> queryRecipeInformation(long id, Map<String, String> options) {
             isQueryRecipeInformationCalled = true;
-            return new Call<RecipeDataSchema>() {
+            return new Call<RecipeDetailsResponseSchema>() {
                 @Override
-                public Response<RecipeDataSchema> execute() throws IOException {
+                public Response<RecipeDetailsResponseSchema> execute() throws IOException {
                     return null;
                 }
 
                 @Override
-                public void enqueue(Callback<RecipeDataSchema> callback) {
+                public void enqueue(Callback<RecipeDetailsResponseSchema> callback) {
 
                 }
 
@@ -372,7 +371,7 @@ public class SearchByIngredientsActivityTests {
                 }
 
                 @Override
-                public Call<RecipeDataSchema> clone() {
+                public Call<RecipeDetailsResponseSchema> clone() {
                     return null;
                 }
 

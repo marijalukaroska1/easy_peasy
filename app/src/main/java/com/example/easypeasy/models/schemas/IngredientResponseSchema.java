@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class IngredientSchema {
+public class IngredientResponseSchema {
 
     long id;
     float amount;
@@ -15,12 +15,12 @@ public class IngredientSchema {
     @SerializedName("original")
     String nameWithAmount;
 
-    public IngredientSchema(String name, float amount) {
+    public IngredientResponseSchema(String name, float amount) {
         this.amount = amount;
         this.name = name;
     }
 
-    public IngredientSchema() {
+    public IngredientResponseSchema() {
     }
 
     public long getId() {

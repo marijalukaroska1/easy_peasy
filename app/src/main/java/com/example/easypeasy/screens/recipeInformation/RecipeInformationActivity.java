@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.models.RecipeData;
+import com.example.easypeasy.models.RecipeDetails;
 import com.example.easypeasy.networking.FetchRecipeInformationUseCase;
 import com.example.easypeasy.screens.common.BaseActivity;
 
@@ -42,16 +42,18 @@ public class RecipeInformationActivity extends BaseActivity implements FetchReci
     private void handleIntent() {
         recipeId = getIntent().getLongExtra("recipeId", 0L);
         Log.d(TAG, "fetchRecipeInformationMetaData is called with recipeId: " + recipeId);
-        mFetchRecipeInformationUseCase.getRecipeInformationMetaData(recipeId);
+        mViewMvc.showProgressIndication();
+        mFetchRecipeInformationUseCase.fetchRecipeDetailsAndNotify(recipeId);
     }
 
     @Override
-    public void onFetchRecipeInformationSuccess(RecipeData response) {
+    public void onFetchRecipeDetailsSuccess(RecipeDetails response) {
+        mViewMvc.hideProgressIndication();
         mViewMvc.bindRecipe(response);
     }
 
     @Override
-    public void onFetchRecipeInformationFailure() {
+    public void onFetchRecipeDetailsFailure() {
         Toast.makeText(this, "Error fetching recipe information", Toast.LENGTH_LONG).show();
     }
 }

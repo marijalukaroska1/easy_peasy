@@ -1,6 +1,8 @@
 package com.example.easypeasy.models.schemas;
 
-public class ConvertAmountSchema {
+//Schemas are part of networking logic
+//and should not be exposed to controllers as well
+public class ConvertAmountResponseSchema {
 
     float sourceAmount;
     String sourceUnit;
@@ -9,7 +11,7 @@ public class ConvertAmountSchema {
     String answer;
     String ingredientName;
 
-    public ConvertAmountSchema() {
+    public ConvertAmountResponseSchema() {
     }
 
     public float getSourceAmount() {
