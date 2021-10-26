@@ -3,15 +3,15 @@ package com.example.easypeasy.screens.categoriesList;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.easypeasy.models.Category;
-import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
-import com.example.easypeasy.screens.searchByNutrientsList.SearchByNutrientsActivity;
+import com.example.easypeasy.networking.categories.CategorySchema;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 interface SearchCategoryRouterInput {
-    Intent determineNextScreen(List<Category> categoryList);
+    Intent determineNextScreen(List<CategorySchema> categoryList);
 
     void passDataToNextScreen(int position, Intent intent);
 }
@@ -23,10 +23,10 @@ public class SearchCategoryRouter implements SearchCategoryRouterInput {
 
 
     @Override
-    public Intent determineNextScreen(List<Category> categoryList) {
+    public Intent determineNextScreen(List<CategorySchema> categoryList) {
         //Based on the position or some other data decide what is the next scene
         Log.d(TAG, "marija categoryList: " + categoryList);
-        Category chosenCategory = findChosenCategory(categoryList);
+        CategorySchema chosenCategory = findChosenCategory(categoryList);
         if (chosenCategory.getName().equals("ingredients")) {
             return new Intent(activity.get(), SearchByIngredientsActivity.class);
         } else {
@@ -34,9 +34,9 @@ public class SearchCategoryRouter implements SearchCategoryRouterInput {
         }
     }
 
-    private Category findChosenCategory(List<Category> categoryList) {
-        Category chosenCategory = null;
-        for (Category category : categoryList) {
+    private CategorySchema findChosenCategory(List<CategorySchema> categoryList) {
+        CategorySchema chosenCategory = null;
+        for (CategorySchema category : categoryList) {
             if (category.isSelected()) {
                 chosenCategory = category;
             }

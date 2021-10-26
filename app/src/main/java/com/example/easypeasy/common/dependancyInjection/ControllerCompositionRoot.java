@@ -1,14 +1,13 @@
 package com.example.easypeasy.common.dependancyInjection;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.example.easypeasy.networking.FetchRecipeInformationUseCase;
+import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
-import com.example.easypeasy.networking.FetchIngredientMetaDataUseCase;
-import com.example.easypeasy.networking.FetchIngredientsNamesUseCase;
-import com.example.easypeasy.networking.FetchRecipesUseCase;
+import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
+import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
+import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.networking.SpoonacularApi;
 
 public class ControllerCompositionRoot {
@@ -45,7 +44,7 @@ public class ControllerCompositionRoot {
         return new FetchIngredientMetaDataUseCase(getSpoonacularApi());
     }
 
-    public FetchRecipeInformationUseCase getFetchRecipeInformationUseCase() {
-        return new FetchRecipeInformationUseCase(getSpoonacularApi());
+    public FetchRecipeDetailsUseCase getFetchRecipeInformationUseCase() {
+        return new FetchRecipeDetailsUseCase(getSpoonacularApi());
     }
 }

@@ -8,14 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".RecipesApplication"
+        android:name=".common.RecipesApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".screens.searchByIngredientsList.SearchByIngredientsActivity"
+            android:name=".screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -26,10 +26,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".screens.searchByNutrientsList.SearchByNutrientsActivity"
+            android:name=".screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".screens.recipeInformation.RecipeInformationActivity"
+            android:name=".screens.recipeDetails.RecipeDetailsActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".screens.categoriesList.CategoryActivity"

@@ -1,10 +1,10 @@
 package com.example.easypeasy.networking;
 
-import com.example.easypeasy.models.schemas.ConvertAmountResponseSchema;
-import com.example.easypeasy.models.schemas.IngredientResponseSchema;
-import com.example.easypeasy.models.schemas.RecipeDetailsResponseSchema;
-import com.example.easypeasy.models.schemas.RecipeResponseSchema;
-import com.example.easypeasy.models.schemas.SearchIngredientDetailsResponseSchema;
+import com.example.easypeasy.networking.ingredients.ConvertIngredientAmountResponseSchema;
+import com.example.easypeasy.networking.ingredients.IngredientResponseSchema;
+import com.example.easypeasy.networking.recipes.RecipeDetailsResponseSchema;
+import com.example.easypeasy.networking.recipes.RecipeResponseSchema;
+import com.example.easypeasy.networking.ingredients.SearchIngredientDetailsResponseSchema;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public interface SpoonacularApi {
     Call<SearchIngredientDetailsResponseSchema> searchIngredients(@QueryMap Map<String, String> options);
 
     @GET("recipes/convert")
-    Observable<ConvertAmountResponseSchema> convertAmountAndUnit(@QueryMap Map<String, String> options);
+    Observable<ConvertIngredientAmountResponseSchema> convertAmountAndUnit(@QueryMap Map<String, String> options);
 
     @GET("recipes/{id}/information")
     Call<RecipeDetailsResponseSchema> queryRecipeInformation(@Path("id") long id, @QueryMap Map<String, String> options);

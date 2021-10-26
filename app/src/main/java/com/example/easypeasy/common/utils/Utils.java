@@ -5,8 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.Nutrient;
+import com.example.easypeasy.networking.ingredients.IngredientSchema;
+import com.example.easypeasy.networking.nutrients.NutrientSchema;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -18,18 +18,18 @@ public class Utils {
 
     private static final String TAG = "Utils";
 
-    public static String getIngredientsUserInput(List<Ingredient> ingredients) {
+    public static String getIngredientsUserInput(List<IngredientSchema> ingredients) {
         StringBuilder ingredientsString = new StringBuilder();
-        for (Ingredient ingredient : ingredients) {
+        for (IngredientSchema ingredient : ingredients) {
             Log.d(TAG, "ingredient: " + ingredient.toString());
             ingredientsString.append(ingredient.getName()).append(", ");
         }
         return ingredientsString.toString();
     }
 
-    public static Map<String, Map<String, String>> mapIngredientNameWithAmountAndUnit(List<Ingredient> ingredients) {
+    public static Map<String, Map<String, String>> mapIngredientNameWithAmountAndUnit(List<IngredientSchema> ingredients) {
         Map<String, Map<String, String>> ingredientsMap = new HashMap<>();
-        for (Ingredient ingredient : ingredients) {
+        for (IngredientSchema ingredient : ingredients) {
             Map<String, String> quantityMap = new HashMap<>();
             quantityMap.put("amount", String.valueOf(ingredient.getAmount()));
             quantityMap.put("unit", ingredient.getUnit());
@@ -52,11 +52,11 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static String[] getPossibleNutrients(List<Nutrient> alreadyAddedNutrients) {
+    public static String[] getPossibleNutrients(List<NutrientSchema> alreadyAddedNutrients) {
         List<Nutrients> nutrientList = new ArrayList<Nutrients>(EnumSet.allOf(Nutrients.class));
         List<Nutrients> filteredNutrientList = new ArrayList<>(nutrientList);
         for (Nutrients possibleNutrient : nutrientList) {
-            for (Nutrient addedNutrient : alreadyAddedNutrients) {
+            for (NutrientSchema addedNutrient : alreadyAddedNutrients) {
                 if (possibleNutrient.getNutrient().equalsIgnoreCase(addedNutrient.getName())) {
                     filteredNutrientList.remove(possibleNutrient);
                 }

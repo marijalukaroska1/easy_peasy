@@ -6,7 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.easypeasy.models.Category;
+import com.example.easypeasy.networking.categories.CategorySchema;
+import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> implements CategoryListViewItemMvc.Listener {
 
     public interface Listener {
-        void onCategoryClicked(Category category);
+        void onCategoryClicked(CategorySchema category);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -31,7 +32,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     private static final String TAG = CategoriesAdapter.class.getSimpleName();
 
-    List<Category> mCategories;
+    List<CategorySchema> mCategories;
     private final Listener mListener;
     LayoutInflater mInflater;
     ViewMvcFactory mViewMvcFactory;
@@ -50,8 +51,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return new ViewHolder(viewItemMvc);
     }
 
-    public void updateUi(Category selectedCategory) {
-        for (Category category : mCategories) {
+    public void updateUi(CategorySchema selectedCategory) {
+        for (CategorySchema category : mCategories) {
             category.setSelected(category == selectedCategory);
         }
     }
@@ -61,7 +62,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         holder.mViewItemMvc.bindCategory(mCategories.get(position));
     }
 
-    public void bindCategories(List<Category> categoriesList) {
+    public void bindCategories(List<CategorySchema> categoriesList) {
         mCategories = new ArrayList<>(categoriesList);
         mCategories.get(0).setSelected(true);
         notifyDataSetChanged();
@@ -77,7 +78,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     }
 
     @Override
-    public void onCategoryClicked(Category category) {
+    public void onCategoryClicked(CategorySchema category) {
         mListener.onCategoryClicked(category);
     }
 }

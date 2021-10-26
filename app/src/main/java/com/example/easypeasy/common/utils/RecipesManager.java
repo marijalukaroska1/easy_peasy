@@ -2,10 +2,10 @@ package com.example.easypeasy.common.utils;
 
 import android.util.Log;
 
-import com.example.easypeasy.models.IngredientWithConvertedAmount;
-import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.RecipeDetails;
-import com.example.easypeasy.networking.ConvertAmountAndUnitsUseCase;
+import com.example.easypeasy.networking.ingredients.IngredientWithConvertedAmountSchema;
+import com.example.easypeasy.networking.ingredients.IngredientSchema;
+import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
+import com.example.easypeasy.recipes.ingredients.ConvertIngredientAmountAndUnitsUseCase;
 import com.example.easypeasy.networking.SpoonacularApi;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 
@@ -13,38 +13,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RecipesManager extends BaseObservableViewMvc<RecipesManager.Listener> implements ConvertAmountAndUnitsUseCase.Listener {
+public class RecipesManager extends BaseObservableViewMvc<RecipesManager.Listener> implements ConvertIngredientAmountAndUnitsUseCase.Listener {
 
     public interface Listener {
-        void onRecipesFiltered(List<RecipeDetails> recipeData);
+        void onRecipesFiltered(List<RecipeDetailsSchema> recipeData);
     }
 
     private static final String TAG = RecipesManager.class.getSimpleName();
     private boolean mIsSearchByIngredients = false;
-    private List<RecipeDetails> mFilteredRecipeData;
-    ConvertAmountAndUnitsUseCase convertAmountAndUnitsUseCase;
+    private List<RecipeDetailsSchema> mFilteredRecipeData;
+    ConvertIngredientAmountAndUnitsUseCase convertAmountAndUnitsUseCase;
 
     public RecipesManager(SpoonacularApi spoonacularApi) {
-        convertAmountAndUnitsUseCase = new ConvertAmountAndUnitsUseCase(spoonacularApi);
+        convertAmountAndUnitsUseCase = new ConvertIngredientAmountAndUnitsUseCase(spoonacularApi);
         convertAmountAndUnitsUseCase.registerListener(this);
     }
 
-    public void filterRecipes(List<RecipeDetails> recipeDetailsList, List<Ingredient> ingredientList) {
-        mFilteredRecipeData = new ArrayList<>(recipeDetailsList);
+    public void filterRecipes(List<RecipeDetailsSchema> recipeDetailsSchemaList, List<IngredientSchema> ingredientList) {
+        mFilteredRecipeData = new ArrayList<>(recipeDetailsSchemaList);
         if (mIsSearchByIngredients) {
             Map<String, Map<String, String>> inputIngredientsMap = Utils.mapIngredientNameWithAmountAndUnit(ingredientList);
-            for (RecipeDetails recipeDetails : recipeDetailsList) {
-                Log.d(TAG, "recipe name: " + recipeDetails.getTitle() + " number of ingredients: " + recipeDetails.getUsedIngredients().size());
+            for (RecipeDetailsSchema recipeDetailsSchema : recipeDetailsSchemaList) {
+                Log.d(TAG, "recipe name: " + recipeDetailsSchema.getTitle() + " number of ingredients: " + recipeDetailsSchema.getUsedIngredients().size());
                 Log.d(TAG, "=================================================");
-                for (Ingredient responseIngredient : recipeDetails.getUsedIngredients()) {
+                for (IngredientSchema responseIngredient : recipeDetailsSchema.getUsedIngredients()) {
                     if (inputIngredientsMap.containsKey(responseIngredient.getName())) {
                         if (!responseIngredient.getUnit().isEmpty() && !responseIngredient.getUnit().equalsIgnoreCase(inputIngredientsMap.get(responseIngredient.getName()).get("unit"))) {
                             Log.d(TAG, "different unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + inputIngredientsMap.get(responseIngredient.getName()).get("amount") + " " + responseIngredient.getUnit() + " " + responseIngredient.getAmount());
-                            convertAmountAndUnitsUseCase.addConvertedUnitsAndAmountRequest(responseIngredient.getName(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), recipeDetails);
+                            convertAmountAndUnitsUseCase.addConvertedUnitsAndAmountRequest(responseIngredient.getName(), responseIngredient.getUnit(), inputIngredientsMap.get(responseIngredient.getName()), recipeDetailsSchema);
                         } else {
                             Log.d(TAG, "same unit for both ingredients: " + inputIngredientsMap.get(responseIngredient.getName()).get("unit") + " " + responseIngredient.getUnit());
                             if (responseIngredient.getAmount() > Float.parseFloat(inputIngredientsMap.get(responseIngredient.getName()).get("amount"))) {
-                                mFilteredRecipeData.remove(recipeDetails);
+                                mFilteredRecipeData.remove(recipeDetailsSchema);
                             }
                         }
                     }
@@ -59,19 +59,19 @@ public class RecipesManager extends BaseObservableViewMvc<RecipesManager.Listene
     }
 
     @Override
-    public void onConvertAmountsSuccess(List<IngredientWithConvertedAmount> ingredientWithConvertedAmountList) {
-        for (IngredientWithConvertedAmount ingredientWIthConvertedAmount : ingredientWithConvertedAmountList) {
-            for (Ingredient ingredient : ingredientWIthConvertedAmount.getRecipe().getUsedIngredients()) {
-                if (ingredient.getName().equalsIgnoreCase(ingredientWIthConvertedAmount.getIngredientName())) {
-                    if (ingredient.getUnit().equalsIgnoreCase(ingredientWIthConvertedAmount.getTargetUnit())) {
-                        if (ingredient.getAmount() > ingredientWIthConvertedAmount.getTargetAmount()) {
-                            Log.d(TAG, "Removing Recipe: " + ingredientWIthConvertedAmount.getRecipe().getTitle() + "\n " +
-                                    "insert ingredient name: " + ingredientWIthConvertedAmount.getIngredientName() + "\n" +
-                                    "insert ingredient unit: " + ingredientWIthConvertedAmount.getTargetUnit() + "\n" +
+    public void onConvertAmountsSuccess(List<IngredientWithConvertedAmountSchema> ingredientWithConvertedAmountSchemaList) {
+        for (IngredientWithConvertedAmountSchema ingredientWIthConvertedAmountSchema : ingredientWithConvertedAmountSchemaList) {
+            for (IngredientSchema ingredient : ingredientWIthConvertedAmountSchema.getRecipe().getUsedIngredients()) {
+                if (ingredient.getName().equalsIgnoreCase(ingredientWIthConvertedAmountSchema.getIngredientName())) {
+                    if (ingredient.getUnit().equalsIgnoreCase(ingredientWIthConvertedAmountSchema.getTargetUnit())) {
+                        if (ingredient.getAmount() > ingredientWIthConvertedAmountSchema.getTargetAmount()) {
+                            Log.d(TAG, "Removing Recipe: " + ingredientWIthConvertedAmountSchema.getRecipe().getTitle() + "\n " +
+                                    "insert ingredient name: " + ingredientWIthConvertedAmountSchema.getIngredientName() + "\n" +
+                                    "insert ingredient unit: " + ingredientWIthConvertedAmountSchema.getTargetUnit() + "\n" +
                                     "recipe ingredient unit: " + ingredient.getUnit() + "\n" +
-                                    "insert ingredient amount: " + ingredientWIthConvertedAmount.getTargetAmount() + "\n" +
+                                    "insert ingredient amount: " + ingredientWIthConvertedAmountSchema.getTargetAmount() + "\n" +
                                     "recipe ingredient amount: " + ingredient.getAmount() + "\n" +
-                                    mFilteredRecipeData.remove(ingredientWIthConvertedAmount.getRecipe()));
+                                    mFilteredRecipeData.remove(ingredientWIthConvertedAmountSchema.getRecipe()));
                         }
                     }
                 }

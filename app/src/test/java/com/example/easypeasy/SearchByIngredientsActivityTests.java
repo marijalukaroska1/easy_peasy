@@ -6,14 +6,14 @@ import android.widget.Button;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.example.easypeasy.common.utils.Utils;
-import com.example.easypeasy.models.Ingredient;
-import com.example.easypeasy.models.schemas.ConvertAmountResponseSchema;
-import com.example.easypeasy.models.schemas.IngredientResponseSchema;
-import com.example.easypeasy.models.schemas.RecipeDetailsResponseSchema;
-import com.example.easypeasy.models.schemas.RecipeResponseSchema;
-import com.example.easypeasy.models.schemas.SearchIngredientDetailsResponseSchema;
+import com.example.easypeasy.networking.ingredients.IngredientSchema;
+import com.example.easypeasy.networking.ingredients.ConvertIngredientAmountResponseSchema;
+import com.example.easypeasy.networking.ingredients.IngredientResponseSchema;
+import com.example.easypeasy.networking.recipes.RecipeDetailsResponseSchema;
+import com.example.easypeasy.networking.recipes.RecipeResponseSchema;
+import com.example.easypeasy.networking.ingredients.SearchIngredientDetailsResponseSchema;
 import com.example.easypeasy.networking.SpoonacularApi;
-import com.example.easypeasy.screens.searchByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,14 +90,14 @@ public class SearchByIngredientsActivityTests {
         SearchByIngredientsActivity searchByIngredientsActivity = Robolectric.buildActivity(SearchByIngredientsActivity.class).create().get();
 
         for (int i = 0; i <= 10; i++) {
-            searchByIngredientsActivity.mViewMvc.getIngredientList().add(new Ingredient());
+            searchByIngredientsActivity.mViewMvc.getIngredientList().add(new IngredientSchema());
         }
 
         Button searchButton = searchByIngredientsActivity.findViewById(R.id.searchButtonId);
         assertNotNull(searchButton);
         searchButton.performClick();
 
-        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient());
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new IngredientSchema());
 
         assertEquals(ApplicationProvider.getApplicationContext().getResources().getString(R.string.message_maximum_ingredients), ShadowToast.getTextOfLatestToast().toString());
     }
@@ -125,11 +125,11 @@ public class SearchByIngredientsActivityTests {
     @Test
     public void test_getIngredientsUserInput_returnsStringContainingAllIngredientsSeparatedWithComma() {
         SearchByIngredientsActivity searchByIngredientsActivity = Robolectric.buildActivity(SearchByIngredientsActivity.class).create().get();
-        List<Ingredient> ingredients = new ArrayList<>();
+        List<IngredientSchema> ingredients = new ArrayList<>();
 
-        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("apple", 3));
-        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("milk", 100));
-        searchByIngredientsActivity.mViewMvc.bindIngredient(new Ingredient("eggs", 5));
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new IngredientSchema("apple", 3));
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new IngredientSchema("milk", 100));
+        searchByIngredientsActivity.mViewMvc.bindIngredient(new IngredientSchema("eggs", 5));
 
         String stringIngredients = Utils.getIngredientsUserInput(ingredients);
         assertTrue(stringIngredients.contains(ingredients.get(0).getName()));
@@ -330,11 +330,11 @@ public class SearchByIngredientsActivityTests {
         }
 
         @Override
-        public Observable<ConvertAmountResponseSchema> convertAmountAndUnit(Map<String, String> options) {
+        public Observable<ConvertIngredientAmountResponseSchema> convertAmountAndUnit(Map<String, String> options) {
             isConvertAmountCalled = true;
-            return new Observable<ConvertAmountResponseSchema>() {
+            return new Observable<ConvertIngredientAmountResponseSchema>() {
                 @Override
-                protected void subscribeActual(@NonNull Observer<? super ConvertAmountResponseSchema> observer) {
+                protected void subscribeActual(@NonNull Observer<? super ConvertIngredientAmountResponseSchema> observer) {
 
                 }
 

@@ -1,6 +1,6 @@
 package com.example.easypeasy.screens.categoriesList;
 
-import com.example.easypeasy.models.Category;
+import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.screens.common.ObservableListViewMvc;
 
 import java.util.List;
@@ -11,5 +11,5 @@ public interface CategoryListViewMvc extends ObservableListViewMvc<CategoryListV
         void onContinueButtonClicked();
     }
 
-    void bindCategories(List<Category> categories);
+    void bindCategories(List<CategorySchema> categories);
 }

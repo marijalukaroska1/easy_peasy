@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.models.Category;
+import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 
@@ -36,12 +36,12 @@ public class CategoryListViewMvcImpl extends BaseObservableViewMvc<CategoryListV
     }
 
     @Override
-    public void bindCategories(List<Category> categories) {
+    public void bindCategories(List<CategorySchema> categories) {
         mAdapter.bindCategories(categories);
     }
 
     @Override
-    public void onCategoryClicked(Category category) {
+    public void onCategoryClicked(CategorySchema category) {
         mAdapter.updateUi(category);
         mAdapter.notifyDataSetChanged();
     }
