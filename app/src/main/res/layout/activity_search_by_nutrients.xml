@@ -3,24 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Top -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/bg_actionbar">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="25dp"
-            android:text="@string/search_by_nutrients"
-            android:textColor="#fff"
-            android:textSize="@dimen/activity_title_text"
-            android:textStyle="bold" />
-    </RelativeLayout>
+        <include layout="@layout/element_toolbar" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNutrients"

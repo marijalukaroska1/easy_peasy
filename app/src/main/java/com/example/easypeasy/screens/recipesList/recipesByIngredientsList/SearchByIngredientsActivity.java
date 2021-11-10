@@ -14,6 +14,7 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
+import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseActivity;
 
 import java.util.List;
@@ -36,7 +37,6 @@ public class SearchByIngredientsActivity extends BaseActivity
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByIngredientsViewMvc(null, searchManager.getSearchableInfo(getComponentName()));
-        mViewMvc.registerListener(this);
         mViewMvc.bindIngredient(new IngredientSchema());
         mFetchRecipesUseCase = getCompositionRoot().getFetchRecipesUseCase();
         mFetchIngredientsNamesUseCase = getCompositionRoot().getFetchIngredientsNamesUseCase();
@@ -47,6 +47,8 @@ public class SearchByIngredientsActivity extends BaseActivity
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "in onStart");
+        mViewMvc.registerListener(this);
         mFetchRecipesUseCase.registerListener(this);
         mFetchIngredientsNamesUseCase.registerListener(this);
         mFetchIngredientMetaDataUseCase.registerListener(this);
@@ -55,6 +57,8 @@ public class SearchByIngredientsActivity extends BaseActivity
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "in onStop");
+        mViewMvc.unregisterListener(this);
         mFetchRecipesUseCase.unregisterListener(this);
         mFetchIngredientsNamesUseCase.unregisterListener(this);
         mFetchIngredientMetaDataUseCase.unregisterListener(this);
@@ -94,6 +98,12 @@ public class SearchByIngredientsActivity extends BaseActivity
         } else {
             fetchRecipes();
         }
+    }
+
+    @Override
+    public void onNavigationUpClicked() {
+        Log.d(TAG, "in onNavigationUpClicked");
+        onBackPressed();
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,10 +26,11 @@ import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
+import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 
-public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetailsViewMvc> implements RecipeDetailsViewMvc {
+public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetailsViewMvc.Listener> implements RecipeDetailsViewMvc {
 
     private static final String TAG = RecipeDetailsViewMvcImpl.class.getSimpleName();
     private final ImageView recipeImageView;
@@ -39,6 +41,8 @@ public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetail
     private final RecyclerView usedIngredientsRecyclerView;
     private final ViewMvcFactory mViewMvcFactory;
     private final ProgressBar progressIndicator;
+    private final Toolbar mToolbar;
+    private final ToolbarViewMvc mToolbarViewMvc;
 
     public RecipeDetailsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.activity_recipe_details, parent, false));
@@ -50,6 +54,23 @@ public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetail
         ingredientSourceUrlTextView = findViewById(R.id.sourceUrlTextView);
         progressIndicator = findViewById(R.id.progressIndicatorId);
         mViewMvcFactory = viewMvcFactory;
+
+        mToolbar = findViewById(R.id.toolbar);
+        mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.recipe_details));
+        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
+        mToolbar.addView(mToolbarViewMvc.getRootView());
+
+        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+            for (Listener listener : getListeners()) {
+                listener.onNavigationUpClicked();
+            }
+        });
     }
 
     @Override

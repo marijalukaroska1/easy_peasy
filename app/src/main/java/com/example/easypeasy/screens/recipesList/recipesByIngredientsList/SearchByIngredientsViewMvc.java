@@ -10,6 +10,7 @@ public interface SearchByIngredientsViewMvc extends ObservableListViewMvc<Search
 
     interface Listener {
         void searchRecipesButtonClicked();
+        void onNavigationUpClicked();
     }
 
     List<IngredientSchema> getIngredientList();

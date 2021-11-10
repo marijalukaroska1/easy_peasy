@@ -5,24 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity">
 
-    <!-- Top -->
-    <RelativeLayout
-        android:id="@+id/topLayout"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/bg_actionbar">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="25dp"
-            android:text="@string/choose_category_title"
-            android:textColor="#fff"
-            android:textSize="@dimen/activity_title_text"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    <include layout="@layout/element_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCategoriesId"

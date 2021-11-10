@@ -15,7 +15,7 @@
     <string name="search_by_ingredients">Search by Ingredients</string>
     <string name="search_by_nutrients">Search by Nutrients</string>
     <string name="search_by_cuisine">Search by Cuisine</string>
-    <string name="recipe_information">Recipe Information</string>
+    <string name="recipe_details">Recipe Details</string>
     <string name="insert_quantity">Please insert quantity for the inserted ingredient</string>
     <string name="insert_ingredient_name">Please insert ingredient</string>
     <string name="insert_unit">Please choose unit</string>
@@ -26,4 +26,6 @@
     <string name="insert_ingredient_unit">Please select a unit for the inserted ingredient amount</string>
     <string name="please_insert_nutrient">Please insert a nutrient</string>
     <string name="no_recipes_were_found">No recipeDetailsSchema were found. Please go back and try again</string>
+    <string name="choose_category_screen_title">Choose Category</string>
+    <string name="title">Title</string>
 </resources>

@@ -21,11 +21,25 @@ public class SearchByNutrientsActivity extends BaseActivity
     FetchRecipesUseCase mFetchRecipesUseCase;
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "in onStop");
+        mViewMvc.unregisterListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "in onStart");
+        mViewMvc.registerListener(this);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "in onCreate");
         mViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByNutrientsViewMvc(null);
         mViewMvc.bindNutrient(new NutrientSchema("", 0.0f));
-        mViewMvc.registerListener(this);
 
         mFetchRecipesUseCase = getCompositionRoot().getFetchRecipesUseCase();
         mFetchRecipesUseCase.registerListener(this);
@@ -41,6 +55,11 @@ public class SearchByNutrientsActivity extends BaseActivity
     public void searchRecipes() {
         Log.d(TAG, "searchRecipes fetchMetaData is called");
         fetchRecipesData();
+    }
+
+    @Override
+    public void onNavigationUpClicked() {
+        onBackPressed();
     }
 
     @Override

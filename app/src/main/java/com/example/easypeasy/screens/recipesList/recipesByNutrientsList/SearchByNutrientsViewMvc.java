@@ -12,6 +12,7 @@ public interface SearchByNutrientsViewMvc extends ObservableListViewMvc<SearchBy
 
     interface Listener {
         void searchRecipes();
+        void onNavigationUpClicked();
     }
 
     void bindNutrient(NutrientSchema nutrient);

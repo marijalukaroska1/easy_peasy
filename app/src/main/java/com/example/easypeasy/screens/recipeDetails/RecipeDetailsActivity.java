@@ -10,7 +10,7 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
 import com.example.easypeasy.screens.common.BaseActivity;
 
-public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDetailsUseCase.Listener {
+public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDetailsUseCase.Listener, RecipeDetailsViewMvc.Listener {
 
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
     long recipeId = 0L;
@@ -21,6 +21,7 @@ public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "in onCreate");
         mViewMvc = getCompositionRoot().getViewMvcFactory().getRecipeInformationViewMvc(null);
         mFetchRecipeDetailsUseCase = getCompositionRoot().getFetchRecipeInformationUseCase();
         setContentView(mViewMvc.getRootView());
@@ -30,13 +31,17 @@ public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDe
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "in onStart");
+        mViewMvc.registerListener(this);
         mFetchRecipeDetailsUseCase.registerListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "in onStop");
         mFetchRecipeDetailsUseCase.unregisterListener(this);
+        mViewMvc.unregisterListener(this);
     }
 
     private void handleIntent() {
@@ -55,5 +60,10 @@ public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDe
     @Override
     public void onFetchRecipeDetailsFailure() {
         Toast.makeText(this, "Error fetching recipe information", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNavigationUpClicked() {
+        onBackPressed();
     }
 }

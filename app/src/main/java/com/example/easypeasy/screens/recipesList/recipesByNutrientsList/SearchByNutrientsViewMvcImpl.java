@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
+import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
+import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.ViewMvcFactory;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
-import com.example.easypeasy.common.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,10 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
     private final Button searchButton;
     private final NutrientsAdapter nutrientsAdapter;
     private final List<NutrientSchema> mNutrientList = new ArrayList<>();
+    private final Toolbar mToolbar;
+    private final ToolbarViewMvc mToolbarViewMvc;
 
-    public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent) {
+    public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.activity_search_by_nutrients, parent, false));
         recyclerViewNutrients = findViewById(R.id.recyclerViewNutrients);
         recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
@@ -47,6 +52,24 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
         recyclerViewNutrients.setLayoutManager(linearLayoutManager);
         nutrientsAdapter = new NutrientsAdapter(mNutrientList, getContext(), this);
         recyclerViewNutrients.setAdapter(nutrientsAdapter);
+
+        mToolbar = findViewById(R.id.toolbar);
+        mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+
+        initToolbar();
+
+    }
+
+    private void initToolbar() {
+        mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.search_by_nutrients));
+        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
+        mToolbar.addView(mToolbarViewMvc.getRootView());
+
+        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+            for (Listener listener : getListeners()) {
+                listener.onNavigationUpClicked();
+            }
+        });
     }
 
     @Override

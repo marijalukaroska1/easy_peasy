@@ -9,6 +9,7 @@ public interface CategoryListViewMvc extends ObservableListViewMvc<CategoryListV
 
     interface Listener {
         void onContinueButtonClicked();
+        void onNavigateUpAndClicked();
     }
 
     void bindCategories(List<CategorySchema> categories);

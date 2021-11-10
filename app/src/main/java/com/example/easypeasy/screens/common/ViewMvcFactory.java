@@ -6,17 +6,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
-import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvcImpl;
+import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvcImpl;
+import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
+import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvcImpl;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsUsedIngredientsItemViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvcImpl;
-import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.recipeByIngredientsListItem.SearchByIngredientsViewItemMvc;
-import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.recipeByIngredientsListItem.SearchByIngredientsViewItemMvcImpl;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsViewMvc;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsViewMvcImpl;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.recipeByIngredientsListItem.SearchByIngredientsViewItemMvc;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.recipeByIngredientsListItem.SearchByIngredientsViewItemMvcImpl;
 import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsViewMvc;
 import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsViewMvcImpl;
 
@@ -29,7 +30,7 @@ public class ViewMvcFactory {
     }
 
     public SearchByNutrientsViewMvc getSearchByNutrientsViewMvc(@Nullable ViewGroup parent) {
-        return new SearchByNutrientsViewMvcImpl(mLayoutInflater, parent);
+        return new SearchByNutrientsViewMvcImpl(mLayoutInflater, parent, this);
     }
 
     public SearchByIngredientsViewMvc getSearchByIngredientsViewMvc(@Nullable ViewGroup parent, SearchableInfo searchableInfo) {
@@ -54,5 +55,9 @@ public class ViewMvcFactory {
 
     public RecipeDetailsUsedIngredientsItemViewMvc getRecipeInformationUsedIngredientsItemViewMvc(@Nullable ViewGroup parent) {
         return new RecipeDetailsUsedIngredientsItemViewMvc(mLayoutInflater, parent);
+    }
+
+    public ToolbarViewMvc getToolbarViewMvc(@Nullable ViewGroup parent) {
+        return new ToolbarViewMvc(mLayoutInflater, parent);
     }
 }

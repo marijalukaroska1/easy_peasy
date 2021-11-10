@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,9 +17,10 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
+import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     private final RecyclerView mRecyclerViewIngredients, mRecyclerViewRecipes;
     private final IngredientsAdapter mIngredientsAdapter;
     private final ProgressBar progressIndicator;
+    private final Toolbar mToolbar;
+    private final ToolbarViewMvc mToolbarViewMvc;
 
 
     public SearchByIngredientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
@@ -51,6 +55,24 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
         mRecyclerViewIngredients.setLayoutManager(linearLayoutManager);
         mIngredientsAdapter = new IngredientsAdapter(this, searchableInfo, viewMvcFactory);
         mRecyclerViewIngredients.setAdapter(mIngredientsAdapter);
+
+        mToolbar = findViewById(R.id.toolbar);
+        mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.search_by_ingredients));
+        mToolbar.addView(mToolbarViewMvc.getRootView());
+
+        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
+
+        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+            for (Listener listener : getListeners()) {
+                listener.onNavigationUpClicked();
+            }
+        });
     }
 
 
