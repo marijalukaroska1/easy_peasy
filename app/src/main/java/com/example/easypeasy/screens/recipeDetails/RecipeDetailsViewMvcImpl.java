@@ -26,7 +26,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.ToolbarViewMvc;
+import com.example.easypeasy.screens.common.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 
@@ -63,10 +63,9 @@ public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetail
 
     private void initToolbar() {
         mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.recipe_details));
-        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
         mToolbar.addView(mToolbarViewMvc.getRootView());
 
-        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+        mToolbarViewMvc.enableNavigationBackButtonAndListen(() -> {
             for (Listener listener : getListeners()) {
                 listener.onNavigationUpClicked();
             }

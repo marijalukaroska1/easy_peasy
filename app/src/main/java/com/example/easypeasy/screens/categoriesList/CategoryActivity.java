@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import com.example.easypeasy.common.Configurator;
 import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.screens.common.BaseActivity;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +61,25 @@ public class CategoryActivity extends BaseActivity implements CategoryListViewMv
     @Override
     public void onNavigateUpAndClicked() {
 
+    }
+
+
+    @Override
+    public void selectSearchByIngredientsItemClicked() {
+        startActivity(new Intent(this, SearchByIngredientsActivity.class));
+    }
+
+    @Override
+    public void selectSearchByNutrientsItemClicked() {
+        startActivity(new Intent(this, SearchByNutrientsActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewMvc.isDrawerOpen()) {
+            mViewMvc.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

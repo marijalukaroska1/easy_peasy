@@ -15,15 +15,16 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.ToolbarViewMvc;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.navDrawer.BaseObservableNavViewMvc;
+import com.example.easypeasy.screens.navDrawer.DrawerItem;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchByNutrientsViewMvc.Listener> implements SearchByNutrientsViewMvc, NutrientsAdapter.Listener {
+public class SearchByNutrientsViewMvcImpl extends BaseObservableNavViewMvc<SearchByNutrientsViewMvc.Listener> implements SearchByNutrientsViewMvc, NutrientsAdapter.Listener {
 
     private static final String TAG = SearchByNutrientsViewMvcImpl.class.getSimpleName();
     private final RecyclerView recyclerViewNutrients, recyclerViewRecipes;
@@ -34,6 +35,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
     private final ToolbarViewMvc mToolbarViewMvc;
 
     public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
+        super(inflater, parent);
         setRootView(inflater.inflate(R.layout.activity_search_by_nutrients, parent, false));
         recyclerViewNutrients = findViewById(R.id.recyclerViewNutrients);
         recyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
@@ -62,10 +64,9 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
 
     private void initToolbar() {
         mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.search_by_nutrients));
-        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
         mToolbar.addView(mToolbarViewMvc.getRootView());
 
-        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+        mToolbarViewMvc.enableNavigationBackButtonAndListen(() -> {
             for (Listener listener : getListeners()) {
                 listener.onNavigationUpClicked();
             }
@@ -130,5 +131,17 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
 
     boolean checkIfOneOrMoreNutrientsAreInserted() {
         return getNutrients().size() > 0 && !getNutrients().get(0).getName().isEmpty() && getNutrients().get(0).getAmount() != 0.0;
+    }
+
+    @Override
+    protected void onDrawerItemClick(DrawerItem item) {
+        for (Listener listener : getListeners()) {
+            switch (item) {
+                case SELECT_SEARCH_BY_INGREDIENTS:
+                    listener.selectByIngredientsItemClicked();
+                case SELECT_SEARCH_BY_NUTRIENTS:
+                    listener.selectSearchByNutrientsItemClicked();
+            }
+        }
     }
 }

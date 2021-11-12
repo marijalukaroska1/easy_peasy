@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvcImpl;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;

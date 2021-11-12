@@ -14,8 +14,8 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
-import com.example.easypeasy.screens.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.BaseActivity;
+import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity;
 
 import java.util.List;
 
@@ -107,6 +107,17 @@ public class SearchByIngredientsActivity extends BaseActivity
     }
 
     @Override
+    public void selectSearchByIngredientsItemClicked() {
+        //This is the select by ingredients screen - nothing to do in this method
+    }
+
+    @Override
+    public void selectSearchByNutrientsItemClicked() {
+        finish();
+        startActivity(new Intent(this, SearchByNutrientsActivity.class));
+    }
+
+    @Override
     public void onFetchRecipesSuccess(List<RecipeDetailsSchema> recipeData) {
         Log.d(TAG, "in onRecipesFetchedSuccess");
         mViewMvc.hideProgressIndication();
@@ -140,5 +151,14 @@ public class SearchByIngredientsActivity extends BaseActivity
     @Override
     public void onFetchIngredientMetaDataFailure() {
         Toast.makeText(this, "Fetch Ingredient Names Failure", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewMvc.isDrawerOpen()) {
+            mViewMvc.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

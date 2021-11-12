@@ -17,14 +17,15 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.ToolbarViewMvc;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.navDrawer.BaseObservableNavViewMvc;
+import com.example.easypeasy.screens.navDrawer.DrawerItem;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 
 import java.util.List;
 
-public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<SearchByIngredientsViewMvc.Listener> implements SearchByIngredientsViewMvc, IngredientsAdapter.Listener {
+public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<SearchByIngredientsViewMvc.Listener> implements SearchByIngredientsViewMvc, IngredientsAdapter.Listener {
 
     private static final String TAG = SearchByIngredientsViewMvcImpl.class.getSimpleName();
     private final Button mSearchButton;
@@ -36,6 +37,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
 
 
     public SearchByIngredientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
+        super(inflater, parent);
         setRootView(inflater.inflate(R.layout.activity_search_by_ingredients, parent, false));
         mSearchButton = findViewById(R.id.searchButtonId);
         mRecyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
@@ -66,9 +68,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
         mToolbarViewMvc.setTitle(getContext().getResources().getString(R.string.search_by_ingredients));
         mToolbar.addView(mToolbarViewMvc.getRootView());
 
-        mToolbarViewMvc.setmButtonNavigationVisibility(View.VISIBLE);
-
-        mToolbarViewMvc.enableNavigationButtonAndListen(() -> {
+        mToolbarViewMvc.enableNavigationBackButtonAndListen(() -> {
             for (Listener listener : getListeners()) {
                 listener.onNavigationUpClicked();
             }
@@ -139,5 +139,17 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     @Override
     public void hideProgressIndication() {
         progressIndicator.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDrawerItemClick(DrawerItem item) {
+        for (Listener listener : getListeners()) {
+            switch (item) {
+                case SELECT_SEARCH_BY_INGREDIENTS:
+                    listener.selectSearchByIngredientsItemClicked();
+                case SELECT_SEARCH_BY_NUTRIENTS:
+                    listener.selectSearchByNutrientsItemClicked();
+            }
+        }
     }
 }

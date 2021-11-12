@@ -1,5 +1,6 @@
 package com.example.easypeasy.screens.recipesList.recipesByNutrientsList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.example.easypeasy.networking.nutrients.NutrientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.screens.common.BaseActivity;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
 
 import java.util.List;
 
@@ -62,6 +64,19 @@ public class SearchByNutrientsActivity extends BaseActivity
         onBackPressed();
     }
 
+
+
+    @Override
+    public void selectByIngredientsItemClicked() {
+        finish();
+        startActivity(new Intent(this, SearchByIngredientsActivity.class));
+    }
+
+    @Override
+    public void selectSearchByNutrientsItemClicked() {
+        // this is the search by nutrients screen - nothing to do in this method
+    }
+
     @Override
     public void onFetchRecipesSuccess(List<RecipeDetailsSchema> recipeData) {
         Utils.hideKeyboard(this);
@@ -71,5 +86,14 @@ public class SearchByNutrientsActivity extends BaseActivity
     @Override
     public void onFetchRecipesFailure() {
         Toast.makeText(this, "Fetch Recipes Failure", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mViewMvc.isDrawerOpen()) {
+            mViewMvc.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
