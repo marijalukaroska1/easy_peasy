@@ -1,5 +1,6 @@
 package com.example.easypeasy.screens.recipeDetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,6 +10,8 @@ import androidx.annotation.Nullable;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
 import com.example.easypeasy.screens.common.BaseActivity;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity;
 
 public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDetailsUseCase.Listener, RecipeDetailsViewMvc.Listener {
 
@@ -65,5 +68,31 @@ public class RecipeDetailsActivity extends BaseActivity implements FetchRecipeDe
     @Override
     public void onNavigationUpClicked() {
         onBackPressed();
+    }
+
+    @Override
+    public void selectSearchByIngredientsItemClicked() {
+        finish();
+        Intent intent = new Intent(this, SearchByIngredientsActivity.class);
+        intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    public void selectSearchByNutrientsItemClicked() {
+        finish();
+        Intent intent = new Intent(this, SearchByNutrientsActivity.class);
+        intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (mViewMvc.isDrawerOpen()) {
+            mViewMvc.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

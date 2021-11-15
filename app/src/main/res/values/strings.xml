@@ -25,7 +25,7 @@
     <string name="summary">Summary: x</string>
     <string name="insert_ingredient_unit">Please select a unit for the inserted ingredient amount</string>
     <string name="please_insert_nutrient">Please insert a nutrient</string>
-    <string name="no_recipes_were_found">No recipeDetailsSchema were found. Please go back and try again</string>
+    <string name="no_recipes_were_found">No recipes were found. Please go back and try again</string>
     <string name="choose_category_screen_title">Choose Category</string>
     <string name="title">Title</string>
 </resources>

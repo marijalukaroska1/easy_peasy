@@ -66,11 +66,13 @@ public class CategoryActivity extends BaseActivity implements CategoryListViewMv
 
     @Override
     public void selectSearchByIngredientsItemClicked() {
+        Log.d(TAG, "selectSearchByIngredientsItemClicked");
         startActivity(new Intent(this, SearchByIngredientsActivity.class));
     }
 
     @Override
     public void selectSearchByNutrientsItemClicked() {
+        Log.d(TAG, "selectSearchByNutrientsItemClicked");
         startActivity(new Intent(this, SearchByNutrientsActivity.class));
     }
 

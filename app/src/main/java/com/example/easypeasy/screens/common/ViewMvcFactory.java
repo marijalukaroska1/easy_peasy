@@ -13,6 +13,8 @@ import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryLis
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsUsedIngredientsItemViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvcImpl;
+import com.example.easypeasy.screens.recipesList.common.RecipeListViewItemMvc;
+import com.example.easypeasy.screens.recipesList.common.RecipeListViewItemMvcImpl;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsViewMvc;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsViewMvcImpl;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.recipeByIngredientsListItem.SearchByIngredientsViewItemMvc;
@@ -58,5 +60,9 @@ public class ViewMvcFactory {
 
     public ToolbarViewMvc getToolbarViewMvc(@Nullable ViewGroup parent) {
         return new ToolbarViewMvc(mLayoutInflater, parent);
+    }
+
+    public RecipeListViewItemMvc getRecipeListViewItemMvc(@Nullable ViewGroup parent) {
+        return new RecipeListViewItemMvcImpl(mLayoutInflater, parent);
     }
 }

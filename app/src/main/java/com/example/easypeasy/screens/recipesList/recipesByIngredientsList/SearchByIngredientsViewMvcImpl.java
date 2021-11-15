@@ -34,6 +34,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
     private final ProgressBar progressIndicator;
     private final Toolbar mToolbar;
     private final ToolbarViewMvc mToolbarViewMvc;
+    private final ViewMvcFactory mViewMvcFactory;
 
 
     public SearchByIngredientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
@@ -60,6 +61,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
 
         mToolbar = findViewById(R.id.toolbar);
         mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+        mViewMvcFactory = viewMvcFactory;
 
         initToolbar();
     }
@@ -86,7 +88,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
         Log.d(TAG, "bindRecipes:");
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
         mRecyclerViewIngredients.setVisibility(View.GONE);
-        RecipesListAdapter mRecipesListAdapter = new RecipesListAdapter(recipeData, getContext());
+        RecipesListAdapter mRecipesListAdapter = new RecipesListAdapter(recipeData, mViewMvcFactory);
         if (mRecipesListAdapter.getItemCount() == 0) {
             findViewById(R.id.noRecipesFoundId).setVisibility(View.VISIBLE);
             mRecyclerViewRecipes.setVisibility(View.GONE);
@@ -146,9 +148,13 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
         for (Listener listener : getListeners()) {
             switch (item) {
                 case SELECT_SEARCH_BY_INGREDIENTS:
+                    Log.d(TAG, "SELECT_SEARCH_BY_INGREDIENTS");
                     listener.selectSearchByIngredientsItemClicked();
+                    break;
                 case SELECT_SEARCH_BY_NUTRIENTS:
+                    Log.d(TAG, "SELECT_SEARCH_BY_NUTRIENTS");
                     listener.selectSearchByNutrientsItemClicked();
+                    break;
             }
         }
     }

@@ -33,6 +33,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableNavViewMvc<Searc
     private final List<NutrientSchema> mNutrientList = new ArrayList<>();
     private final Toolbar mToolbar;
     private final ToolbarViewMvc mToolbarViewMvc;
+    private final ViewMvcFactory mViewMvcFactory;
 
     public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         super(inflater, parent);
@@ -57,6 +58,8 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableNavViewMvc<Searc
 
         mToolbar = findViewById(R.id.toolbar);
         mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
+
+        mViewMvcFactory = viewMvcFactory;
 
         initToolbar();
 
@@ -97,7 +100,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableNavViewMvc<Searc
 
     @Override
     public void bindRecipes(List<RecipeDetailsSchema> recipeData) {
-        RecipesListAdapter recipesListAdapter = new RecipesListAdapter(recipeData, getContext());
+        RecipesListAdapter recipesListAdapter = new RecipesListAdapter(recipeData, mViewMvcFactory);
         Log.d(TAG, "recipesAdapter: " + recipesListAdapter.getItemCount());
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
         recyclerViewNutrients.setVisibility(View.GONE);
@@ -139,8 +142,10 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableNavViewMvc<Searc
             switch (item) {
                 case SELECT_SEARCH_BY_INGREDIENTS:
                     listener.selectByIngredientsItemClicked();
+                    break;
                 case SELECT_SEARCH_BY_NUTRIENTS:
                     listener.selectSearchByNutrientsItemClicked();
+                    break;
             }
         }
     }

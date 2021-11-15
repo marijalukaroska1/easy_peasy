@@ -1,5 +1,6 @@
 package com.example.easypeasy.screens.categoriesList;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class CategoryListViewMvcImpl extends BaseObservableNavViewMvc<CategoryListViewMvc.Listener> implements CategoryListViewMvc, CategoriesAdapter.Listener {
 
+    private static final String TAG = CategoryListViewMvcImpl.class.getSimpleName();
     Button continueButton;
     private final RecyclerView mRecyclerCategories;
     private final CategoriesAdapter mAdapter;
@@ -50,7 +52,6 @@ public class CategoryListViewMvcImpl extends BaseObservableNavViewMvc<CategoryLi
         mToolbarViewMvc.setTitle(getContext().getString(R.string.choose_category_screen_title));
         mToolbar.addView(mToolbarViewMvc.getRootView());
 
-
         mToolbarViewMvc.enableHamburgerButtonAndListen(() -> openDrawer());
     }
 
@@ -71,9 +72,13 @@ public class CategoryListViewMvcImpl extends BaseObservableNavViewMvc<CategoryLi
         for (Listener listener : getListeners()) {
             switch (item) {
                 case SELECT_SEARCH_BY_INGREDIENTS:
+                    Log.d(TAG, "SELECT_SEARCH_BY_INGREDIENTS");
                     listener.selectSearchByIngredientsItemClicked();
+                    break;
                 case SELECT_SEARCH_BY_NUTRIENTS:
+                    Log.d(TAG, "SELECT_SEARCH_BY_NUTRIENTS");
                     listener.selectSearchByNutrientsItemClicked();
+                    break;
             }
         }
     }

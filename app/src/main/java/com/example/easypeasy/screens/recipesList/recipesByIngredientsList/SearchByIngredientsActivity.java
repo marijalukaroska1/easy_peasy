@@ -109,13 +109,16 @@ public class SearchByIngredientsActivity extends BaseActivity
     @Override
     public void selectSearchByIngredientsItemClicked() {
         //This is the select by ingredients screen - nothing to do in this method
+        Log.d(TAG, "selectSearchByIngredientsItemClicked");
     }
 
     @Override
     public void selectSearchByNutrientsItemClicked() {
+        Log.d(TAG, "selectSearchByNutrientsItemClicked");
         finish();
         startActivity(new Intent(this, SearchByNutrientsActivity.class));
     }
+
 
     @Override
     public void onFetchRecipesSuccess(List<RecipeDetailsSchema> recipeData) {
