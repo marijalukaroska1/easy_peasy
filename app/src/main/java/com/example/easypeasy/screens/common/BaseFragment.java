@@ -1,18 +1,17 @@
 package com.example.easypeasy.screens.common;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.easypeasy.common.RecipesApplication;
 import com.example.easypeasy.common.dependancyInjection.ControllerCompositionRoot;
 
-public class BaseActivity extends FragmentActivity {
-
+public class BaseFragment extends Fragment {
     private ControllerCompositionRoot mControllerCompositionRoot;
 
     protected ControllerCompositionRoot getCompositionRoot() {
         if (mControllerCompositionRoot == null) {
             mControllerCompositionRoot = new ControllerCompositionRoot(
-                    ((RecipesApplication) getApplication()).getCompositionRoot(), this);
+                    ((RecipesApplication) requireActivity().getApplication()).getCompositionRoot(), requireActivity());
         }
         return mControllerCompositionRoot;
     }

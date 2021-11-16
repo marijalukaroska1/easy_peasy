@@ -1,14 +1,22 @@
 package com.example.easypeasy.common.dependancyInjection;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 
+import com.example.easypeasy.networking.SpoonacularApi;
+import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
-import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
-import com.example.easypeasy.recipes.FetchRecipesUseCase;
-import com.example.easypeasy.networking.SpoonacularApi;
+import com.example.easypeasy.screens.categoriesList.CategoryListController;
+import com.example.easypeasy.screens.common.MessagesDisplayer;
+import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.recipeDetails.RecipeDetailsController;
+
+import java.util.List;
 
 public class ControllerCompositionRoot {
 
@@ -44,7 +52,27 @@ public class ControllerCompositionRoot {
         return new FetchIngredientMetaDataUseCase(getSpoonacularApi());
     }
 
-    public FetchRecipeDetailsUseCase getFetchRecipeInformationUseCase() {
+    public FetchRecipeDetailsUseCase getFetchRecipeDetailsUseCase() {
         return new FetchRecipeDetailsUseCase(getSpoonacularApi());
+    }
+
+    public CategoryListController getCategoryListController() {
+        return new CategoryListController(getScreenNavigator());
+    }
+
+    private Context getContext() {
+        return mActivity;
+    }
+
+    private ScreenNavigator getScreenNavigator() {
+        return new ScreenNavigator(getContext());
+    }
+
+    private MessagesDisplayer getMessageDisplayer() {
+        return new MessagesDisplayer(getContext());
+    }
+
+    public RecipeDetailsController getRecipeDetailsController() {
+        return new RecipeDetailsController(getScreenNavigator(), getFetchRecipeDetailsUseCase(), getMessageDisplayer());
     }
 }
