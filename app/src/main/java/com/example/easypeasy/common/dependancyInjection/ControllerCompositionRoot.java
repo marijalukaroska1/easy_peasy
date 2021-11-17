@@ -1,11 +1,11 @@
 package com.example.easypeasy.common.dependancyInjection;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 
 import com.example.easypeasy.networking.SpoonacularApi;
-import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
@@ -15,8 +15,8 @@ import com.example.easypeasy.screens.common.MessagesDisplayer;
 import com.example.easypeasy.screens.common.ScreenNavigator;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsController;
-
-import java.util.List;
+import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsController;
+import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsController;
 
 public class ControllerCompositionRoot {
 
@@ -64,8 +64,12 @@ public class ControllerCompositionRoot {
         return mActivity;
     }
 
+    private Activity getActivity() {
+        return mActivity;
+    }
+
     private ScreenNavigator getScreenNavigator() {
-        return new ScreenNavigator(getContext());
+        return new ScreenNavigator(getContext(), getActivity());
     }
 
     private MessagesDisplayer getMessageDisplayer() {
@@ -74,5 +78,17 @@ public class ControllerCompositionRoot {
 
     public RecipeDetailsController getRecipeDetailsController() {
         return new RecipeDetailsController(getScreenNavigator(), getFetchRecipeDetailsUseCase(), getMessageDisplayer());
+    }
+
+    public SearchManager getSearchManager() {
+        return (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+    }
+
+    public SearchByIngredientsController getSearchByIngredientsController() {
+        return new SearchByIngredientsController(getFetchRecipesUseCase(), getFetchIngredientsNamesUseCase(), getFetchIngredientMetaDataUseCase(), getMessageDisplayer(), getScreenNavigator());
+    }
+
+    public SearchByNutrientsController getSearchByNutrientsController() {
+        return new SearchByNutrientsController(getFetchRecipesUseCase(), getScreenNavigator(), getMessageDisplayer());
     }
 }

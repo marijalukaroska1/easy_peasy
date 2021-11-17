@@ -1,9 +1,11 @@
 package com.example.easypeasy.screens.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
 import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity;
@@ -22,9 +24,11 @@ public class ScreenNavigator implements ScreenNavigatorInput {
 
     private static final String TAG = ScreenNavigator.class.getSimpleName();
     private final Context mContext;
+    private final Activity mActivity;
 
-    public ScreenNavigator(Context context) {
+    public ScreenNavigator(Context context, Activity activity) {
         mContext = context;
+        mActivity = activity;
     }
 
     private CategorySchema findChosenCategory(List<CategorySchema> categoryList) {
@@ -60,5 +64,9 @@ public class ScreenNavigator implements ScreenNavigatorInput {
     @Override
     public void toSearchByNutrients() {
         mContext.startActivity(new Intent(mContext, SearchByNutrientsActivity.class));
+    }
+
+    public void hideKeyboardOnCurrentScreen() {
+        Utils.hideKeyboard(mActivity);
     }
 }

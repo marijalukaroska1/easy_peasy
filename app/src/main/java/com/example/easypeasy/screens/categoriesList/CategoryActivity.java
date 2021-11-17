@@ -18,10 +18,9 @@ public class CategoryActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "in onCreate");
-        CategoryFragment categoryFragment;
-
         setContentView(R.layout.layout_content_frame);
 
+        CategoryFragment categoryFragment;
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             categoryFragment = new CategoryFragment();
