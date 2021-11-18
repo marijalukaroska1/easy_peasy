@@ -10,7 +10,7 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.networking.ingredients.IngredientResponseSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsResponseSchema;
 import com.example.easypeasy.networking.SpoonacularApi;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 
 import java.util.ArrayList;
 import java.util.HashMap;

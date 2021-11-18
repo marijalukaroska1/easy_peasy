@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.toasthelper;
 
 import android.content.Context;
 import android.widget.Toast;

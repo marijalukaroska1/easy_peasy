@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
-import com.example.easypeasy.screens.common.ScreenNavigator;
-import com.example.easypeasy.screens.common.ToastHelper;
+import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
+import com.example.easypeasy.screens.common.toasthelper.ToastHelper;
 
 public class RecipeDetailsController implements FetchRecipeDetailsUseCase.Listener,
         RecipeDetailsViewMvc.Listener {

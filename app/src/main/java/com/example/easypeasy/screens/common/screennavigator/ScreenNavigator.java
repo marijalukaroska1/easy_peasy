@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.screennavigator;
 
 import android.util.Log;
 

@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 
 public class RecipeListViewItemMvcImpl extends BaseObservableViewMvc<RecipeListViewItemMvc.Listener> implements RecipeListViewItemMvc {
 

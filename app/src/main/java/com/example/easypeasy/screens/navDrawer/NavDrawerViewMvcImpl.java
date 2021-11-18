@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.google.android.material.navigation.NavigationView;
 
 import static com.example.easypeasy.screens.navDrawer.DrawerItem.SELECT_SEARCH_BY_INGREDIENTS;

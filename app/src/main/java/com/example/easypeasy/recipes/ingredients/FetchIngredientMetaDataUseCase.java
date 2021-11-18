@@ -8,7 +8,7 @@ import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.SpoonacularApi;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.ingredients.IngredientResponseSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 
 import java.util.HashMap;
 import java.util.Map;

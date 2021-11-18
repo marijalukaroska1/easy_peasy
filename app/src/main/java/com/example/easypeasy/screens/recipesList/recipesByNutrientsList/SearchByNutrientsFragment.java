@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
-import com.example.easypeasy.screens.common.BaseFragment;
+import com.example.easypeasy.screens.common.controllers.BaseFragment;
 
 public class SearchByNutrientsFragment extends BaseFragment {
 

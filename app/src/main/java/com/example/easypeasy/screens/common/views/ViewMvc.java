@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.views;
 
 import android.view.View;
 

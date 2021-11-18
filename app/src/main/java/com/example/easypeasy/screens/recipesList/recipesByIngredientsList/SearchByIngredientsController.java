@@ -9,10 +9,10 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
-import com.example.easypeasy.screens.common.HandleIntentDispatcher;
-import com.example.easypeasy.screens.common.HandleIntentListener;
-import com.example.easypeasy.screens.common.ScreenNavigator;
-import com.example.easypeasy.screens.common.ToastHelper;
+import com.example.easypeasy.screens.common.controllers.HandleIntentDispatcher;
+import com.example.easypeasy.screens.common.controllers.HandleIntentListener;
+import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
+import com.example.easypeasy.screens.common.toasthelper.ToastHelper;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 
 import java.util.List;

@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.screens.common.BackPressDispatcher;
-import com.example.easypeasy.screens.common.BackPressListener;
-import com.example.easypeasy.screens.common.BaseActivity;
-import com.example.easypeasy.screens.common.HandleIntentDispatcher;
-import com.example.easypeasy.screens.common.HandleIntentListener;
-import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.controllers.BackPressDispatcher;
+import com.example.easypeasy.screens.common.controllers.BackPressListener;
+import com.example.easypeasy.screens.common.controllers.BaseActivity;
+import com.example.easypeasy.screens.common.controllers.HandleIntentDispatcher;
+import com.example.easypeasy.screens.common.controllers.HandleIntentListener;
+import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
 import com.example.easypeasy.screens.common.fragmentframehelper.FragmentContainerWrapper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;

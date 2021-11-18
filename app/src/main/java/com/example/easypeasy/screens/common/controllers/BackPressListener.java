@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.controllers;
 
 public interface BackPressListener {
 

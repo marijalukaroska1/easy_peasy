@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.toolbar;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.example.easypeasy.R;
+import com.example.easypeasy.screens.common.views.BaseViewMvc;
 
 public class ToolbarViewMvc extends BaseViewMvc {
 

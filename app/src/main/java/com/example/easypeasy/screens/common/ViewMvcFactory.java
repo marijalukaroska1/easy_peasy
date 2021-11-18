@@ -10,6 +10,7 @@ import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvcImpl;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvcImpl;
+import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;
 import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvcImpl;

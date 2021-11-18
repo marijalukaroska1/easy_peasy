@@ -12,7 +12,7 @@ import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.networking.recipes.RecipeResponseSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 
 import java.util.ArrayList;
 import java.util.HashMap;

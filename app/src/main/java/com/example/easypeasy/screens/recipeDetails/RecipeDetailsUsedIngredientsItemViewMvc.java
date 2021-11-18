@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.screens.common.BaseViewMvc;
+import com.example.easypeasy.screens.common.views.BaseViewMvc;
 
 public class RecipeDetailsUsedIngredientsItemViewMvc extends BaseViewMvc {
 

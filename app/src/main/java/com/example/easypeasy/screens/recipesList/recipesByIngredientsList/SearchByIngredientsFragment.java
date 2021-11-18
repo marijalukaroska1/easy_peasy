@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
-import com.example.easypeasy.screens.common.BaseFragment;
+import com.example.easypeasy.screens.common.controllers.BaseFragment;
 
 public class SearchByIngredientsFragment extends BaseFragment {
 

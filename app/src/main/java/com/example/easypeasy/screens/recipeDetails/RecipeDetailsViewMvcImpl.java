@@ -26,11 +26,9 @@ import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.common.ToolbarViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
-import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvcImpl;
-import com.example.easypeasy.screens.navDrawer.DrawerItem;
 
 public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetailsViewMvc.Listener> implements RecipeDetailsViewMvc {
 

@@ -2,9 +2,9 @@ package com.example.easypeasy.screens.navDrawer;
 
 import android.widget.FrameLayout;
 
-import com.example.easypeasy.screens.common.ObservableListViewMvc;
+import com.example.easypeasy.screens.common.views.ObservableViewMvc;
 
-public interface NavDrawerViewMvc extends ObservableListViewMvc<NavDrawerViewMvc.Listener> {
+public interface NavDrawerViewMvc extends ObservableViewMvc<NavDrawerViewMvc.Listener> {
 
     interface Listener {
         void onSearchByIngredientsClicked();

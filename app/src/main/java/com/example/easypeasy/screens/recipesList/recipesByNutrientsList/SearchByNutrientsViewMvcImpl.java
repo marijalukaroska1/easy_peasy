@@ -15,11 +15,9 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.common.ToolbarViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
-import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvcImpl;
-import com.example.easypeasy.screens.navDrawer.DrawerItem;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 

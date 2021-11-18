@@ -2,12 +2,12 @@ package com.example.easypeasy.screens.recipesList.recipesByIngredientsList;
 
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.common.ObservableListViewMvc;
+import com.example.easypeasy.screens.common.views.ObservableViewMvc;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 
 import java.util.List;
 
-public interface SearchByIngredientsViewMvc extends ObservableListViewMvc<SearchByIngredientsViewMvc.Listener> {
+public interface SearchByIngredientsViewMvc extends ObservableViewMvc<SearchByIngredientsViewMvc.Listener> {
 
     interface Listener {
         void searchRecipesButtonClicked();

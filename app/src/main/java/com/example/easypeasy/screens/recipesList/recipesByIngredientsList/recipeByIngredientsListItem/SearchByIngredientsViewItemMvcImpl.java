@@ -19,7 +19,7 @@ import androidx.appcompat.widget.SearchView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.main.MainActivity;
 
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
-package com.example.easypeasy.screens.common;
+package com.example.easypeasy.screens.common.views;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class BaseObservableViewMvc<ListenerType> extends BaseViewMvc
-        implements ObservableListViewMvc<ListenerType> {
+        implements ObservableViewMvc<ListenerType> {
 
     private final Set<ListenerType> listeners = new HashSet<>();
 

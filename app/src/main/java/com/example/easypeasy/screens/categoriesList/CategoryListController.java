@@ -1,7 +1,7 @@
 package com.example.easypeasy.screens.categoriesList;
 
 import com.example.easypeasy.networking.categories.CategorySchema;
-import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
 
 import java.util.ArrayList;
 import java.util.List;

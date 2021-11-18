@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.networking.categories.CategorySchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.common.ToolbarViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
 import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 

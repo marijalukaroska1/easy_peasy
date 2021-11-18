@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.networking.categories.CategorySchema;
-import com.example.easypeasy.screens.common.BaseObservableViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.google.android.material.button.MaterialButton;
 
 public class CategoryListViewItemMvcImpl extends BaseObservableViewMvc<CategoryListViewItemMvc.Listener> implements CategoryListViewItemMvc {
