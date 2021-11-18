@@ -1,6 +1,5 @@
 package com.example.easypeasy.screens.recipeDetails;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,15 +9,23 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.screens.common.BackPressListener;
 import com.example.easypeasy.screens.common.BaseFragment;
 
-public class RecipeDetailsFragment extends BaseFragment implements BackPressListener, HandleIntentListener {
+public class RecipeDetailsFragment extends BaseFragment {
+
+    private static final String RECIPE_ID = "RECIPE_ID";
+
+    public static RecipeDetailsFragment newInstance(long recipeId) {
+        Bundle args = new Bundle();
+        args.putLong(RECIPE_ID, recipeId);
+        RecipeDetailsFragment fragment = new RecipeDetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private static final String TAG = RecipeDetailsFragment.class.getSimpleName();
     RecipeDetailsViewMvc mViewMvc;
     private RecipeDetailsController mRecipeDetailsController;
-    private Intent mIntent;
 
     @Nullable
     @Override
@@ -28,9 +35,9 @@ public class RecipeDetailsFragment extends BaseFragment implements BackPressList
 
         mViewMvc = getCompositionRoot().getViewMvcFactory().getRecipeInformationViewMvc(null);
         mRecipeDetailsController = getCompositionRoot().getRecipeDetailsController();
-
+        Log.d(TAG, "getRecipeId(): " + getRecipeId());
+        mRecipeDetailsController.setRecipeId(getRecipeId());
         mRecipeDetailsController.bindView(mViewMvc);
-
         return mViewMvc.getRootView();
     }
 
@@ -40,9 +47,6 @@ public class RecipeDetailsFragment extends BaseFragment implements BackPressList
         super.onStart();
         Log.d(TAG, "in onStart");
         mRecipeDetailsController.onStart();
-        if (mIntent != null) {
-            mRecipeDetailsController.handleIntent(mIntent);
-        }
     }
 
 
@@ -53,14 +57,7 @@ public class RecipeDetailsFragment extends BaseFragment implements BackPressList
         mRecipeDetailsController.onStop();
     }
 
-    @Override
-    public boolean onBackPress() {
-        return mRecipeDetailsController.onBackPressed();
-    }
-
-    @Override
-    public void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent");
-        mIntent = intent;
+    private long getRecipeId() {
+        return getArguments().getLong(RECIPE_ID);
     }
 }

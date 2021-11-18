@@ -16,27 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity"
-            android:launchMode="singleTask">
+            android:name=".screens.common.main.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".screens.recipesList.recipesByNutrientsList.SearchByNutrientsActivity" />
-        <activity
-            android:name=".screens.recipeDetails.RecipeDetailsActivity" />
-        <activity
-            android:name=".screens.categoriesList.CategoryActivity"
-
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

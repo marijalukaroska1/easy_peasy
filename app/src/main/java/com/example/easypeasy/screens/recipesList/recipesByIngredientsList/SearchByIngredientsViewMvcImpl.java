@@ -17,15 +17,15 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
+import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
-import com.example.easypeasy.screens.navDrawer.BaseObservableNavViewMvc;
-import com.example.easypeasy.screens.navDrawer.DrawerItem;
+import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 
 import java.util.List;
 
-public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<SearchByIngredientsViewMvc.Listener> implements SearchByIngredientsViewMvc, IngredientsAdapter.Listener {
+public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<SearchByIngredientsViewMvc.Listener> implements SearchByIngredientsViewMvc, IngredientsAdapter.Listener {
 
     private static final String TAG = SearchByIngredientsViewMvcImpl.class.getSimpleName();
     private final Button mSearchButton;
@@ -37,9 +37,10 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
     private final ViewMvcFactory mViewMvcFactory;
 
 
-    public SearchByIngredientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
-        super(inflater, parent);
-        setRootView(inflater.inflate(R.layout.activity_search_by_ingredients, parent, false));
+    public SearchByIngredientsViewMvcImpl(LayoutInflater inflater,
+                                          ViewGroup parent, SearchableInfo searchableInfo,
+                                          ViewMvcFactory viewMvcFactory) {
+        setRootView(inflater.inflate(R.layout.layout_search_by_ingredients, parent, false));
         mSearchButton = findViewById(R.id.searchButtonId);
         mRecyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
         mRecyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
@@ -84,11 +85,11 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
     }
 
     @Override
-    public void bindRecipes(List<RecipeDetailsSchema> recipeData) {
+    public void bindRecipes(List<RecipeDetailsSchema> recipeData, RecipeClickListener recipeClickListener) {
         Log.d(TAG, "bindRecipes:");
         findViewById(R.id.bottomLayoutId).setVisibility(View.GONE);
         mRecyclerViewIngredients.setVisibility(View.GONE);
-        RecipesListAdapter mRecipesListAdapter = new RecipesListAdapter(recipeData, mViewMvcFactory);
+        RecipesListAdapter mRecipesListAdapter = new RecipesListAdapter(recipeData, mViewMvcFactory, recipeClickListener);
         if (mRecipesListAdapter.getItemCount() == 0) {
             findViewById(R.id.noRecipesFoundId).setVisibility(View.VISIBLE);
             mRecyclerViewRecipes.setVisibility(View.GONE);
@@ -143,19 +144,4 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableNavViewMvc<Sea
         progressIndicator.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onDrawerItemClick(DrawerItem item) {
-        for (Listener listener : getListeners()) {
-            switch (item) {
-                case SELECT_SEARCH_BY_INGREDIENTS:
-                    Log.d(TAG, "SELECT_SEARCH_BY_INGREDIENTS");
-                    listener.selectSearchByIngredientsItemClicked();
-                    break;
-                case SELECT_SEARCH_BY_NUTRIENTS:
-                    Log.d(TAG, "SELECT_SEARCH_BY_NUTRIENTS");
-                    listener.selectSearchByNutrientsItemClicked();
-                    break;
-            }
-        }
-    }
 }

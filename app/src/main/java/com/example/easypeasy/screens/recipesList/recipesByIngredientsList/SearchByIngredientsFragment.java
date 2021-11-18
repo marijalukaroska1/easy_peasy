@@ -1,7 +1,6 @@
 package com.example.easypeasy.screens.recipesList.recipesByIngredientsList;
 
-import android.app.SearchManager;
-import android.content.Intent;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,12 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
-import com.example.easypeasy.screens.common.BackPressListener;
 import com.example.easypeasy.screens.common.BaseFragment;
-import com.example.easypeasy.screens.recipeDetails.HandleIntentListener;
 
-public class SearchByIngredientsFragment extends BaseFragment implements HandleIntentListener, BackPressListener {
+public class SearchByIngredientsFragment extends BaseFragment {
 
+    public static SearchByIngredientsFragment newInstance(ComponentName componentName) {
+        Bundle args = new Bundle();
+        args.putParcelable(ARGS_COMPONENT_NAME, componentName);
+        SearchByIngredientsFragment fragment = new SearchByIngredientsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private static final String ARGS_COMPONENT_NAME = "ARGS_COMPONENT_NAME";
     private static final String TAG = SearchByIngredientsFragment.class.getSimpleName();
     private SearchByIngredientsController mSearchByIngredientsController;
 
@@ -25,11 +31,13 @@ public class SearchByIngredientsFragment extends BaseFragment implements HandleI
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "container: " + container);
         mSearchByIngredientsController = getCompositionRoot().getSearchByIngredientsController();
-        SearchByIngredientsViewMvc mSearchByIngredientsViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByIngredientsViewMvc(null,
-                getCompositionRoot().getSearchManager().getSearchableInfo(requireActivity().getComponentName()));
-        mSearchByIngredientsController.bindView(mSearchByIngredientsViewMvc);
+        SearchByIngredientsViewMvc mSearchByIngredientsViewMvc = getCompositionRoot().getViewMvcFactory()
+                .getSearchByIngredientsViewMvc(container,
+                        getCompositionRoot().getSearchManager().getSearchableInfo(getComponentName()));
         mSearchByIngredientsViewMvc.bindIngredient(new IngredientSchema());
+        mSearchByIngredientsController.bindView(mSearchByIngredientsViewMvc);
         return mSearchByIngredientsViewMvc.getRootView();
     }
 
@@ -47,18 +55,7 @@ public class SearchByIngredientsFragment extends BaseFragment implements HandleI
         mSearchByIngredientsController.onStop();
     }
 
-    @Override
-    public void onHandleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            mSearchByIngredientsController.setIngredientFetchDataPosition(intent.getIntExtra("ingredientPositionInAdapter", 0));
-            Log.d(TAG, "doSearchIngredients() is called: " + query);
-            mSearchByIngredientsController.doSearchIngredients(query);
-        }
-    }
-
-    @Override
-    public boolean onBackPress() {
-        return mSearchByIngredientsController.onBackPress();
+    private ComponentName getComponentName() {
+        return getArguments().getParcelable(ARGS_COMPONENT_NAME);
     }
 }

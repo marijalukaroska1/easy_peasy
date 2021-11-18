@@ -4,25 +4,26 @@ import android.util.Log;
 
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
-import com.example.easypeasy.screens.common.BackPressListener;
-import com.example.easypeasy.screens.common.MessagesDisplayer;
 import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.ToastHelper;
+import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 
 import java.util.List;
 
 public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Listener,
-        FetchRecipesUseCase.Listener, BackPressListener {
+        FetchRecipesUseCase.Listener, RecipeClickListener {
 
     private static final String TAG = SearchByNutrientsController.class.getSimpleName();
     private final FetchRecipesUseCase mFetchRecipesUseCase;
     private final ScreenNavigator mScreenNavigator;
-    private final MessagesDisplayer mMessagesDisplayer;
+    private final ToastHelper mToastHelper;
     private SearchByNutrientsViewMvc mSearchByNutrientsViewMvc;
 
-    public SearchByNutrientsController(FetchRecipesUseCase fetchRecipesUseCase, ScreenNavigator screenNavigator, MessagesDisplayer messagesDisplayer) {
+    public SearchByNutrientsController(FetchRecipesUseCase fetchRecipesUseCase, ScreenNavigator screenNavigator,
+                                       ToastHelper toastHelper) {
         mFetchRecipesUseCase = fetchRecipesUseCase;
         mScreenNavigator = screenNavigator;
-        mMessagesDisplayer = messagesDisplayer;
+        mToastHelper = toastHelper;
     }
 
     public void bindView(SearchByNutrientsViewMvc searchByNutrientsViewMvc) {
@@ -50,12 +51,12 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
     public void onFetchRecipesSuccess(List<RecipeDetailsSchema> recipeData) {
         Log.d(TAG, "onFetchRecipesSuccess: " + recipeData.size());
         mScreenNavigator.hideKeyboardOnCurrentScreen();
-        mSearchByNutrientsViewMvc.bindRecipes(recipeData);
+        mSearchByNutrientsViewMvc.bindRecipes(recipeData, this);
     }
 
     @Override
     public void onFetchRecipesFailure() {
-        mMessagesDisplayer.showFetchRecipesFailureMsg();
+        mToastHelper.showFetchRecipesFailureMsg();
     }
 
     @Override
@@ -66,26 +67,13 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
 
     @Override
     public void onNavigationUpClicked() {
-        onBackPress();
+        Log.d(TAG, "in onNavigationUpClicked");
+        mScreenNavigator.navigateUp();
     }
 
     @Override
-    public void selectByIngredientsItemClicked() {
-        mScreenNavigator.toSearchByIngredients();
-    }
-
-    @Override
-    public void selectSearchByNutrientsItemClicked() {
-        // this is the search by nutrients screen - nothing to do in this method
-    }
-
-    @Override
-    public boolean onBackPress() {
-        if (mSearchByNutrientsViewMvc.isDrawerOpen()) {
-            mSearchByNutrientsViewMvc.closeDrawer();
-            return true;
-        } else {
-            return false;
-        }
+    public void onRecipeClicked(long recipeId) {
+        Log.d(TAG, "onRecipeClicked() recipeId: " + recipeId);
+        mScreenNavigator.toRecipeDetails(recipeId);
     }
 }

@@ -1,28 +1,34 @@
 package com.example.easypeasy.screens.recipeDetails;
 
-import android.content.Intent;
+import android.util.Log;
 
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
-import com.example.easypeasy.screens.common.MessagesDisplayer;
 import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.ToastHelper;
 
-public class RecipeDetailsController implements FetchRecipeDetailsUseCase.Listener, RecipeDetailsViewMvc.Listener {
+public class RecipeDetailsController implements FetchRecipeDetailsUseCase.Listener,
+        RecipeDetailsViewMvc.Listener {
 
+    private static final String TAG = RecipeDetailsController.class.getSimpleName();
     private RecipeDetailsViewMvc mRecipeDetailsViewMvc;
     private final ScreenNavigator mScreenNavigator;
     private final FetchRecipeDetailsUseCase mFetchRecipeDetailsUseCase;
-    private final MessagesDisplayer mMessagesDisplayer;
-    long recipeId = 0L;
+    private final ToastHelper mToastHelper;
+    long mRecipeId = 0L;
 
-    public RecipeDetailsController(ScreenNavigator screenNavigator, FetchRecipeDetailsUseCase fetchRecipeDetailsUseCase, MessagesDisplayer messagesDisplayer) {
+    public RecipeDetailsController(ScreenNavigator screenNavigator,
+                                   FetchRecipeDetailsUseCase fetchRecipeDetailsUseCase,
+                                   ToastHelper toastHelper) {
         mScreenNavigator = screenNavigator;
         mFetchRecipeDetailsUseCase = fetchRecipeDetailsUseCase;
-        mMessagesDisplayer = messagesDisplayer;
+        mToastHelper = toastHelper;
     }
 
     public void bindView(RecipeDetailsViewMvc recipeDetailsViewMvc) {
         mRecipeDetailsViewMvc = recipeDetailsViewMvc;
+        mRecipeDetailsViewMvc.showProgressIndication();
+        mFetchRecipeDetailsUseCase.fetchRecipeDetailsAndNotify(mRecipeId);
     }
 
     public void onStop() {
@@ -43,37 +49,16 @@ public class RecipeDetailsController implements FetchRecipeDetailsUseCase.Listen
 
     @Override
     public void onFetchRecipeDetailsFailure() {
-        mMessagesDisplayer.showFetchRecipeDetailsFailureMsg();
+        mToastHelper.showFetchRecipeDetailsFailureMsg();
     }
 
     @Override
     public void onNavigationUpClicked() {
-        onBackPressed();
+        Log.d(TAG, "in onNavigationUpClicked");
+        mScreenNavigator.navigateUp();
     }
 
-    @Override
-    public void selectSearchByIngredientsItemClicked() {
-        mScreenNavigator.toSearchByIngredients();
-    }
-
-    @Override
-    public void selectSearchByNutrientsItemClicked() {
-        mScreenNavigator.toSearchByNutrients();
-    }
-
-
-    public boolean onBackPressed() {
-        if (mRecipeDetailsViewMvc.isDrawerOpen()) {
-            mRecipeDetailsViewMvc.closeDrawer();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void handleIntent(Intent intent) {
-        recipeId = intent.getLongExtra("recipeId", 0L);
-        mRecipeDetailsViewMvc.showProgressIndication();
-        mFetchRecipeDetailsUseCase.fetchRecipeDetailsAndNotify(recipeId);
+    public void setRecipeId(long recipeId) {
+        mRecipeId = recipeId;
     }
 }

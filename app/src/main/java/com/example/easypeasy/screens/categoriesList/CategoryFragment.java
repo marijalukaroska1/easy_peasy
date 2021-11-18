@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.easypeasy.screens.common.BackPressListener;
 import com.example.easypeasy.screens.common.BaseFragment;
 
-public class CategoryFragment extends BaseFragment implements BackPressListener {
+public class CategoryFragment extends BaseFragment {
+
+    public static CategoryFragment newInstance() {
+        return new CategoryFragment();
+    }
 
     private static final String TAG = CategoryFragment.class.getSimpleName();
     private CategoryListViewMvc mViewMvc;
@@ -28,8 +31,7 @@ public class CategoryFragment extends BaseFragment implements BackPressListener 
         Log.d(TAG, "in onCreate");
 
         mCategoryListController = getCompositionRoot().getCategoryListController();
-
-        mViewMvc = getCompositionRoot().getViewMvcFactory().getCategoryViewMvc(null);
+        mViewMvc = getCompositionRoot().getViewMvcFactory().getCategoryViewMvc(container);
         mCategoryListController.bindView(mViewMvc);
         return mViewMvc.getRootView();
     }
@@ -46,10 +48,5 @@ public class CategoryFragment extends BaseFragment implements BackPressListener 
         super.onStart();
         Log.d(TAG, "in onStart");
         mCategoryListController.onStart();
-    }
-
-    @Override
-    public boolean onBackPress() {
-        return mCategoryListController.onBackPressed();
     }
 }

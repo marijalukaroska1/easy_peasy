@@ -1,4 +1,4 @@
-package com.example.easypeasy.screens.recipeDetails;
+package com.example.easypeasy.screens.common;
 
 import android.content.Intent;
 

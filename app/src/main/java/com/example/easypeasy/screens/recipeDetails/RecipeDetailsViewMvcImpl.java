@@ -26,13 +26,13 @@ import com.bumptech.glide.request.target.Target;
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
+import com.example.easypeasy.screens.common.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
-import com.example.easypeasy.screens.navDrawer.BaseObservableNavViewMvc;
+import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvcImpl;
 import com.example.easypeasy.screens.navDrawer.DrawerItem;
 
-public class RecipeDetailsViewMvcImpl extends BaseObservableNavViewMvc<RecipeDetailsViewMvc.Listener> implements RecipeDetailsViewMvc {
+public class RecipeDetailsViewMvcImpl extends BaseObservableViewMvc<RecipeDetailsViewMvc.Listener> implements RecipeDetailsViewMvc {
 
     private static final String TAG = RecipeDetailsViewMvcImpl.class.getSimpleName();
     private final ImageView recipeImageView;
@@ -47,7 +47,6 @@ public class RecipeDetailsViewMvcImpl extends BaseObservableNavViewMvc<RecipeDet
     private final ToolbarViewMvc mToolbarViewMvc;
 
     public RecipeDetailsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
-        super(inflater, parent);
         setRootView(inflater.inflate(R.layout.activity_recipe_details, parent, false));
         recipeImageView = findViewById(R.id.recipeImageId);
         recipeTitleTextView = findViewById(R.id.recipeTitleId);
@@ -141,19 +140,4 @@ public class RecipeDetailsViewMvcImpl extends BaseObservableNavViewMvc<RecipeDet
         progressIndicator.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onDrawerItemClick(DrawerItem item) {
-        for (Listener listener : getListeners()) {
-            switch (item) {
-                case SELECT_SEARCH_BY_INGREDIENTS:
-                    Log.d(TAG, "SELECT_SEARCH_BY_INGREDIENTS");
-                    listener.selectSearchByIngredientsItemClicked();
-                    break;
-                case SELECT_SEARCH_BY_NUTRIENTS:
-                    Log.d(TAG, "SELECT_SEARCH_BY_NUTRIENTS");
-                    listener.selectSearchByNutrientsItemClicked();
-                    break;
-            }
-        }
-    }
 }

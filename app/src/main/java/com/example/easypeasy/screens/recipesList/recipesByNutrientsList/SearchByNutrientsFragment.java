@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.easypeasy.networking.nutrients.NutrientSchema;
-import com.example.easypeasy.screens.common.BackPressListener;
 import com.example.easypeasy.screens.common.BaseFragment;
 
-public class SearchByNutrientsFragment extends BaseFragment implements BackPressListener {
+public class SearchByNutrientsFragment extends BaseFragment {
+
+    public static SearchByNutrientsFragment newInstance() {
+        return new SearchByNutrientsFragment();
+    }
 
     private static final String TAG = SearchByNutrientsFragment.class.getSimpleName();
     private SearchByNutrientsController mSearchByNutrientsController;
@@ -24,7 +27,7 @@ public class SearchByNutrientsFragment extends BaseFragment implements BackPress
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mSearchByNutrientsController = getCompositionRoot().getSearchByNutrientsController();
-        mSearchByNutrientsViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByNutrientsViewMvc(null);
+        mSearchByNutrientsViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByNutrientsViewMvc(container);
         mSearchByNutrientsController.bindView(mSearchByNutrientsViewMvc);
         mSearchByNutrientsViewMvc.bindNutrient(new NutrientSchema("", 0.0f));
         return mSearchByNutrientsViewMvc.getRootView();
@@ -42,10 +45,5 @@ public class SearchByNutrientsFragment extends BaseFragment implements BackPress
         super.onStart();
         Log.d(TAG, "in onStart");
         mSearchByNutrientsController.onStart();
-    }
-
-    @Override
-    public boolean onBackPress() {
-        return mSearchByNutrientsController.onBackPress();
     }
 }

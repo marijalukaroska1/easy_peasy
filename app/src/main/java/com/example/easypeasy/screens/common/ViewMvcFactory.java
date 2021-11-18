@@ -10,6 +10,9 @@ import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvcImpl;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvcImpl;
+import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
+import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;
+import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvcImpl;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsUsedIngredientsItemViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvc;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsViewMvcImpl;
@@ -25,9 +28,11 @@ import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchBy
 public class ViewMvcFactory {
 
     private final LayoutInflater mLayoutInflater;
+    private final NavDrawerHelper mNavDrawerHelper;
 
-    public ViewMvcFactory(LayoutInflater mLayoutInflater) {
-        this.mLayoutInflater = mLayoutInflater;
+    public ViewMvcFactory(LayoutInflater layoutInflater, NavDrawerHelper navDrawerHelper) {
+        mLayoutInflater = layoutInflater;
+        mNavDrawerHelper = navDrawerHelper;
     }
 
     public SearchByNutrientsViewMvc getSearchByNutrientsViewMvc(@Nullable ViewGroup parent) {
@@ -47,7 +52,7 @@ public class ViewMvcFactory {
     }
 
     public CategoryListViewMvc getCategoryViewMvc(@Nullable ViewGroup parent) {
-        return new CategoryListViewMvcImpl(mLayoutInflater, parent, this);
+        return new CategoryListViewMvcImpl(mLayoutInflater, parent, this, mNavDrawerHelper);
     }
 
     public CategoryListViewItemMvc getCategoryListViewItemMvc(@Nullable ViewGroup parent) {
@@ -64,5 +69,9 @@ public class ViewMvcFactory {
 
     public RecipeListViewItemMvc getRecipeListViewItemMvc(@Nullable ViewGroup parent) {
         return new RecipeListViewItemMvcImpl(mLayoutInflater, parent);
+    }
+
+    public NavDrawerViewMvc getNavDrawerViewMvc(@Nullable ViewGroup parent) {
+        return new NavDrawerViewMvcImpl(mLayoutInflater, parent);
     }
 }

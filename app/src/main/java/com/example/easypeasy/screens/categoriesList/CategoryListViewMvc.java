@@ -6,16 +6,11 @@ import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;
 
 import java.util.List;
 
-public interface CategoryListViewMvc extends ObservableListViewMvc<CategoryListViewMvc.Listener>, NavDrawerViewMvc {
+public interface CategoryListViewMvc extends ObservableListViewMvc<CategoryListViewMvc.Listener> {
 
     interface Listener {
         void onContinueButtonClicked();
-
         void onNavigateUpAndClicked();
-
-        void selectSearchByIngredientsItemClicked();
-
-        void selectSearchByNutrientsItemClicked();
     }
 
     void bindCategories(List<CategorySchema> categories);

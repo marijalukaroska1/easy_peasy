@@ -1,7 +1,5 @@
 package com.example.easypeasy.screens.categoriesList;
 
-import android.util.Log;
-
 import com.example.easypeasy.networking.categories.CategorySchema;
 import com.example.easypeasy.screens.common.ScreenNavigator;
 
@@ -46,27 +44,5 @@ public class CategoryListController implements CategoryListViewMvc.Listener {
     @Override
     public void onNavigateUpAndClicked() {
 
-    }
-
-    @Override
-    public void selectSearchByIngredientsItemClicked() {
-        Log.d(TAG, "selectSearchByIngredientsItemClicked");
-        mSearchCategoryRouter.toSearchByIngredients();
-    }
-
-    @Override
-    public void selectSearchByNutrientsItemClicked() {
-        Log.d(TAG, "selectSearchByNutrientsItemClicked");
-        mSearchCategoryRouter.toSearchByNutrients();
-
-    }
-
-    public boolean onBackPressed() {
-        if (mCategoryListViewMvc.isDrawerOpen()) {
-            mCategoryListViewMvc.closeDrawer();
-            return true;
-        } else {
-            return false;
-        }
     }
 }

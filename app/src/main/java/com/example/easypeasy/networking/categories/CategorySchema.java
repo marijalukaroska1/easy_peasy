@@ -25,4 +25,12 @@ public class CategorySchema {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    @Override
+    public String toString() {
+        return "CategorySchema{" +
+                "name='" + name + '\'' +
+                ", selected=" + selected +
+                '}';
+    }
 }

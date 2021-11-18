@@ -20,7 +20,7 @@ import androidx.appcompat.widget.SearchView;
 import com.example.easypeasy.R;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.screens.common.BaseObservableViewMvc;
-import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
+import com.example.easypeasy.screens.common.main.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +164,7 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
 
     private void sendSearchQuery(String query, int ingredientPositionInAdapter) {
         Log.d(TAG, "sendSearchQuery: " + query);
-        Intent intent = new Intent(getContext(), SearchByIngredientsActivity.class);
+        Intent intent = new Intent(getContext(), MainActivity.class);
         intent.setAction(Intent.ACTION_SEARCH);
         intent.putExtra("query", query);
         intent.putExtra("ingredientPositionInAdapter", ingredientPositionInAdapter);

@@ -1,9 +1,11 @@
 package com.example.easypeasy.common.dependancyInjection;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.view.LayoutInflater;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.easypeasy.networking.SpoonacularApi;
 import com.example.easypeasy.recipes.FetchRecipeDetailsUseCase;
@@ -11,9 +13,13 @@ import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
 import com.example.easypeasy.screens.categoriesList.CategoryListController;
-import com.example.easypeasy.screens.common.MessagesDisplayer;
+import com.example.easypeasy.screens.common.HandleIntentDispatcher;
 import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.ToastHelper;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.common.fragmentframehelper.FragmentContainerWrapper;
+import com.example.easypeasy.screens.common.fragmentframehelper.FragmentHelper;
+import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 import com.example.easypeasy.screens.recipeDetails.RecipeDetailsController;
 import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsController;
 import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchByNutrientsController;
@@ -21,15 +27,19 @@ import com.example.easypeasy.screens.recipesList.recipesByNutrientsList.SearchBy
 public class ControllerCompositionRoot {
 
     private final CompositionRoot mCompositionRoot;
-    private final Activity mActivity;
+    private final FragmentActivity mActivity;
 
-    public ControllerCompositionRoot(CompositionRoot mCompositionRoot, Activity activity) {
+    public ControllerCompositionRoot(CompositionRoot mCompositionRoot, FragmentActivity activity) {
         this.mCompositionRoot = mCompositionRoot;
         mActivity = activity;
     }
 
     public ViewMvcFactory getViewMvcFactory() {
-        return new ViewMvcFactory(getLayoutInflater());
+        return new ViewMvcFactory(getLayoutInflater(), getNavDrawerHelper());
+    }
+
+    private NavDrawerHelper getNavDrawerHelper() {
+        return (NavDrawerHelper) getActivity();
     }
 
     private LayoutInflater getLayoutInflater() {
@@ -64,20 +74,36 @@ public class ControllerCompositionRoot {
         return mActivity;
     }
 
-    private Activity getActivity() {
+    private FragmentActivity getActivity() {
         return mActivity;
     }
 
-    private ScreenNavigator getScreenNavigator() {
-        return new ScreenNavigator(getContext(), getActivity());
+    private FragmentManager getFragmentManager() {
+        return getActivity().getSupportFragmentManager();
     }
 
-    private MessagesDisplayer getMessageDisplayer() {
-        return new MessagesDisplayer(getContext());
+    private FragmentContainerWrapper getFragmentFrameWrapper() {
+        return (FragmentContainerWrapper) getActivity();
+    }
+
+    private HandleIntentDispatcher getHandleIntentDispatcher() {
+        return (HandleIntentDispatcher) getActivity();
+    }
+
+    private FragmentHelper getFragmentHelper() {
+        return new FragmentHelper(getActivity(), getFragmentFrameWrapper(), getFragmentManager());
+    }
+
+    public ScreenNavigator getScreenNavigator() {
+        return new ScreenNavigator(getFragmentHelper(), getActivity());
+    }
+
+    private ToastHelper getToastHelper() {
+        return new ToastHelper(getContext());
     }
 
     public RecipeDetailsController getRecipeDetailsController() {
-        return new RecipeDetailsController(getScreenNavigator(), getFetchRecipeDetailsUseCase(), getMessageDisplayer());
+        return new RecipeDetailsController(getScreenNavigator(), getFetchRecipeDetailsUseCase(), getToastHelper());
     }
 
     public SearchManager getSearchManager() {
@@ -85,10 +111,13 @@ public class ControllerCompositionRoot {
     }
 
     public SearchByIngredientsController getSearchByIngredientsController() {
-        return new SearchByIngredientsController(getFetchRecipesUseCase(), getFetchIngredientsNamesUseCase(), getFetchIngredientMetaDataUseCase(), getMessageDisplayer(), getScreenNavigator());
+        return new SearchByIngredientsController(getFetchRecipesUseCase(), getFetchIngredientsNamesUseCase(),
+                getFetchIngredientMetaDataUseCase(),
+                getToastHelper(), getScreenNavigator(), getHandleIntentDispatcher());
     }
 
     public SearchByNutrientsController getSearchByNutrientsController() {
-        return new SearchByNutrientsController(getFetchRecipesUseCase(), getScreenNavigator(), getMessageDisplayer());
+        return new SearchByNutrientsController(getFetchRecipesUseCase(), getScreenNavigator(),
+                getToastHelper());
     }
 }

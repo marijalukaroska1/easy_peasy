@@ -4,13 +4,12 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.screens.recipesList.recipesByIngredientsList.SearchByIngredientsActivity;
 
-public class MessagesDisplayer {
+public class ToastHelper {
 
     private Context mContext;
 
-    public MessagesDisplayer(Context context) {
+    public ToastHelper(Context context) {
         mContext = context;
     }
 

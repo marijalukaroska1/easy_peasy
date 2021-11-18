@@ -1,5 +1,7 @@
 package com.example.easypeasy.screens.recipesList.recipesByIngredientsList;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.util.Log;
 
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
@@ -7,29 +9,37 @@ import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
-import com.example.easypeasy.screens.common.MessagesDisplayer;
+import com.example.easypeasy.screens.common.HandleIntentDispatcher;
+import com.example.easypeasy.screens.common.HandleIntentListener;
 import com.example.easypeasy.screens.common.ScreenNavigator;
+import com.example.easypeasy.screens.common.ToastHelper;
+import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 
 import java.util.List;
 
-public class SearchByIngredientsController implements SearchByIngredientsViewMvc.Listener, FetchRecipesUseCase.Listener, FetchIngredientsNamesUseCase.Listener,
-        FetchIngredientMetaDataUseCase.Listener {
+public class SearchByIngredientsController implements SearchByIngredientsViewMvc.Listener,
+        FetchRecipesUseCase.Listener, FetchIngredientsNamesUseCase.Listener,
+        FetchIngredientMetaDataUseCase.Listener, RecipeClickListener, HandleIntentListener {
 
     private static final String TAG = SearchByIngredientsController.class.getSimpleName();
     private final FetchRecipesUseCase mFetchRecipesUseCase;
     private final FetchIngredientsNamesUseCase mFetchIngredientsNamesUseCase;
     private final FetchIngredientMetaDataUseCase mFetchIngredientMetaDataUseCase;
-    private final MessagesDisplayer mMessagesDisplayer;
+    private final ToastHelper mToastHelper;
     private final ScreenNavigator mScreenNavigator;
+    private final HandleIntentDispatcher mHandleIntentDispatcher;
     private int mIngredientFetchDataPosition;
     private SearchByIngredientsViewMvc mSearchByIngredientsViewMvc;
 
-    public SearchByIngredientsController(FetchRecipesUseCase fetchRecipesUseCase, FetchIngredientsNamesUseCase fetchIngredientsNamesUseCase, FetchIngredientMetaDataUseCase fetchIngredientMetaDataUseCase, MessagesDisplayer messagesDisplayer, ScreenNavigator screenNavigator) {
+    public SearchByIngredientsController(FetchRecipesUseCase fetchRecipesUseCase, FetchIngredientsNamesUseCase fetchIngredientsNamesUseCase,
+                                         FetchIngredientMetaDataUseCase fetchIngredientMetaDataUseCase, ToastHelper toastHelper,
+                                         ScreenNavigator screenNavigator, HandleIntentDispatcher handleIntentDispatcher) {
         mFetchRecipesUseCase = fetchRecipesUseCase;
         mFetchIngredientsNamesUseCase = fetchIngredientsNamesUseCase;
         mFetchIngredientMetaDataUseCase = fetchIngredientMetaDataUseCase;
-        mMessagesDisplayer = messagesDisplayer;
+        mToastHelper = toastHelper;
         mScreenNavigator = screenNavigator;
+        mHandleIntentDispatcher = handleIntentDispatcher;
     }
 
     public void onStart() {
@@ -37,6 +47,7 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
         mFetchRecipesUseCase.registerListener(this);
         mFetchIngredientsNamesUseCase.registerListener(this);
         mFetchIngredientMetaDataUseCase.registerListener(this);
+        mHandleIntentDispatcher.registerListener(this);
     }
 
     public void onStop() {
@@ -44,6 +55,7 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
         mFetchRecipesUseCase.unregisterListener(this);
         mFetchIngredientsNamesUseCase.unregisterListener(this);
         mFetchIngredientMetaDataUseCase.unregisterListener(this);
+        mHandleIntentDispatcher.unregisterListener(this);
     }
 
     public void fetchRecipes() {
@@ -60,12 +72,12 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
     public void onFetchRecipesSuccess(List<RecipeDetailsSchema> recipeData) {
         Log.d(TAG, "in onRecipesFetchedSuccess");
         mSearchByIngredientsViewMvc.hideProgressIndication();
-        mSearchByIngredientsViewMvc.bindRecipes(recipeData);
+        mSearchByIngredientsViewMvc.bindRecipes(recipeData, this);
     }
 
     @Override
     public void onFetchRecipesFailure() {
-        mMessagesDisplayer.showFetchRecipesFailureMsg();
+        mToastHelper.showFetchRecipesFailureMsg();
     }
 
 
@@ -80,7 +92,7 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
 
     @Override
     public void onFetchIngredientMetaDataFailure() {
-        mMessagesDisplayer.showFetchIngredientMetaDataFailure();
+        mToastHelper.showFetchIngredientMetaDataFailure();
     }
 
     @Override
@@ -90,14 +102,14 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
 
     @Override
     public void onFetchIngredientSearchMetaDataFailure() {
-        mMessagesDisplayer.showFetchIngredientSearchMetaDataFailure();
+        mToastHelper.showFetchIngredientSearchMetaDataFailure();
     }
 
     @Override
     public void searchRecipesButtonClicked() {
         mScreenNavigator.hideKeyboardOnCurrentScreen();
         if (mSearchByIngredientsViewMvc.getIngredientList().size() < 3) {
-            mMessagesDisplayer.showMinimumIngredientsMesssage();
+            mToastHelper.showMinimumIngredientsMesssage();
         } else {
             fetchRecipes();
         }
@@ -106,29 +118,9 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
     @Override
     public void onNavigationUpClicked() {
         Log.d(TAG, "in onNavigationUpClicked");
-        onBackPress();
+        mScreenNavigator.navigateUp();
     }
 
-    @Override
-    public void selectSearchByIngredientsItemClicked() {
-        //This is the select by ingredients screen - nothing to do in this method
-        Log.d(TAG, "selectSearchByIngredientsItemClicked");
-    }
-
-    @Override
-    public void selectSearchByNutrientsItemClicked() {
-        Log.d(TAG, "selectSearchByNutrientsItemClicked");
-        mScreenNavigator.toSearchByNutrients();
-    }
-
-    public boolean onBackPress() {
-        if (mSearchByIngredientsViewMvc.isDrawerOpen()) {
-            mSearchByIngredientsViewMvc.closeDrawer();
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public void bindView(SearchByIngredientsViewMvc searchByIngredientsViewMvc) {
         mSearchByIngredientsViewMvc = searchByIngredientsViewMvc;
@@ -136,5 +128,22 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
 
     public void setIngredientFetchDataPosition(int ingredientPositionInAdapter) {
         mIngredientFetchDataPosition = ingredientPositionInAdapter;
+    }
+
+    @Override
+    public void onRecipeClicked(long recipeId) {
+        Log.d(TAG, "onRecipeClicked()");
+        mScreenNavigator.toRecipeDetails(recipeId);
+    }
+
+    @Override
+    public void onHandleIntent(Intent intent) {
+        Log.d(TAG, "onHandleIntent");
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            setIngredientFetchDataPosition(intent.getIntExtra("ingredientPositionInAdapter", 0));
+            Log.d(TAG, "doSearchIngredients() is called: " + query);
+            doSearchIngredients(query);
+        }
     }
 }
