@@ -11,6 +11,7 @@ import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
 import com.example.easypeasy.screens.common.controllers.HandleIntentDispatcher;
 import com.example.easypeasy.screens.common.controllers.HandleIntentListener;
+import com.example.easypeasy.screens.common.dialogs.DialogManager;
 import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
 import com.example.easypeasy.screens.common.toasthelper.ToastHelper;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
@@ -30,16 +31,18 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
     private final HandleIntentDispatcher mHandleIntentDispatcher;
     private int mIngredientFetchDataPosition;
     private SearchByIngredientsViewMvc mSearchByIngredientsViewMvc;
+    private DialogManager mDialogManager;
 
     public SearchByIngredientsController(FetchRecipesUseCase fetchRecipesUseCase, FetchIngredientsNamesUseCase fetchIngredientsNamesUseCase,
                                          FetchIngredientMetaDataUseCase fetchIngredientMetaDataUseCase, ToastHelper toastHelper,
-                                         ScreenNavigator screenNavigator, HandleIntentDispatcher handleIntentDispatcher) {
+                                         ScreenNavigator screenNavigator, HandleIntentDispatcher handleIntentDispatcher, DialogManager dialogManager) {
         mFetchRecipesUseCase = fetchRecipesUseCase;
         mFetchIngredientsNamesUseCase = fetchIngredientsNamesUseCase;
         mFetchIngredientMetaDataUseCase = fetchIngredientMetaDataUseCase;
         mToastHelper = toastHelper;
         mScreenNavigator = screenNavigator;
         mHandleIntentDispatcher = handleIntentDispatcher;
+        mDialogManager = dialogManager;
     }
 
     public void onStart() {
@@ -77,7 +80,10 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
 
     @Override
     public void onFetchRecipesFailure() {
-        mToastHelper.showFetchRecipesFailureMsg();
+        Log.d(TAG, "in onFetchRecipesFailure");
+        mSearchByIngredientsViewMvc.hideProgressIndication();
+        //mToastHelper.showFetchRecipesFailureMsg();
+        mDialogManager.showRecipesFetchErrorDialog(null);
     }
 
 

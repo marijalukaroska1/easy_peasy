@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
+import com.example.easypeasy.screens.common.dialogs.DialogManager;
 import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
 import com.example.easypeasy.screens.common.toasthelper.ToastHelper;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
@@ -18,12 +19,14 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
     private final ScreenNavigator mScreenNavigator;
     private final ToastHelper mToastHelper;
     private SearchByNutrientsViewMvc mSearchByNutrientsViewMvc;
+    private DialogManager mDialogManager;
 
     public SearchByNutrientsController(FetchRecipesUseCase fetchRecipesUseCase, ScreenNavigator screenNavigator,
-                                       ToastHelper toastHelper) {
+                                       ToastHelper toastHelper, DialogManager dialogManager) {
         mFetchRecipesUseCase = fetchRecipesUseCase;
         mScreenNavigator = screenNavigator;
         mToastHelper = toastHelper;
+        mDialogManager = dialogManager;
     }
 
     public void bindView(SearchByNutrientsViewMvc searchByNutrientsViewMvc) {
@@ -56,7 +59,10 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
 
     @Override
     public void onFetchRecipesFailure() {
-        mToastHelper.showFetchRecipesFailureMsg();
+        Log.d(TAG, "onFetchRecipesFailure");
+        mScreenNavigator.hideKeyboardOnCurrentScreen();
+        //mToastHelper.showFetchRecipesFailureMsg();
+        mDialogManager.showRecipesFetchErrorDialog(null);
     }
 
     @Override

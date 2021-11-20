@@ -14,6 +14,7 @@ import com.example.easypeasy.recipes.ingredients.FetchIngredientMetaDataUseCase;
 import com.example.easypeasy.recipes.ingredients.FetchIngredientsNamesUseCase;
 import com.example.easypeasy.screens.categoriesList.CategoryListController;
 import com.example.easypeasy.screens.common.controllers.HandleIntentDispatcher;
+import com.example.easypeasy.screens.common.dialogs.DialogManager;
 import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
 import com.example.easypeasy.screens.common.toasthelper.ToastHelper;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
@@ -113,11 +114,15 @@ public class ControllerCompositionRoot {
     public SearchByIngredientsController getSearchByIngredientsController() {
         return new SearchByIngredientsController(getFetchRecipesUseCase(), getFetchIngredientsNamesUseCase(),
                 getFetchIngredientMetaDataUseCase(),
-                getToastHelper(), getScreenNavigator(), getHandleIntentDispatcher());
+                getToastHelper(), getScreenNavigator(), getHandleIntentDispatcher(), getDialogManager());
+    }
+
+    private DialogManager getDialogManager() {
+        return new DialogManager(getContext(), getFragmentManager());
     }
 
     public SearchByNutrientsController getSearchByNutrientsController() {
         return new SearchByNutrientsController(getFetchRecipesUseCase(), getScreenNavigator(),
-                getToastHelper());
+                getToastHelper(), getDialogManager());
     }
 }

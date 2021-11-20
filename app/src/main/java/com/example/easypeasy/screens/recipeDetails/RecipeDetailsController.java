@@ -49,6 +49,7 @@ public class RecipeDetailsController implements FetchRecipeDetailsUseCase.Listen
 
     @Override
     public void onFetchRecipeDetailsFailure() {
+        mRecipeDetailsViewMvc.hideProgressIndication();
         mToastHelper.showFetchRecipeDetailsFailureMsg();
     }
 
