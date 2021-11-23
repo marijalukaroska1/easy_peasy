@@ -68,4 +68,12 @@ public class Utils {
         }
         return nutrients;
     }
+
+    public static String[] mapPossibleUnitListToStringArray(List<String> possibleUnits) {
+        String[] unitAmounts = new String[possibleUnits.size()];
+        for (int i = 0; i < possibleUnits.size(); i++) {
+            unitAmounts[i] = possibleUnits.get(i);
+        }
+        return unitAmounts;
+    }
 }

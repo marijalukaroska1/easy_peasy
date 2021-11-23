@@ -3,6 +3,7 @@ package com.example.easypeasy.networking.ingredients;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientSchema implements Parcelable {
@@ -11,8 +12,8 @@ public class IngredientSchema implements Parcelable {
     String unit = "";
     String unitShort = "";
     String name = "";
-    List<String> possibleUnits;
-    String nameWithAmount;
+    List<String> possibleUnits = new ArrayList<>();
+    String nameWithAmount = "";
 
     public IngredientSchema(String name, float amount) {
         this.amount = amount;

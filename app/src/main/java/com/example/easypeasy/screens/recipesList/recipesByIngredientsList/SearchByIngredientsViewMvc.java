@@ -23,7 +23,7 @@ public interface SearchByIngredientsViewMvc extends ObservableViewMvc<SearchByIn
 
     void bindIngredients(List<IngredientSchema> ingredients);
 
-    void bindIngredientPossibleUnits(String[] possibleUnits, int ingredientFetchDataPosition);
+    void bindIngredientPossibleUnits(List<String> possibleUnits, int ingredientFetchDataPosition);
 
     void showProgressIndication();
 

@@ -18,11 +18,12 @@ import android.widget.Spinner;
 import androidx.appcompat.widget.SearchView;
 
 import com.example.easypeasy.R;
+import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
-import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.example.easypeasy.screens.common.main.MainActivity;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<SearchByIngredientsViewItemMvc.Listener> implements SearchByIngredientsViewItemMvc {
@@ -57,7 +58,17 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
         if (ingredient != null) {
             insertIngredientName.setQuery(ingredient.getName(), false);
             insertIngredientQuantity.setText(String.valueOf(ingredient.getAmount()));
-            unitsSpinner.setPrompt(ingredient.getUnit());
+
+            Log.d(TAG, "possibleUnits before swap: " + ingredient.getPossibleUnits());
+
+            if (ingredient.getPossibleUnits().contains(ingredient.getUnit())) {
+                Collections.swap(ingredient.getPossibleUnits(), 0, ingredient.getPossibleUnits().indexOf(ingredient.getUnit()));
+            }
+
+            Log.d(TAG, "possibleUnits after swap: " + ingredient.getPossibleUnits());
+
+            String[] units = Utils.mapPossibleUnitListToStringArray(ingredient.getPossibleUnits());
+            setUnits(units);
 
             if (position == mIngredientList.size() - 1) {
                 insertIngredientField.setVisibility(View.VISIBLE);
@@ -146,8 +157,13 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
     }
 
     @Override
-    public void bindPossibleUnits(String[] unitsList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, unitsList);
+    public void bindPossibleUnits(String[] units) {
+        Log.d(TAG, "bindPossibleUnits");
+        setUnits(units);
+    }
+
+    private void setUnits(String[] unitsList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, unitsList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitsSpinner.setAdapter(adapter);
     }

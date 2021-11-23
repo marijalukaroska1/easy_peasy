@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
+import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
@@ -139,8 +140,10 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     }
 
     @Override
-    public void bindIngredientPossibleUnits(String[] unitAmounts, int ingredientFetchDataPosition) {
-        mIngredientsAdapter.setIngredientPossibleUnits(unitAmounts);
+    public void bindIngredientPossibleUnits(List<String> possibleUnits, int ingredientFetchDataPosition) {
+        mIngredients.get(ingredientFetchDataPosition).setPossibleUnits(possibleUnits);
+        String[] possibleUnitsArray = Utils.mapPossibleUnitListToStringArray(possibleUnits);
+        mIngredientsAdapter.setIngredientPossibleUnits(possibleUnitsArray);
         Log.d(TAG, "ingredientFetchDataPosition: " + ingredientFetchDataPosition);
         mIngredientsAdapter.notifyItemChanged(ingredientFetchDataPosition, Constants.PAYLOAD_INSERT_INGREDIENT_FIELD_UNITS);
     }

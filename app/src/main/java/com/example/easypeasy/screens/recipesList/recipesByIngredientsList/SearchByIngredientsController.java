@@ -4,6 +4,9 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.easypeasy.common.utils.Utils;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
 import com.example.easypeasy.recipes.FetchRecipesUseCase;
@@ -116,11 +119,7 @@ public class SearchByIngredientsController implements SearchByIngredientsViewMvc
 
     @Override
     public void onFetchIngredientMetaDataSuccess(IngredientSchema ingredient) {
-        String[] unitAmounts = new String[ingredient.getPossibleUnits().size()];
-        for (int i = 0; i < ingredient.getPossibleUnits().size(); i++) {
-            unitAmounts[i] = ingredient.getPossibleUnits().get(i);
-        }
-        mSearchByIngredientsViewMvc.bindIngredientPossibleUnits(unitAmounts, mIngredientFetchDataPosition);
+        mSearchByIngredientsViewMvc.bindIngredientPossibleUnits(ingredient.getPossibleUnits(), mIngredientFetchDataPosition);
     }
 
     @Override
