@@ -10,6 +10,8 @@ import com.example.easypeasy.screens.categoriesList.CategoryListViewMvc;
 import com.example.easypeasy.screens.categoriesList.CategoryListViewMvcImpl;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvc;
 import com.example.easypeasy.screens.categoriesList.categoryListItem.CategoryListViewItemMvcImpl;
+import com.example.easypeasy.screens.common.dialogs.promptdialog.PromptViewMvc;
+import com.example.easypeasy.screens.common.dialogs.promptdialog.PromptViewMvcImpl;
 import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;
@@ -74,5 +76,9 @@ public class ViewMvcFactory {
 
     public NavDrawerViewMvc getNavDrawerViewMvc(@Nullable ViewGroup parent) {
         return new NavDrawerViewMvcImpl(mLayoutInflater, parent);
+    }
+
+    public PromptViewMvc getPromptViewMvc(@Nullable  ViewGroup parent) {
+        return new PromptViewMvcImpl(mLayoutInflater, parent);
     }
 }

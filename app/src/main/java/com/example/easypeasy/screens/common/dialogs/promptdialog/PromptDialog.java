@@ -3,17 +3,21 @@ package com.example.easypeasy.screens.common.dialogs.promptdialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 
-import com.example.easypeasy.R;
 import com.example.easypeasy.screens.common.dialogs.BaseDialog;
 import com.example.easypeasy.screens.common.dialogs.DialogsEventBus;
 
-public class PromptDialog extends BaseDialog {
+public class PromptDialog extends BaseDialog implements PromptViewMvc.Listener {
+
+    private static final String TAG = PromptDialog.class.getSimpleName();
+
+    private static final String ARGS_TITLE = "ARGS_TITLE";
+    private static final String ARGS_MESSAGE = "ARGS_MESSAGE";
+    private static final String ARGS_POSITIVE_BTN_CAPTION = "ARGS_POSITIVE_BTN_CAPTION";
+    private static final String ARGS_NEGATIVE_BTN_CAPTION = "ARGS_NEGATIVE_BTN_CAPTION";
 
     public static PromptDialog newInstance(String title, String msg, String positiveBtnCaption, String negativeBtnCaption) {
         Log.d(TAG, "in newInstance()");
@@ -27,16 +31,14 @@ public class PromptDialog extends BaseDialog {
         return promptDialog;
     }
 
-    private static final String ARGS_TITLE = "ARGS_TITLE";
-    private static final String ARGS_MESSAGE = "ARGS_MESSAGE";
-    private static final String ARGS_POSITIVE_BTN_CAPTION = "ARGS_POSITIVE_BTN_CAPTION";
-    private static final String ARGS_NEGATIVE_BTN_CAPTION = "ARGS_NEGATIVE_BTN_CAPTION";
-    private static final String TAG = PromptDialog.class.getSimpleName();
-    private TextView title;
-    private TextView message;
-    private AppCompatButton buttonPositive;
-    private AppCompatButton buttonNegative;
+    private PromptViewMvc mViewMvc;
     private DialogsEventBus mDialogsEventBus;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDialogsEventBus = getCompositionRoot().getDialogEventBus();
+    }
 
     @NonNull
     @Override
@@ -48,32 +50,39 @@ public class PromptDialog extends BaseDialog {
             throw new RuntimeException("arguments must not be null");
         }
 
+        mViewMvc = getCompositionRoot().getViewMvcFactory().getPromptViewMvc(null);
+
+        mViewMvc.setTitle(getArguments().getString(ARGS_TITLE));
+        mViewMvc.setMessage(getArguments().getString(ARGS_MESSAGE));
+        mViewMvc.setPositiveButtonCaption(getArguments().getString(ARGS_POSITIVE_BTN_CAPTION));
+        mViewMvc.setNegativeButtonCaption(getArguments().getString(ARGS_NEGATIVE_BTN_CAPTION));
+
         Dialog dialog = new Dialog(requireActivity());
-        dialog.setContentView(R.layout.dialog_prompt);
-        title = dialog.findViewById(R.id.txt_title);
-        message = dialog.findViewById(R.id.txt_message);
-        buttonPositive = dialog.findViewById(R.id.btn_positive);
-        buttonNegative = dialog.findViewById(R.id.btn_negative);
-
-        title.setText(getArguments().getString(ARGS_TITLE));
-        message.setText(getArguments().getString(ARGS_MESSAGE));
-        buttonPositive.setText(getArguments().getString(ARGS_POSITIVE_BTN_CAPTION));
-        buttonNegative.setText(getArguments().getString(ARGS_NEGATIVE_BTN_CAPTION));
-
-        mDialogsEventBus = getCompositionRoot().getDialogEventBus();
-
-        buttonNegative.setOnClickListener(v -> onNegativeButtonClicked());
-        buttonPositive.setOnClickListener(v -> onPositiveButtonClicked());
+        dialog.setContentView(mViewMvc.getRootView());
 
         return dialog;
     }
 
-    void onNegativeButtonClicked() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        mViewMvc.registerListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewMvc.unregisterListener(this);
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
         dismiss();
         mDialogsEventBus.postEvent(new PromptDialogEvent(PromptDialogEvent.Button.NEGATIVE));
     }
 
-    void onPositiveButtonClicked() {
+    @Override
+    public void onPositiveButtonClicked() {
         dismiss();
         mDialogsEventBus.postEvent(new PromptDialogEvent(PromptDialogEvent.Button.POSITIVE));
     }

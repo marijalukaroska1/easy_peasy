@@ -14,12 +14,13 @@ import com.example.easypeasy.screens.common.controllers.BaseFragment;
 
 public class SearchByNutrientsFragment extends BaseFragment {
 
+    private static final String TAG = SearchByNutrientsFragment.class.getSimpleName();
+    private static final String SAVED_STATE_CONTROLLER = "SAVED_STATE_CONTROLLER";
+
     public static SearchByNutrientsFragment newInstance() {
         return new SearchByNutrientsFragment();
     }
 
-    private static final String SAVED_STATE_CONTROLLER = "SAVED_STATE_CONTROLLER";
-    private static final String TAG = SearchByNutrientsFragment.class.getSimpleName();
     private SearchByNutrientsController mSearchByNutrientsController;
     private SearchByNutrientsViewMvc mViewMvc;
 

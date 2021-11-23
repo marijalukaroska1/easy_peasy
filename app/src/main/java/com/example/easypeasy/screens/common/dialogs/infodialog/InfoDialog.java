@@ -13,6 +13,10 @@ import com.example.easypeasy.screens.common.dialogs.BaseDialog;
 
 public class InfoDialog extends BaseDialog {
 
+    private static final String ARGS_TITLE = "ARGS_TITLE";
+    private static final String ARGS_MESSAGE = "ARGS_MESSAGE";
+    private static final String ARGS_BTN_CAPTION = "ARGS_BTN_CAPTION";
+
     public static InfoDialog newInstance(String title, String message, String btnCaption) {
         Bundle bundle = new Bundle(3);
         bundle.putString(ARGS_TITLE, title);
@@ -23,9 +27,6 @@ public class InfoDialog extends BaseDialog {
         return infoDialog;
     }
 
-    private static final String ARGS_TITLE = "ARGS_TITLE";
-    private static final String ARGS_MESSAGE = "ARGS_MESSAGE";
-    private static final String ARGS_BTN_CAPTION = "ARGS_BTN_CAPTION";
     private TextView mTitle;
     private TextView mMessage;
     private AppCompatButton mButton;

@@ -13,11 +13,12 @@ import com.example.easypeasy.screens.common.controllers.BaseFragment;
 
 public class CategoryFragment extends BaseFragment {
 
+    private static final String TAG = CategoryFragment.class.getSimpleName();
+
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
     }
 
-    private static final String TAG = CategoryFragment.class.getSimpleName();
     private CategoryListViewMvc mViewMvc;
     private CategoryListController mCategoryListController;
 

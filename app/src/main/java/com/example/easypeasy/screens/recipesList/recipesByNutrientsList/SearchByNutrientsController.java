@@ -72,6 +72,7 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
 
     public void fetchRecipesData() {
         mScreenState = FETCHING_RECIPES;
+        mSearchByNutrientsViewMvc.showProgressIndication();
         mFetchRecipesUseCase.isSearchByIngredients = false;
         mFetchRecipesUseCase.fetchRecipesByNutrientsAndNotify(mSearchByNutrientsViewMvc.getNutrients());
     }
@@ -81,6 +82,7 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
         mScreenState = RECIPES_SHOWN;
         Log.d(TAG, "onFetchRecipesSuccess: " + recipeData.size());
         mScreenNavigator.hideKeyboardOnCurrentScreen();
+        mSearchByNutrientsViewMvc.hideProgressIndication();
         mSearchByNutrientsViewMvc.bindRecipes(recipeData, this);
     }
 
@@ -89,6 +91,7 @@ public class SearchByNutrientsController implements SearchByNutrientsViewMvc.Lis
         mScreenState = NETWORK_ERROR;
         Log.d(TAG, "onFetchRecipesFailure");
         mScreenNavigator.hideKeyboardOnCurrentScreen();
+        mSearchByNutrientsViewMvc.hideProgressIndication();
         mDialogManager.showRecipesFetchErrorDialog(null);
     }
 

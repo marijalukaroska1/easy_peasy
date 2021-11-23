@@ -18,6 +18,11 @@ import java.util.ArrayList;
 
 public class SearchByIngredientsFragment extends BaseFragment {
 
+    private static final String TAG = SearchByIngredientsFragment.class.getSimpleName();
+    private static final String SAVED_STATE_CONTROLLER = "SAVED_STATE_CONTROLLER";
+    private static final String ARGS_COMPONENT_NAME = "ARGS_COMPONENT_NAME";
+    private static final String LIST_INGREDIENTS = "LIST_INGREDIENTS";
+
     public static SearchByIngredientsFragment newInstance(ComponentName componentName) {
         Bundle args = new Bundle();
         args.putParcelable(ARGS_COMPONENT_NAME, componentName);
@@ -26,13 +31,8 @@ public class SearchByIngredientsFragment extends BaseFragment {
         return fragment;
     }
 
-    private static final String SAVED_STATE_CONTROLLER = "SAVED_STATE_CONTROLLER";
-    private static final String ARGS_COMPONENT_NAME = "ARGS_COMPONENT_NAME";
-    private static final String LIST_INGREDIENTS = "LIST_INGREDIENTS";
-    private static final String TAG = SearchByIngredientsFragment.class.getSimpleName();
     private SearchByIngredientsController mSearchByIngredientsController;
     private SearchByIngredientsViewMvc mViewMvc;
-
 
     @Nullable
     @Override

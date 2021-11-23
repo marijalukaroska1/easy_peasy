@@ -13,6 +13,7 @@ import com.example.easypeasy.screens.common.controllers.BaseFragment;
 
 public class RecipeDetailsFragment extends BaseFragment {
 
+    private static final String TAG = RecipeDetailsFragment.class.getSimpleName();
     private static final String RECIPE_ID = "RECIPE_ID";
 
     public static RecipeDetailsFragment newInstance(long recipeId) {
@@ -23,8 +24,7 @@ public class RecipeDetailsFragment extends BaseFragment {
         return fragment;
     }
 
-    private static final String TAG = RecipeDetailsFragment.class.getSimpleName();
-    RecipeDetailsViewMvc mViewMvc;
+    private RecipeDetailsViewMvc mViewMvc;
     private RecipeDetailsController mRecipeDetailsController;
 
     @Nullable
