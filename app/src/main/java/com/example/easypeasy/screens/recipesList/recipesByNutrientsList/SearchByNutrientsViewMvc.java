@@ -22,4 +22,8 @@ public interface SearchByNutrientsViewMvc extends ObservableViewMvc<SearchByNutr
     void removeNutrient(NutrientSchema nutrient);
 
     void bindRecipes(List<RecipeDetailsSchema> recipeData, RecipeClickListener recipeClickListener);
+
+    void showProgressIndication();
+
+    void hideProgressIndication();
 }

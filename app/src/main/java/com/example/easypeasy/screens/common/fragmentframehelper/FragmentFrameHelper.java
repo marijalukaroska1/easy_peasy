@@ -9,16 +9,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class FragmentHelper {
+
+public class FragmentFrameHelper {
+
     private final Activity mActivity;
-    private final FragmentContainerWrapper mFragmentContainerWrapper;
+    private final FragmentFrameWrapper mFragmentFrameWrapper;
     private final FragmentManager mFragmentManager;
 
-    public FragmentHelper(@NonNull Activity activity,
-                          @NonNull FragmentContainerWrapper fragmentContainerWrapper,
-                          @NonNull FragmentManager fragmentManager) {
+    public FragmentFrameHelper(@NonNull Activity activity,
+                               @NonNull FragmentFrameWrapper fragmentFrameWrapper,
+                               @NonNull FragmentManager fragmentManager) {
         mActivity = activity;
-        mFragmentContainerWrapper = fragmentContainerWrapper;
+        mFragmentFrameWrapper = fragmentFrameWrapper;
         mFragmentManager = fragmentManager;
     }
 
@@ -68,9 +70,9 @@ public class FragmentHelper {
 
         Fragment currentFragment = getCurrentFragment();
 
-        if (HierarchicalFragment.class.isInstance(currentFragment)) {
+        if (currentFragment instanceof HierarchicalFragment) {
             Fragment parentFragment =
-                    ((HierarchicalFragment)currentFragment).getHierarchicalParentFragment();
+                    ((HierarchicalFragment) currentFragment).getHierarchicalParentFragment();
             if (parentFragment != null) {
                 replaceFragment(parentFragment, false, true);
                 return; // up navigation resulted in going to hierarchical parent fragment
@@ -164,17 +166,16 @@ public class FragmentHelper {
         return mFragmentManager.getBackStackEntryCount();
     }
 
-    private @Nullable
+    public @Nullable
     Fragment getCurrentFragment() {
         return mFragmentManager.findFragmentById(getFragmentFrameId());
     }
 
     private int getFragmentFrameId() {
-        return mFragmentContainerWrapper.getFragmentContainer().getId();
+        return mFragmentFrameWrapper.getFragmentContainer().getId();
     }
 
     private void finishActivity() {
         ActivityCompat.finishAfterTransition(mActivity);
     }
-
 }

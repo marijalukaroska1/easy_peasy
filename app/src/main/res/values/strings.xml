@@ -28,7 +28,9 @@
     <string name="no_recipes_were_found">No recipes were found. Please go back and try again</string>
     <string name="choose_category_screen_title">Choose Category</string>
     <string name="title">Title</string>
-    <string name="error_fetching_recipes_title">Ooops</string>
-    <string name="error_fetching_recipes_message">Error fetching recipes</string>
-    <string name="error_fetching_recipes_button_txt">Dismiss</string>
+    <string name="error_network_call_failed_title">Ooops</string>
+    <string name="error_network_call_failed_message">Error fetching recipes</string>
+    <string name="error_network_call_failed_positive_button_caption">Close</string>
+    <string name="error_network_call_failed_negative_button_caption">Retry</string>
+
 </resources>

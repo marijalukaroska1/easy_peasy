@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +36,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
     private final Toolbar mToolbar;
     private final ToolbarViewMvc mToolbarViewMvc;
     private final ViewMvcFactory mViewMvcFactory;
+    private final ProgressBar progressIndicator;
 
     public SearchByNutrientsViewMvcImpl(LayoutInflater inflater, ViewGroup parent, ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.layout_search_by_nutrients, parent, false));
@@ -55,6 +57,7 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
         recyclerViewNutrients.setLayoutManager(linearLayoutManager);
         nutrientsAdapter = new NutrientsAdapter(mNutrientList, getContext(), this);
         recyclerViewNutrients.setAdapter(nutrientsAdapter);
+        progressIndicator = findViewById(R.id.progressIndicatorId);
 
         mToolbar = findViewById(R.id.toolbar);
         mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
@@ -115,6 +118,16 @@ public class SearchByNutrientsViewMvcImpl extends BaseObservableViewMvc<SearchBy
             recyclerViewRecipes.setLayoutManager(linearLayoutManager);
             recyclerViewRecipes.setAdapter(recipesListAdapter);
         }
+    }
+
+    @Override
+    public void showProgressIndication() {
+        progressIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndication() {
+        progressIndicator.setVisibility(View.GONE);
     }
 
     @Override

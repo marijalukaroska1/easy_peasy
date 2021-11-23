@@ -6,7 +6,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.easypeasy.R;
-import com.example.easypeasy.screens.common.dialogs.infodialog.InfoDialog;
+import com.example.easypeasy.screens.common.dialogs.promptdialog.PromptDialog;
 
 public class DialogManager {
 
@@ -19,8 +19,16 @@ public class DialogManager {
     }
 
     public void showRecipesFetchErrorDialog(String tag) {
-        DialogFragment dialogFragment = InfoDialog.newInstance(getString(R.string.error_fetching_recipes_title),
-                getString(R.string.error_fetching_recipes_message), getString(R.string.error_fetching_recipes_button_txt));
+//        DialogFragment dialogFragment = InfoDialog.newInstance(getString(R.string.error_fetching_recipes_title),
+//                getString(R.string.error_fetching_recipes_message), getString(R.string.error_fetching_recipes_button_txt));
+//        dialogFragment.show(mFragmentManager, tag);
+
+        DialogFragment dialogFragment = PromptDialog.newInstance(
+                getString(R.string.error_network_call_failed_title),
+                getString(R.string.error_network_call_failed_message),
+                getString(R.string.error_network_call_failed_negative_button_caption),
+                getString(R.string.error_network_call_failed_positive_button_caption));
+
         dialogFragment.show(mFragmentManager, tag);
     }
 

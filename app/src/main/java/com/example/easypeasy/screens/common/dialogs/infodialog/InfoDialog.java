@@ -50,7 +50,7 @@ public class InfoDialog extends BaseDialog {
         mMessage.setText(getArguments().getString(ARGS_MESSAGE));
         mButton.setText(getArguments().getString(ARGS_BTN_CAPTION));
 
-        mButton.setOnClickListener(v -> dialog.dismiss());
+        mButton.setOnClickListener(v -> dismiss());
 
         return dialog;
     }

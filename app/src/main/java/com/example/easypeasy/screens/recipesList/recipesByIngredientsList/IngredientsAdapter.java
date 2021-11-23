@@ -34,16 +34,21 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     }
 
     private static final String TAG = IngredientsAdapter.class.getSimpleName();
-    private final List<IngredientSchema> mIngredientList = new ArrayList<>();
     private final Listener mListener;
-    private String[] ingredientPossibleUnits = new String[0];
     private final SearchableInfo mSearchableInfo;
     private final ViewMvcFactory mViewMvcFactory;
+    private String[] ingredientPossibleUnits = new String[0];
+    private final List<IngredientSchema> mIngredientList;
 
-    public IngredientsAdapter(IngredientsAdapter.Listener listener, SearchableInfo searchableInfo, ViewMvcFactory viewMvcFactory) {
+
+    public IngredientsAdapter(Listener listener,
+                              SearchableInfo searchableInfo,
+                              ViewMvcFactory viewMvcFactory,
+                              List<IngredientSchema> ingredients) {
         mListener = listener;
         mSearchableInfo = searchableInfo;
         mViewMvcFactory = viewMvcFactory;
+        mIngredientList = ingredients;
     }
 
     @NonNull

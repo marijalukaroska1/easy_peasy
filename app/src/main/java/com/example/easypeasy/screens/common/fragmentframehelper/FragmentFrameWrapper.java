@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-public interface FragmentContainerWrapper {
+public interface FragmentFrameWrapper {
 
     @NonNull
     ViewGroup getFragmentContainer();

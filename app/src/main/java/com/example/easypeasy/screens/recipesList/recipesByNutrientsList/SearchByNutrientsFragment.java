@@ -18,19 +18,32 @@ public class SearchByNutrientsFragment extends BaseFragment {
         return new SearchByNutrientsFragment();
     }
 
+    private static final String SAVED_STATE_CONTROLLER = "SAVED_STATE_CONTROLLER";
     private static final String TAG = SearchByNutrientsFragment.class.getSimpleName();
     private SearchByNutrientsController mSearchByNutrientsController;
-    private SearchByNutrientsViewMvc mSearchByNutrientsViewMvc;
+    private SearchByNutrientsViewMvc mViewMvc;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+        Log.d(TAG, "container: " + container);
         mSearchByNutrientsController = getCompositionRoot().getSearchByNutrientsController();
-        mSearchByNutrientsViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByNutrientsViewMvc(container);
-        mSearchByNutrientsController.bindView(mSearchByNutrientsViewMvc);
-        mSearchByNutrientsViewMvc.bindNutrient(new NutrientSchema("", 0.0f));
-        return mSearchByNutrientsViewMvc.getRootView();
+        mViewMvc = getCompositionRoot().getViewMvcFactory().getSearchByNutrientsViewMvc(container);
+
+        if (savedInstanceState != null) {
+            Log.d(TAG, "restoreState");
+            restoreControllerState(savedInstanceState);
+        }
+
+        mSearchByNutrientsController.bindView(mViewMvc);
+        mViewMvc.bindNutrient(new NutrientSchema("", 0.0f));
+        return mViewMvc.getRootView();
+    }
+
+    private void restoreControllerState(@NonNull Bundle savedInstanceState) {
+        mSearchByNutrientsController.restoreSavedState(
+                (SearchByNutrientsController.SavedState)
+                        savedInstanceState.getSerializable(SAVED_STATE_CONTROLLER));
     }
 
     @Override
@@ -45,5 +58,13 @@ public class SearchByNutrientsFragment extends BaseFragment {
         super.onStart();
         Log.d(TAG, "in onStart");
         mSearchByNutrientsController.onStart();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "outState: " + outState);
+        Log.d(TAG, "mSearchByNutrientsController: " + mSearchByNutrientsController);
+        outState.putSerializable(SAVED_STATE_CONTROLLER, mSearchByNutrientsController.getSavedState());
     }
 }

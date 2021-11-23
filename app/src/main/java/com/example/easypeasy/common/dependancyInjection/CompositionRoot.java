@@ -2,6 +2,7 @@ package com.example.easypeasy.common.dependancyInjection;
 
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.SpoonacularApi;
+import com.example.easypeasy.screens.common.dialogs.DialogsEventBus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,6 +16,8 @@ public class CompositionRoot {
     private final Gson gson = new GsonBuilder()
             .setLenient()
             .create();
+
+    private DialogsEventBus mDialogEventBus;
 
     private Retrofit getRetrofit() {
         if (mRetrofit == null) {
@@ -31,4 +34,11 @@ public class CompositionRoot {
         return getRetrofit().create(SpoonacularApi.class);
     }
 
+    public DialogsEventBus getDialogEventBus() {
+        if (mDialogEventBus == null) {
+            mDialogEventBus = new DialogsEventBus();
+        }
+
+        return mDialogEventBus;
+    }
 }

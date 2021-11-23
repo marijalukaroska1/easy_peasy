@@ -159,7 +159,7 @@ public class SearchByIngredientsViewItemMvcImpl extends BaseObservableViewMvc<Se
 
     @Override
     public void bindIngredients(List<IngredientSchema> ingredients) {
-        mIngredientList = new ArrayList<>(ingredients);
+        mIngredientList = ingredients;
     }
 
     private void sendSearchQuery(String query, int ingredientPositionInAdapter) {

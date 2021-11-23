@@ -1,6 +1,5 @@
 package com.example.easypeasy.screens.navDrawer;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,9 +10,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.easypeasy.R;
 import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.google.android.material.navigation.NavigationView;
-
-import static com.example.easypeasy.screens.navDrawer.DrawerItem.SELECT_SEARCH_BY_INGREDIENTS;
-import static com.example.easypeasy.screens.navDrawer.DrawerItem.SELECT_SEARCH_BY_NUTRIENTS;
 
 public class NavDrawerViewMvcImpl extends BaseObservableViewMvc<NavDrawerViewMvc.Listener> implements NavDrawerViewMvc {
 
@@ -32,12 +28,10 @@ public class NavDrawerViewMvcImpl extends BaseObservableViewMvc<NavDrawerViewMvc
         mNavigationView.setNavigationItemSelectedListener(item -> {
             mDrawerLayout.closeDrawers();
             if (item.getItemId() == R.id.drawer_menu_search_by_ingredients) {
-                Log.d(TAG, "onDrawerItemClick: " + SELECT_SEARCH_BY_INGREDIENTS);
                 for (Listener listener : getListeners()) {
                     listener.onSearchByIngredientsClicked();
                 }
             } else if (item.getItemId() == R.id.drawer_menu_search_by_nutrients) {
-                Log.d(TAG, "onDrawerItemClick: " + SELECT_SEARCH_BY_NUTRIENTS);
                 for (Listener listener : getListeners()) {
                     listener.onSearchByNutrientsClicked();
                 }

@@ -17,9 +17,9 @@ import com.example.easypeasy.R;
 import com.example.easypeasy.common.utils.Constants;
 import com.example.easypeasy.networking.ingredients.IngredientSchema;
 import com.example.easypeasy.networking.recipes.RecipeDetailsSchema;
-import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
-import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
 import com.example.easypeasy.screens.common.ViewMvcFactory;
+import com.example.easypeasy.screens.common.toolbar.ToolbarViewMvc;
+import com.example.easypeasy.screens.common.views.BaseObservableViewMvc;
 import com.example.easypeasy.screens.recipesList.common.RecipeClickListener;
 import com.example.easypeasy.screens.recipesList.common.RecipesListAdapter;
 
@@ -30,17 +30,20 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     private static final String TAG = SearchByIngredientsViewMvcImpl.class.getSimpleName();
     private final Button mSearchButton;
     private final RecyclerView mRecyclerViewIngredients, mRecyclerViewRecipes;
-    private final IngredientsAdapter mIngredientsAdapter;
     private final ProgressBar progressIndicator;
     private final Toolbar mToolbar;
     private final ToolbarViewMvc mToolbarViewMvc;
     private final ViewMvcFactory mViewMvcFactory;
+    private final SearchableInfo mSearchableInfo;
+    private IngredientsAdapter mIngredientsAdapter;
+    private List<IngredientSchema> mIngredients;
 
 
     public SearchByIngredientsViewMvcImpl(LayoutInflater inflater,
                                           ViewGroup parent, SearchableInfo searchableInfo,
                                           ViewMvcFactory viewMvcFactory) {
         setRootView(inflater.inflate(R.layout.layout_search_by_ingredients, parent, false));
+        mSearchableInfo = searchableInfo;
         mSearchButton = findViewById(R.id.searchButtonId);
         mRecyclerViewIngredients = findViewById(R.id.recyclerViewIngredients);
         mRecyclerViewRecipes = findViewById(R.id.recyclerViewRecipes);
@@ -57,8 +60,6 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerViewIngredients.setLayoutManager(linearLayoutManager);
-        mIngredientsAdapter = new IngredientsAdapter(this, searchableInfo, viewMvcFactory);
-        mRecyclerViewIngredients.setAdapter(mIngredientsAdapter);
 
         mToolbar = findViewById(R.id.toolbar);
         mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolbar);
@@ -81,7 +82,7 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
 
     @Override
     public List<IngredientSchema> getIngredientList() {
-        return mIngredientsAdapter.getIngredientList();
+        return mIngredients;
     }
 
     @Override
@@ -125,6 +126,16 @@ public class SearchByIngredientsViewMvcImpl extends BaseObservableViewMvc<Search
     @Override
     public void bindIngredient(IngredientSchema ingredient) {
         mIngredientsAdapter.bindIngredient(ingredient);
+    }
+
+    @Override
+    public void bindIngredients(List<IngredientSchema> ingredients) {
+        mIngredients = ingredients;
+        if (mIngredients.size() == 0) {
+            mIngredients.add(new IngredientSchema());
+        }
+        mIngredientsAdapter = new IngredientsAdapter(this, mSearchableInfo, mViewMvcFactory, mIngredients);
+        mRecyclerViewIngredients.setAdapter(mIngredientsAdapter);
     }
 
     @Override

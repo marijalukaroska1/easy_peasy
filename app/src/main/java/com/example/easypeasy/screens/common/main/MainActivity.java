@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,8 +14,8 @@ import com.example.easypeasy.screens.common.controllers.BackPressListener;
 import com.example.easypeasy.screens.common.controllers.BaseActivity;
 import com.example.easypeasy.screens.common.controllers.HandleIntentDispatcher;
 import com.example.easypeasy.screens.common.controllers.HandleIntentListener;
+import com.example.easypeasy.screens.common.fragmentframehelper.FragmentFrameWrapper;
 import com.example.easypeasy.screens.common.screennavigator.ScreenNavigator;
-import com.example.easypeasy.screens.common.fragmentframehelper.FragmentContainerWrapper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerHelper;
 import com.example.easypeasy.screens.navDrawer.NavDrawerViewMvc;
 
@@ -22,8 +23,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MainActivity extends BaseActivity implements
-        BackPressDispatcher, FragmentContainerWrapper,
-        HandleIntentDispatcher, NavDrawerViewMvc.Listener, NavDrawerHelper {
+        BackPressDispatcher, FragmentFrameWrapper,
+        HandleIntentDispatcher, NavDrawerViewMvc.Listener,
+        NavDrawerHelper {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private final Set<BackPressListener> backPressListeners = new HashSet<>();
